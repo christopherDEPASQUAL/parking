@@ -1,0 +1,16 @@
+{
+    "name": "eddyj/parking",
+    "description": "Projet académique de reservation de ticket de parking",
+    "autoload": {
+        "psr-4": {
+            "Eddyj\\Parking\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Christopher Eddy Jean De Pasqual",
+            "email": "eddyjeanchristopher10@gmail.com"
+        }
+    ],
+    "require": {}
+}
