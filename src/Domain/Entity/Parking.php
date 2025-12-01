@@ -1,20 +1,22 @@
-﻿<?php
-
+<?php
 declare(strict_types=1);
 
-namespace Domain\Entity;
+namespace App\Domain\Entity;
 
-use Domain\ValueObject\ParkingId;
-use Domain\Entity\PricingPlan;
-use Domain\Entity\ParkingSpot;
-use Domain\Exception\ParkingFullException;
 use DateTimeImmutable;
-use InvalidArgumentException;
-private GeoLocation $location;
+use Domain\Exception\ParkingFullException;
+use Domain\Exception\SpotAlreadyExistsException;
+use Domain\ValueObject\GeoLocation;
+use Domain\ValueObject\OpeningSchedule; 
+use Domain\ValueObject\ParkingId;
+use Domain\ValueObject\PricingPlan;        
+use Domain\ValueObject\UserId;            
+use Domain\ValueObject\ReservationId;
+use Domain\ValueObject\AbonnementId;
+use Domain\ValueObject\StationnementId;
 
 /**
- * Entité Parking : Aggregate Root (Racine d'Agrégat)
- * Représente un parking et gère ses règles métier.
+ * Aggregate root Parking : disponibilité, spots, règles d’accès.
  */
 final class Parking
 {
@@ -23,11 +25,23 @@ final class Parking
     private string $address;
     private int $totalCapacity;
     private PricingPlan $pricingPlan;
+    private GeoLocation $location;
+    private OpeningSchedule $openingSchedule;
+    private UserId $UserId; //(Owner)
+    private DateTimeImmutable $createdAt;
+    private DateTimeImmutable $updatedAt;
 
     /** @var array<string, ParkingSpot> */
     private array $parkingSpots = [];
 
-    private DateTimeImmutable $createdAt;
+    /** @var array<string, ReservationId> */
+    private array $reservationIds = [];
+
+    /** @var array<string, AbonnementId> */
+    private array $abonnementIds = [];
+
+    /** @var array<string, StationnementId> */
+    private array $stationnementIds = [];
 
     public function __construct(
         ParkingId $id,
@@ -36,87 +50,120 @@ final class Parking
         int $totalCapacity,
         PricingPlan $pricingPlan,
         GeoLocation $location,
-        ?DateTimeImmutable $createdAt = null
+        OpeningSchedule $openingSchedule,
+        UserId $UserId,
+        ?DateTimeImmutable $createdAt = null,
+        ?DateTimeImmutable $updatedAt = null
     ) {
         if ($totalCapacity <= 0) {
-            throw new InvalidArgumentException('La capacité totale doit être supérieure à zéro.');
+            throw new \InvalidArgumentException('La capacite totale doit etre superieure a zero.');
         }
 
         $this->id = $id;
-        $this->name = $name;
-        $this->address = $address;
+        $this->name = trim($name);
+        $this->address = trim($address);
         $this->totalCapacity = $totalCapacity;
         $this->pricingPlan = $pricingPlan;
+        $this->location = $location;
+        $this->openingSchedule = $openingSchedule;
+        $this->UserId = $UserId;
         $this->createdAt = $createdAt ?? new DateTimeImmutable();
+        $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
 
-    public function getLocation(): GeoLocation
-    {
-        return $this->location;
-    }
+    public function getId(): ParkingId { return $this->id; }
+    public function getName(): string { return $this->name; }
+    public function getAddress(): string { return $this->address; }
+    public function getTotalCapacity(): int { return $this->totalCapacity; }
+    public function getPricingPlan(): PricingPlan { return $this->pricingPlan; }
+    public function getLocation(): GeoLocation { return $this->location; }
+    public function getOpeningSchedule(): OpeningSchedule { return $this->openingSchedule; }
+    public function getUserId(): UserId { return $this->UserId; }
+    public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
+    public function getUpdatedAt(): DateTimeImmutable { return $this->updatedAt; }
 
-    public function getId(): ParkingId
-    {
-        return $this->id;
-    }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    public function getAddress(): string
-    {
-        return $this->address;
-    }
-
-    public function getTotalCapacity(): int
-    {
-        return $this->totalCapacity;
-    }
-
-    public function getPricingPlan(): PricingPlan
-    {
-        return $this->pricingPlan;
-    }
-
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Change le plan tarifaire du parking.
-     */
+    /** Change le plan tarifaire. */
     public function changePricingPlan(PricingPlan $newPlan): void
     {
         $this->pricingPlan = $newPlan;
+        $this->touch();
     }
 
-    /**
-     * Ajoute une place de parking en respectant la capacité maximale.
-     *
-     * @throws ParkingFullException
-     */
+    /** Change les horaires d’ouverture. */
+    public function changeOpeningSchedule(OpeningSchedule $schedule): void
+    {
+        $this->openingSchedule = $schedule;
+        $this->touch();
+    }
+
+    /** Ajoute une place si capacité non dépassée et id unique. */
     public function addSpot(ParkingSpot $spot): void
     {
-        if ($this->isFull()) {
-            throw new ParkingFullException('Impossible d\'ajouter une place, le parking a atteint sa capacité maximale.');
+        $spotId = $spot->getId()->getValue();
+        if (isset($this->parkingSpots[$spotId])) {
+            throw new SpotAlreadyExistsException('Cette place existe deja dans ce parking.');
         }
+        if ($this->isFull()) {
+            throw new ParkingFullException('Capacite maximale atteinte.');
+        }
+        $this->parkingSpots[$spotId] = $spot;
+        $this->touch();
+    }
 
-        $this->parkingSpots[$spot->getId()->getValue()] = $spot;
+    /** Marque une réservation liée à ce parking (pour suivi de dispo). */
+    public function attachReservation(ReservationId $reservationId): void
+    {
+        $this->reservationIds[$reservationId->getValue()] = $reservationId;
+    }
+
+    /** Marque un abonnement lié à ce parking. */
+    public function attachAbonnement(AbonnementId $abonnementId): void
+    {
+        $this->abonnementIds[$abonnementId->getValue()] = $abonnementId;
+    }
+
+    /** Marque un stationnement actif lié à ce parking. */
+    public function attachStationnement(StationnementId $stationnementId): void
+    {
+        $this->stationnementIds[$stationnementId->getValue()] = $stationnementId;
     }
 
     public function isFull(): bool
     {
-        return count($this->parkingSpots) >= $this->totalCapacity;
+        // capacité statique par spots ajoutés
+        return \count($this->parkingSpots) >= $this->totalCapacity;
+    }
+
+    /** Places libres à un instant t selon la capacité physique et slots. */
+    public function getPhysicalFreeSpotsCount(): int
+    {
+        return $this->totalCapacity - \count($this->parkingSpots);
     }
 
     /**
-     * @return array<string, ParkingSpot>
+     * Nombre de places restantes tenant compte des réservations/abonnements/stationnements actifs.
+     * Les services de domaine (non montrés ici) doivent fournir les counts à t.
      */
-    public function getParkingSpots(): array
+    public function computeAvailability(int $activeReservations, int $activeAbonnements, int $activeStationnements): int
     {
-        return $this->parkingSpots;
+        $used = $activeReservations + $activeAbonnements + $activeStationnements;
+        return max(0, $this->totalCapacity - $used);
+    }
+
+    /** Vérifie si le parking est ouvert à un instant donné. */
+    public function isOpenAt(DateTimeImmutable $at): bool
+    {
+        return $this->openingSchedule->isOpenAt($at);
+    }
+
+    /** Calcul du prix pour une durée (en minutes) en utilisant le plan tarifaire. */
+    public function computePriceForDurationMinutes(int $minutes): int
+    {
+        return $this->pricingPlan->computePriceCents($minutes);
+    }
+
+    private function touch(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 }
