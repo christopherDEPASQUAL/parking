@@ -2,6 +2,8 @@
 
 namespace App\Domain\Entity;
 
+use Ramsey\Uuid\Uuid;
+
 /**
  * Domain Entity: User
  *
@@ -12,10 +14,11 @@ namespace App\Domain\Entity;
  * Notes:
  *  - No persistence/HTTP logic.
  *  - Emits no side effects other than recording domain events if needed.
+ *  - ID is generated as UUID in domain (Clean Architecture principle).
  */
 final class User
 {
-    private ?int $id;
+    private string $id;
     private string $email;
     private string $passwordHash;
     private UserRole $role;
@@ -25,7 +28,7 @@ final class User
     private ?\DateTimeImmutable $updatedAt;
 
     private function __construct(
-        ?int                $id,
+        string              $id,
         string              $email,
         string              $passwordHash,
         UserRole            $role,
@@ -57,7 +60,7 @@ final class User
     ): self
     {
         return new self(
-            null,
+            Uuid::uuid4()->toString(),
             $email,
             self::hashPassword($plainPassword),
             $role,
@@ -71,7 +74,7 @@ final class User
      * Repositories
      */
     public static function fromPersistence(
-        int                 $id,
+        string              $id,
         string              $email,
         string              $passwordHash,
         UserRole            $role,
@@ -84,7 +87,7 @@ final class User
         return new self($id, $email, $passwordHash, $role, $firstName, $lastName, $createdAt, $updatedAt);
     }
 
-    public function getId(): ?int
+    public function getId(): string
     {
         return $this->id;
     }
