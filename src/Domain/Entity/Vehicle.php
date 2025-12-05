@@ -1,1 +1,0 @@
-<!-- L'entité véhicule -->

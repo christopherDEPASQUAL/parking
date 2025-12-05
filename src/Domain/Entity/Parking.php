@@ -150,6 +150,43 @@ final class Parking
         return max(0, $this->totalCapacity - $used);
     }
 
+    /**
+     * Nombre de places libres a un instant t en evaluant les reservations, abonnements et stationnements passes en entree.
+     * Les objets fournis doivent exposer respectivement isActiveAt(DateTimeImmutable $at) ou covers(DateTimeImmutable $at).
+     *
+     * @param iterable<int, object> $reservations   objets avec isActiveAt(DateTimeImmutable $at): bool
+     * @param iterable<int, object> $abonnements    objets avec covers(DateTimeImmutable $at): bool
+     * @param iterable<int, object> $stationnements objets avec isActiveAt(DateTimeImmutable $at): bool
+     */
+    public function freeSpotsAt(
+        DateTimeImmutable $at,
+        iterable $reservations,
+        iterable $abonnements,
+        iterable $stationnements
+    ): int {
+        $used = 0;
+
+        foreach ($reservations as $reservation) {
+            if (\method_exists($reservation, 'isActiveAt') && $reservation->isActiveAt($at)) {
+                $used++;
+            }
+        }
+
+        foreach ($abonnements as $abonnement) {
+            if (\method_exists($abonnement, 'covers') && $abonnement->covers($at)) {
+                $used++;
+            }
+        }
+
+        foreach ($stationnements as $stationnement) {
+            if (\method_exists($stationnement, 'isActiveAt') && $stationnement->isActiveAt($at)) {
+                $used++;
+            }
+        }
+
+        return max(0, $this->totalCapacity - $used);
+    }
+
     /** Vérifie si le parking est ouvert à un instant donné. */
     public function isOpenAt(DateTimeImmutable $at): bool
     {
