@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /app
+    environment:
+      XDEBUG_MODE: off
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    tty: true
+    stdin_open: true
