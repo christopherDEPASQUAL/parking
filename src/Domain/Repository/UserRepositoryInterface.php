@@ -3,6 +3,7 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Entity\User;
+use App\Domain\Entity\UserRole;
 
 interface UserRepositoryInterface
 {
@@ -17,4 +18,6 @@ interface UserRepositoryInterface
     public function existsByEmail(string $email): bool;
 
     public function findAll(): array;
+
+    public function findByRole(UserRole $role): array;
 }
