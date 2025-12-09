@@ -2,11 +2,19 @@
 
 namespace App\Domain\Repository;
 
-/**
- * Port interface for User persistence (find/save/exists).
- *
- * Implementations:
- *  - Infrastructure\Persistence\Sql\Repository\...Sql
- *  - Infrastructure\Persistence\File\Repository\...File
- */
-interface UserRepositoryInterface {}
+use App\Domain\Entity\User;
+
+interface UserRepositoryInterface
+{
+    public function findById(string $id): ?User;
+
+    public function findByEmail(string $email): ?User;
+
+    public function save(User $user): void;
+
+    public function delete(string $id): void;
+
+    public function existsByEmail(string $email): bool;
+
+    public function findAll(): array;
+}
