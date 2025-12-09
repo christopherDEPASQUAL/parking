@@ -2,7 +2,9 @@
     "name": "project-parking/parking",
     "description": "Projet academique de reservation de ticket de parking",
     "require": {
-        "php": "^8.3"
+        "php": "^8.3",
+        "ramsey/uuid": "^4.9"
+      
     },
     "require-dev": {
         "phpunit/phpunit": "^12.0"
