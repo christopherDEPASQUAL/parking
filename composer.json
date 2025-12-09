@@ -1,21 +1,22 @@
 {
-    "name": "eddyj/parking",
-    "description": "Projet académique de reservation de ticket de parking",
-    "autoload": {
-        "psr-4": {
-            "Eddyj\\Parking\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Christopher Eddy Jean De Pasqual",
-            "email": "eddyjeanchristopher10@gmail.com"
-        }
-    ],
+    "name": "project-parking/parking",
+    "description": "Projet academique de reservation de ticket de parking",
     "require": {
+        "php": "^8.3",
         "ramsey/uuid": "^4.9"
+      
     },
     "require-dev": {
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }
