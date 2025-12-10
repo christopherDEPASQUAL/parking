@@ -10,13 +10,13 @@ use InvalidArgumentException;
  * Value Object représentant l'identifiant unique d'un Parking.
  * Entièrement indépendant de toute bibliothèque externe.
  */
-class ParkingId
+final class ParkingId
 {
     private string $value;
 
     private function __construct(string $value)
     {
-        if (empty($value)) {
+        if (empty(trim($value))) {
             throw new InvalidArgumentException('Le ParkingId ne peut pas être vide.');
         }
 
@@ -36,7 +36,7 @@ class ParkingId
      */
     public static function generate(): self
     {
-        // Génération d’un UUID v4 "fait maison"
+        // Génération d'un UUID v4 "fait maison"
         $data = random_bytes(16);
 
         // Version (4 bits) et variant (2 bits)
@@ -57,7 +57,15 @@ class ParkingId
     }
 
     /**
-     * Vérifie l’égalité entre deux ParkingId.
+     * Alias pour compatibilité avec l'ancienne version.
+     */
+    public function value(): string
+    {
+        return $this->value;
+    }
+
+    /**
+     * Vérifie l'égalité entre deux ParkingId.
      */
     public function equals(ParkingId $other): bool
     {
