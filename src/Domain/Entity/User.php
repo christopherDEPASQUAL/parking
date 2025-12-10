@@ -2,102 +2,98 @@
 
 namespace App\Domain\Entity;
 
-use Ramsey\Uuid\Uuid;
+use App\Domain\Enum\UserRole;
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\PasswordHash;
+use App\Domain\ValueObject\UserId;
+use DateTimeImmutable;
 
 /**
  * Domain Entity: User
  *
- * Purpose:
- *  - Represents an application user (client/proprietor).
- *  - Holds invariant-protected properties (id, email, role, password hash VO).
- *
- * Notes:
- *  - No persistence/HTTP logic.
- *  - Emits no side effects other than recording domain events if needed.
- *  - ID is generated as UUID in domain (Clean Architecture principle).
+ * Responsabilités :
+ *  - Encapsuler les invariants métier du compte utilisateur (id, email, rôle, hash).
+ *  - Offrir des méthodes explicites pour les modifications avec mise à jour du timestamp.
  */
 final class User
 {
-    private string $id;
-    private string $email;
-    private string $passwordHash;
+    private UserId $id;
+    private Email $email;
+    private PasswordHash $passwordHash;
     private UserRole $role;
     private string $firstName;
     private string $lastName;
-    private \DateTimeImmutable $createdAt;
-    private ?\DateTimeImmutable $updatedAt;
+    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $updatedAt;
 
     private function __construct(
-        string              $id,
-        string              $email,
-        string              $passwordHash,
-        UserRole            $role,
-        string              $firstName,
-        string              $lastName,
-        \DateTimeImmutable  $createdAt,
-        ?\DateTimeImmutable $updatedAt = null
-    )
-    {
+        UserId             $id,
+        Email              $email,
+        PasswordHash       $passwordHash,
+        UserRole           $role,
+        string             $firstName,
+        string             $lastName,
+        DateTimeImmutable  $createdAt,
+        ?DateTimeImmutable $updatedAt = null
+    ) {
         $this->id = $id;
-        $this->setEmail($email);
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
+        $this->email = $email;
         $this->passwordHash = $passwordHash;
         $this->role = $role;
+        $this->firstName = $this->sanitizeName($firstName, 'First name');
+        $this->lastName = $this->sanitizeName($lastName, 'Last name');
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
     /**
-     * Register
+     * Factory pour un nouvel utilisateur (génère un nouvel identifiant).
      */
-    public static function create(
-        string   $email,
-        string   $plainPassword,
-        UserRole $role,
-        string   $firstName,
-        string   $lastName
-    ): self
-    {
+    public static function register(
+        Email        $email,
+        PasswordHash $passwordHash,
+        UserRole     $role,
+        string       $firstName,
+        string       $lastName
+    ): self {
         return new self(
-            Uuid::uuid4()->toString(),
+            UserId::generate(),
             $email,
-            self::hashPassword($plainPassword),
+            $passwordHash,
             $role,
             $firstName,
             $lastName,
-            new \DateTimeImmutable()
+            new DateTimeImmutable()
         );
     }
 
     /**
-     * Repositories
+     * Reconstitution depuis la persistence.
      */
     public static function fromPersistence(
-        string              $id,
-        string              $email,
-        string              $passwordHash,
-        UserRole            $role,
-        string              $firstName,
-        string              $lastName,
-        \DateTimeImmutable  $createdAt,
-        ?\DateTimeImmutable $updatedAt = null
-    ): self
-    {
+        UserId             $id,
+        Email              $email,
+        PasswordHash       $passwordHash,
+        UserRole           $role,
+        string             $firstName,
+        string             $lastName,
+        DateTimeImmutable  $createdAt,
+        ?DateTimeImmutable $updatedAt = null
+    ): self {
         return new self($id, $email, $passwordHash, $role, $firstName, $lastName, $createdAt, $updatedAt);
     }
 
-    public function getId(): string
+    public function getId(): UserId
     {
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): Email
     {
         return $this->email;
     }
 
-    public function getPasswordHash(): string
+    public function getPasswordHash(): PasswordHash
     {
         return $this->passwordHash;
     }
@@ -122,64 +118,77 @@ final class User
         return $this->firstName . ' ' . $this->lastName;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
     public function verifyPassword(string $plainPassword): bool
     {
-        return password_verify($plainPassword, $this->passwordHash);
+        return $this->passwordHash->verify($plainPassword);
     }
 
-    private function setEmail(string $email): void
+    public function changeEmail(Email $email): void
     {
-        $email = trim($email);
-
-        if (empty($email)) {
-            throw new \InvalidArgumentException('Email cannot be empty');
+        if ($this->email->equals($email)) {
+            return;
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException('Invalid email format');
-        }
-
-        $this->email = strtolower($email);
+        $this->email = $email;
+        $this->touch();
     }
 
-    private function setFirstName(string $firstName): void
+    public function changeName(string $firstName, string $lastName): void
     {
-        $firstName = trim($firstName);
+        $newFirst = $this->sanitizeName($firstName, 'First name');
+        $newLast = $this->sanitizeName($lastName, 'Last name');
 
-        if (empty($firstName)) {
-            throw new \InvalidArgumentException('First name cannot be empty');
+        if ($newFirst === $this->firstName && $newLast === $this->lastName) {
+            return;
         }
 
-        $this->firstName = $firstName;
+        $this->firstName = $newFirst;
+        $this->lastName = $newLast;
+        $this->touch();
     }
 
-    private function setLastName(string $lastName): void
+    public function changePassword(PasswordHash $newHash): void
     {
-        $lastName = trim($lastName);
-
-        if (empty($lastName)) {
-            throw new \InvalidArgumentException('Last name cannot be empty');
+        if ($this->passwordHash->equals($newHash)) {
+            return;
         }
 
-        $this->lastName = $lastName;
+        $this->passwordHash = $newHash;
+        $this->touch();
     }
 
-    private static function hashPassword(string $plainPassword): string
+    public function changeRole(UserRole $role): void
     {
-        if (strlen($plainPassword) < 8) {
-            throw new \InvalidArgumentException('Password must be at least 8 characters');
+        if ($this->role === $role) {
+            return;
         }
 
-        return password_hash($plainPassword, PASSWORD_BCRYPT);
+        $this->role = $role;
+        $this->touch();
+    }
+
+    private function sanitizeName(string $value, string $label): string
+    {
+        $value = trim($value);
+        if ($value === '') {
+            throw new \InvalidArgumentException($label . ' cannot be empty');
+        }
+
+        return $value;
+    }
+
+    private function touch(): void
+    {
+        $this->updatedAt = new DateTimeImmutable();
     }
 }

@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use DateTimeImmutable;
-use Domain\Exception\ParkingFullException;
-use Domain\Exception\SpotAlreadyExistsException;
-use Domain\ValueObject\GeoLocation;
-use Domain\ValueObject\OpeningSchedule; 
-use Domain\ValueObject\ParkingId;
-use Domain\ValueObject\PricingPlan;        
-use Domain\ValueObject\UserId;            
-use Domain\ValueObject\ReservationId;
-use Domain\ValueObject\AbonnementId;
-use Domain\ValueObject\StationnementId;
+use App\Domain\Exception\ParkingFullException;
+use App\Domain\Exception\SpotAlreadyExistsException;
+use App\Domain\ValueObject\GeoLocation;
+use App\Domain\ValueObject\OpeningSchedule; 
+use App\Domain\ValueObject\ParkingId;
+use App\Domain\ValueObject\PricingPlan;        
+use App\Domain\ValueObject\UserId;            
+use App\Domain\ValueObject\ReservationId;
+use App\Domain\ValueObject\AbonnementId;
+use App\Domain\ValueObject\StationnementId;
 
 /**
  * Aggregate root Parking : disponibilité, spots, règles d’accès.

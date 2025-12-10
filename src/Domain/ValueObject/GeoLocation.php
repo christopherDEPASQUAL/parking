@@ -36,11 +36,11 @@ final class GeoLocation
         return $this->latitude === $other->latitude && $this->longitude === $other->longitude;
     }
 
-    // Calcule la distance en kilomètres entre 2 localisations avec la formule de Harvesine
-    public function distanceTo(GeoLocation $otpasher): float
+    // Calcule la distance en kilometres entre 2 localisations avec la formule de Haversine.
+    public function distanceTo(GeoLocation $other): float
     {
-        $earthRadiusKm = 6371.0; // Rayon moyen de la terre en Kilomètres
-        $lat1 = deg2rad($this->latitude);       
+        $earthRadiusKm = 6371.0; // Rayon moyen de la terre en kilometres
+        $lat1 = deg2rad($this->latitude);
         $lon1 = deg2rad($this->longitude);
         $lat2 = deg2rad($other->latitude);
         $lon2 = deg2rad($other->longitude);
