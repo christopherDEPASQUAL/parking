@@ -5,18 +5,18 @@ namespace App\Domain\ValueObject;
 use InvalidArgumentException;
 use Ramsey\Uuid\Uuid;
 
-class AbonnementId
+class StationnementId
 {
     private string $value;
 
-    public function __construct(string $value) 
+    public function __construct(string $value)
     {
         if (empty($value)) {
-            throw new InvalidArgumentException("AbonnementId cannot be empty");
+            throw new InvalidArgumentException("StationnementId cannot be empty");
         }
 
         if (!$this->isValidUuid($value)) {
-            throw new InvalidArgumentException("Invalid AbonnementId format: must be a valid UUID");
+            throw new InvalidArgumentException("Invalid StationnementId format: must be a valid UUID");
         }
 
         $this->value = $value;
@@ -27,7 +27,7 @@ class AbonnementId
         return $this->value;
     }
 
-    public function equals(AbonnementId $other): bool
+    public function equals(StationnementId $other): bool
     {
         return $this->value === $other->value;
     }
