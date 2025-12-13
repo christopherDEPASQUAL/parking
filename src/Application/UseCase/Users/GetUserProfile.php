@@ -1,12 +1,24 @@
 <?php declare(strict_types=1);
 
-namespace App\Users;
+namespace App\Application\UseCase\Users;
 
-/**
- * Use case: Return a profile projection for UI/API consumption.
- *
- * Notes:
- *  - No HTTP/SQL here. Coordinates Domain + Ports only.
- *  - Validate input DTOs; return output DTOs.
- */
-final class GetUserProfile {}
+use App\Domain\Entity\User;
+use App\Domain\Repository\UserRepositoryInterface;
+
+final class GetUserProfile
+{
+    public function __construct(
+        private readonly UserRepositoryInterface $userRepository
+    ) {}
+
+    public function execute(string $userId): User
+    {
+        $user = $this->userRepository->findById($userId);
+
+        if ($user === null) {
+            throw new \InvalidArgumentException("User not found");
+        }
+
+        return $user;
+    }
+}
