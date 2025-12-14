@@ -2,7 +2,13 @@
 
 namespace App\Domain\Exception;
 
-/**
- * Raised when attempting to occupy an already occupied spot.
- */
-class SpotAlreadyOccupiedException extends \DomainException {}
+final class SpotAlreadyOccupiedException extends DomainException
+{
+    public static function forIdentifier(string $spotIdentifier): self
+    {
+        return new self(
+            sprintf('Spot "%s" is already occupied.', $spotIdentifier),
+            ['spot' => $spotIdentifier]
+        );
+    }
+}

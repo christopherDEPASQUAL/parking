@@ -1,175 +1,199 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Tests\Unit\Domain\Entity;
 
-use PHPUnit\Framework\TestCase;
 use App\Domain\Entity\Parking;
 use App\Domain\Entity\ParkingSpot;
-use Domain\ValueObject\ParkingId;
-use Domain\ValueObject\PricingPlan;
-use Domain\ValueObject\GeoLocation;
-use Domain\ValueObject\OpeningSchedule;
-use Domain\ValueObject\UserId;
-use Domain\ValueObject\ParkingSpotId;
-use Domain\Exception\ParkingFullException;
-use Domain\Exception\SpotAlreadyExistsException;
+use App\Domain\Exception\ParkingFullException;
+use App\Domain\Exception\SpotAlreadyExistsException;
+use App\Domain\ValueObject\GeoLocation;
+use App\Domain\ValueObject\OpeningSchedule;
+use App\Domain\ValueObject\ParkingId;
+use App\Domain\ValueObject\ParkingSpotId;
+use App\Domain\ValueObject\PricingPlan;
+use App\Domain\ValueObject\UserId;
+use PHPUnit\Framework\TestCase;
 
-class ParkingTest extends TestCase
+final class ParkingTest extends TestCase
 {
-    // On déclare les mocks pour éviter de les recréer partout
-    private $parkingId;
-    private $pricingPlan;
-    private $location;
-    private $schedule;
-    private $userId;
+    private ParkingId $parkingId;
+    private PricingPlan $pricingPlan;
+    private GeoLocation $location;
+    private OpeningSchedule $schedule;
+    private UserId $userId;
 
     protected function setUp(): void
     {
-        // On crée des doublures (Mocks) pour les dépendances du constructeur
-        $this->parkingId = $this->createMock(ParkingId::class);
-        $this->pricingPlan = $this->createMock(PricingPlan::class);
-        $this->location = $this->createMock(GeoLocation::class);
-        $this->schedule = $this->createMock(OpeningSchedule::class);
-        $this->userId = $this->createMock(UserId::class);
+        $this->parkingId = ParkingId::fromString('11111111-1111-4111-8111-111111111111');
+        $this->pricingPlan = new PricingPlan(
+            [
+                ['upToMinutes' => 15, 'pricePerStepCents' => 100],
+                ['upToMinutes' => 60, 'pricePerStepCents' => 80],
+            ],
+            50
+        );
+        $this->location = new GeoLocation(48.8566, 2.3522);
+        $this->schedule = OpeningSchedule::alwaysOpen();
+        $this->userId = UserId::fromString('22222222-2222-4222-8222-222222222222');
     }
 
-    // TEST 1: Création valide (Happy Path)
+    public function testTouchUpdatesUpdatedAt(): void
+    {
+        $parking = $this->createParking(5);
+        $initial = $parking->getUpdatedAt();
+
+        $reflection = new \ReflectionClass(Parking::class);
+        $touch = $reflection->getMethod('touch');
+        $touch->setAccessible(true);
+        usleep(1000);
+        $touch->invoke($parking);
+
+        self::assertGreaterThanOrEqual($initial->getTimestamp(), $parking->getUpdatedAt()->getTimestamp());
+    }
+
     public function testConstructValidParking(): void
     {
-        $parking = new Parking(
-            $this->parkingId, 'Parking Test', '1 rue du Test', 10,
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
+        $parking = $this->createParking(10, 'Parking Test');
 
-        $this->assertInstanceOf(Parking::class, $parking);
-        $this->assertEquals(10, $parking->getTotalCapacity());
-        $this->assertEquals('Parking Test', $parking->getName());
+        self::assertInstanceOf(Parking::class, $parking);
+        self::assertSame(10, $parking->getTotalCapacity());
+        self::assertSame('Parking Test', $parking->getName());
     }
 
-    // TEST 2: Exception si capacité <= 0
     public function testConstructInvalidCapacityThrowsException(): void
     {
         $this->expectException(\InvalidArgumentException::class);
-        
-        new Parking(
-            $this->parkingId, 'Fail', 'Rue', 0, // Capacité 0 !
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
+        $this->createParking(0);
     }
 
-    // TEST 3: Ajout d'une place (Happy Path)
     public function testAddSpotSuccess(): void
     {
-        $parking = new Parking(
-            $this->parkingId, 'P', 'Rue', 5, 
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
-
-        // On mocke une place de parking avec un ID spécifique
-        $spot = $this->createMock(ParkingSpot::class);
-        $spotId = $this->createMock(ParkingSpotId::class);
-        
-        $spotId->method('getValue')->willReturn('spot-123');
-        $spot->method('getId')->willReturn($spotId);
+        $parking = $this->createParking(5);
+        $spot = new ParkingSpot(ParkingSpotId::fromString('33333333-3333-4333-8333-333333333333'));
 
         $parking->addSpot($spot);
 
-        // Capacité (5) - 1 place occupée = 4 places physiques libres
-        $this->assertEquals(4, $parking->getPhysicalFreeSpotsCount());
+        self::assertSame(4, $parking->getPhysicalFreeSpotsCount());
     }
 
-    // TEST 4: Erreur si on ajoute deux fois la même place
     public function testAddSpotThrowsExceptionIfDuplicate(): void
     {
-        $parking = new Parking(
-            $this->parkingId, 'P', 'Rue', 5,
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
-
-        $spot = $this->createMock(ParkingSpot::class);
-        $spotId = $this->createMock(ParkingSpotId::class);
-        $spotId->method('getValue')->willReturn('spot-A');
-        $spot->method('getId')->willReturn($spotId);
+        $parking = $this->createParking(5);
+        $spot = new ParkingSpot(ParkingSpotId::fromString('44444444-4444-4444-8444-444444444444'));
 
         $this->expectException(SpotAlreadyExistsException::class);
 
         $parking->addSpot($spot);
-        $parking->addSpot($spot); // Doublon !
+        $parking->addSpot($spot);
     }
 
-    // TEST 5: Erreur si le parking est plein
     public function testAddSpotThrowsExceptionIfFull(): void
     {
-        // Parking avec capacité de 1 seulement
-        $parking = new Parking(
-            $this->parkingId, 'P', 'Rue', 1,
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
-
-        // Création de 2 places différentes
-        $spot1 = $this->createMock(ParkingSpot::class);
-        $spot1Id = $this->createMock(ParkingSpotId::class);
-        $spot1Id->method('getValue')->willReturn('A');
-        $spot1->method('getId')->willReturn($spot1Id);
-
-        $spot2 = $this->createMock(ParkingSpot::class);
-        $spot2Id = $this->createMock(ParkingSpotId::class);
-        $spot2Id->method('getValue')->willReturn('B');
-        $spot2->method('getId')->willReturn($spot2Id);
+        $parking = $this->createParking(1);
+        $spot1 = new ParkingSpot(ParkingSpotId::fromString('55555555-5555-4555-8555-555555555555'));
+        $spot2 = new ParkingSpot(ParkingSpotId::fromString('66666666-6666-4666-8666-666666666666'));
 
         $this->expectException(ParkingFullException::class);
 
-        $parking->addSpot($spot1); // OK (1/1)
-        $parking->addSpot($spot2); // Boom (2/1)
+        $parking->addSpot($spot1);
+        $parking->addSpot($spot2);
     }
 
-    // TEST 6: Calcul complexe de disponibilité
     public function testFreeSpotsAt(): void
     {
-        // 1. Création d'un parking de 10 places
-        $parking = new Parking(
-            $this->parkingId, 'P', 'Rue', 10,
-            $this->pricingPlan, $this->location, $this->schedule, $this->userId
-        );
-
+        $parking = $this->createParking(10);
         $now = new \DateTimeImmutable();
 
-        // 2. Création de faux objets (Stubs) via des classes anonymes
-        // pour simuler le comportement de `method_exists`
-        
-        // Une réservation active maintenant
         $activeRes = new class {
-            public function isActiveAt($d) { return true; }
+            public function isActiveAt(\DateTimeImmutable $d): bool { return true; }
         };
-
-        // Une réservation passée (inactive)
         $inactiveRes = new class {
-            public function isActiveAt($d) { return false; }
+            public function isActiveAt(\DateTimeImmutable $d): bool { return false; }
         };
-
-        // Un abonnement actif qui couvre la date
         $activeAbo = new class {
-            public function covers($d) { return true; }
+            public function covers(\DateTimeImmutable $d): bool { return true; }
+        };
+        $badObject = new class {};
+        $activeStationnement = new class {
+            public function isActiveAt(\DateTimeImmutable $d): bool { return true; }
         };
 
-        // Un objet "Cassé" (pas la bonne méthode), pour vérifier la robustesse
-        $badObject = new class {}; 
-
-        // 3. Exécution de la méthode
         $freeSpots = $parking->freeSpotsAt(
             $now,
-            [$activeRes, $inactiveRes, $badObject], // Réservations (1 active)
-            [$activeAbo],                           // Abonnements (1 actif)
-            []                                      // Stationnements (0)
+            [$activeRes, $inactiveRes, $badObject],
+            [$activeAbo],
+            [$activeStationnement]
         );
 
-        // Calcul attendu :
-        // 10 places totales
-        // - 1 réservation active
-        // - 1 abonnement actif
-        // - 0 stationnement
-        // = 8 places restantes
-        $this->assertEquals(8, $freeSpots);
+        self::assertSame(7, $freeSpots);
+    }
+
+    public function testChangePricingPlanAndOpeningSchedule(): void
+    {
+        $parking = $this->createParking(10);
+        $newPlan = new PricingPlan(
+            [
+                ['upToMinutes' => 15, 'pricePerStepCents' => 50],
+                ['upToMinutes' => 120, 'pricePerStepCents' => 40],
+            ],
+            30
+        );
+        $customSchedule = new OpeningSchedule([
+            1 => [['start' => '08:00', 'end' => '18:00']],
+        ]);
+
+        $parking->changePricingPlan($newPlan);
+        $parking->changeOpeningSchedule($customSchedule);
+
+        self::assertSame($newPlan, $parking->getPricingPlan());
+        self::assertSame($customSchedule, $parking->getOpeningSchedule());
+        self::assertTrue($parking->isOpenAt(new \DateTimeImmutable('next monday 10:00')));
+        self::assertFalse($parking->isOpenAt(new \DateTimeImmutable('next monday 20:00')));
+    }
+
+    public function testAttachIdentifiersAndAvailability(): void
+    {
+        $parking = $this->createParking(10);
+        $parking->attachReservation(\App\Domain\ValueObject\ReservationId::fromString('77777777-7777-4777-8777-777777777777'));
+        $parking->attachAbonnement(\App\Domain\ValueObject\AbonnementId::fromString('88888888-8888-4888-8888-888888888888'));
+        $parking->attachStationnement(\App\Domain\ValueObject\StationnementId::fromString('99999999-9999-4999-8999-999999999999'));
+
+        self::assertSame(4, $parking->computeAvailability(3, 2, 1));
+    }
+
+    public function testComputePriceForDurationMinutes(): void
+    {
+        $parking = $this->createParking(10);
+        $price = $parking->computePriceForDurationMinutes(45);
+
+        self::assertSame(260, $price); // 15 min at 100 + 30 min at 80 (per 15 min)
+    }
+
+    public function testGettersExposeBasicInfo(): void
+    {
+        $parking = $this->createParking(12, 'Central');
+
+        self::assertSame($this->parkingId, $parking->getId());
+        self::assertSame('Central', $parking->getName());
+        self::assertSame('1 rue du Test', $parking->getAddress());
+        self::assertSame($this->location, $parking->getLocation());
+        self::assertSame($this->userId, $parking->getUserId());
+        self::assertInstanceOf(\DateTimeImmutable::class, $parking->getCreatedAt());
+        self::assertInstanceOf(\DateTimeImmutable::class, $parking->getUpdatedAt());
+        self::assertFalse($parking->isFull());
+    }
+
+    private function createParking(int $capacity, string $name = 'P'): Parking
+    {
+        return new Parking(
+            $this->parkingId,
+            $name,
+            '1 rue du Test',
+            $capacity,
+            $this->pricingPlan,
+            $this->location,
+            $this->schedule,
+            $this->userId
+        );
     }
 }
