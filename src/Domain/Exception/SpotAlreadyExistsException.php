@@ -2,7 +2,13 @@
 
 namespace App\Domain\Exception;
 
-/**
- * Raised when attempting to add a parking spot that already exists.
- */
-class SpotAlreadyExistsException extends \DomainException {}
+final class SpotAlreadyExistsException extends DomainException
+{
+    public static function forIdentifier(string $spotIdentifier): self
+    {
+        return new self(
+            sprintf('Spot "%s" already exists.', $spotIdentifier),
+            ['spot' => $spotIdentifier]
+        );
+    }
+}

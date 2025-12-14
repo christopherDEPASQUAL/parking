@@ -2,9 +2,13 @@
 
 namespace App\Domain\Exception;
 
-/**
- * Raised when a parking has reached its maximum capacity.
- */
-class ParkingFullException extends \DomainException {
-    
+final class ParkingFullException extends DomainException
+{
+    public static function forParking(string $parkingId): self
+    {
+        return new self(
+            sprintf('Parking "%s" has reached its maximum capacity.', $parkingId),
+            ['parking_id' => $parkingId]
+        );
+    }
 }

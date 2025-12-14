@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /app/src</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="_css/billboard.min.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/app/src</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Application/UseCase/Auth/LoginUser.php.html#8">App\Application\UseCase\Auth\LoginUser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/LogoutUser.php.html#5">App\Application\UseCase\Auth\LogoutUser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RefreshToken.php.html#8">App\Application\UseCase\Auth\RefreshToken</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RegisterUser.php.html#9">App\Application\UseCase\Auth\RegisterUser</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/ChangePassword.php.html#9">App\Application\UseCase\Users\ChangePassword</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/GetUserProfile.php.html#8">App\Application\UseCase\Users\GetUserProfile</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/UpdateUserProfil.php.html#8">App\Application\UseCase\Users\UpdateUserProfile</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#17">App\Domain\Entity\Abonnement</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#14">App\Domain\Entity\ParkingSession</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#20">App\Domain\Entity\Reservation</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#18">App\Domain\Entity\User</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#8">App\Domain\Enum\ReservationStatus</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#16">App\Domain\Event\ReservationCancelled</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#18">App\Domain\Event\ReservationCreated</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidAbonnementException.php.html#8">App\Domain\Exception\InvalidAbonnementException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidSessionTimeException.php.html#5">App\Domain\Exception\InvalidSessionTimeException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/ParkingFullException.php.html#5">App\Domain\Exception\ParkingFullException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/ReservationNotAvailableException.php.html#8">App\Domain\Exception\ReservationNotAvailableException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SessionAlreadyClosedException.php.html#5">App\Domain\Exception\SessionAlreadyClosedException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SpotAlreadyExistsException.php.html#5">App\Domain\Exception\SpotAlreadyExistsException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SpotAlreadyOccupiedException.php.html#5">App\Domain\Exception\SpotAlreadyOccupiedException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/UnauthorizedActionException.php.html#5">App\Domain\Exception\UnauthorizedActionException</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#15">App\Domain\ValueObject\DateRange</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#12">App\Domain\ValueObject\Email</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#12">App\Domain\ValueObject\Money</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#15">App\Domain\ValueObject\ParkingSearchQuery</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#12">App\Domain\ValueObject\PasswordHash</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#10">App\Domain\ValueObject\TimeSlot</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#12">App\Infrastructure\Persistence\Json\JsonUserRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#13">App\Infrastructure\Persistence\MySQL\SqlUserRepository</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Security/JwtEncoder.php.html#8">App\Infrastructure\Security\JwtEncoder</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#13">App\Domain\ValueObject\ParkingId</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#9">App\Domain\Entity\ParkingSpot</a></td><td class="text-right">28%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#8">App\Domain\ValueObject\GeoLocation</a></td><td class="text-right">28%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#12">App\Domain\ValueObject\UserId</a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#11">App\Domain\ValueObject\ReservationId</a></td><td class="text-right">31%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#8">App\Domain\ValueObject\ParkingSpotId</a></td><td class="text-right">38%</td></tr>
+       <tr><td><a href="Domain/Exception/DomainException.php.html#8">App\Domain\Exception\DomainException</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#15">App\Domain\ValueObject\PricingPlan</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#14">App\Domain\ValueObject\OpeningSchedule</a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#8">App\Domain\ValueObject\AbonnementId</a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#8">App\Domain\ValueObject\StationnementId</a></td><td class="text-right">64%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#17">App\Domain\Entity\Abonnement</a></td><td class="text-right">0.0%</td><td class="text-right">36</td><td class="text-right">1332</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#18">App\Domain\Entity\User</a></td><td class="text-right">0.0%</td><td class="text-right">25</td><td class="text-right">650</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#20">App\Domain\Entity\Reservation</a></td><td class="text-right">0.0%</td><td class="text-right">20</td><td class="text-right">420</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#10">App\Domain\ValueObject\TimeSlot</a></td><td class="text-right">0.0%</td><td class="text-right">18</td><td class="text-right">342</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#12">App\Infrastructure\Persistence\Json\JsonUserRepository</a></td><td class="text-right">0.0%</td><td class="text-right">17</td><td class="text-right">306</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#12">App\Domain\ValueObject\Money</a></td><td class="text-right">0.0%</td><td class="text-right">14</td><td class="text-right">210</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#14">App\Domain\Entity\ParkingSession</a></td><td class="text-right">0.0%</td><td class="text-right">13</td><td class="text-right">182</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#15">App\Domain\ValueObject\DateRange</a></td><td class="text-right">0.0%</td><td class="text-right">12</td><td class="text-right">156</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#15">App\Domain\ValueObject\ParkingSearchQuery</a></td><td class="text-right">0.0%</td><td class="text-right">11</td><td class="text-right">132</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#15">App\Domain\ValueObject\PricingPlan</a></td><td class="text-right">52.8%</td><td class="text-right">30</td><td class="text-right">124</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#13">App\Infrastructure\Persistence\MySQL\SqlUserRepository</a></td><td class="text-right">0.0%</td><td class="text-right">9</td><td class="text-right">90</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#8">App\Domain\ValueObject\GeoLocation</a></td><td class="text-right">28.6%</td><td class="text-right">14</td><td class="text-right">85</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#14">App\Domain\ValueObject\OpeningSchedule</a></td><td class="text-right">63.8%</td><td class="text-right">28</td><td class="text-right">65</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RefreshToken.php.html#8">App\Application\UseCase\Auth\RefreshToken</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Application/UseCase/Users/UpdateUserProfil.php.html#8">App\Application\UseCase\Users\UpdateUserProfile</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#8">App\Domain\Enum\ReservationStatus</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#12">App\Domain\ValueObject\Email</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#12">App\Domain\ValueObject\PasswordHash</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#11">App\Domain\ValueObject\ReservationId</a></td><td class="text-right">31.2%</td><td class="text-right">10</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#13">App\Domain\ValueObject\ParkingId</a></td><td class="text-right">23.1%</td><td class="text-right">8</td><td class="text-right">37</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#12">App\Domain\ValueObject\UserId</a></td><td class="text-right">30.8%</td><td class="text-right">7</td><td class="text-right">23</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/LoginUser.php.html#8">App\Application\UseCase\Auth\LoginUser</a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="Application/UseCase/Users/ChangePassword.php.html#9">App\Application\UseCase\Users\ChangePassword</a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#9">App\Domain\Entity\ParkingSpot</a></td><td class="text-right">28.6%</td><td class="text-right">6</td><td class="text-right">19</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#8">App\Domain\ValueObject\ParkingSpotId</a></td><td class="text-right">38.5%</td><td class="text-right">7</td><td class="text-right">18</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RegisterUser.php.html#9">App\Application\UseCase\Auth\RegisterUser</a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Application/UseCase/Users/GetUserProfile.php.html#8">App\Application\UseCase\Users\GetUserProfile</a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#8">App\Domain\ValueObject\AbonnementId</a></td><td class="text-right">64.3%</td><td class="text-right">9</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#8">App\Domain\ValueObject\StationnementId</a></td><td class="text-right">64.3%</td><td class="text-right">9</td><td class="text-right">12</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Application/UseCase/Auth/LoginUser.php.html#10"><abbr title="App\Application\UseCase\Auth\LoginUser::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/LoginUser.php.html#15"><abbr title="App\Application\UseCase\Auth\LoginUser::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/LogoutUser.php.html#7"><abbr title="App\Application\UseCase\Auth\LogoutUser::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RefreshToken.php.html#10"><abbr title="App\Application\UseCase\Auth\RefreshToken::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RefreshToken.php.html#15"><abbr title="App\Application\UseCase\Auth\RefreshToken::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RegisterUser.php.html#11"><abbr title="App\Application\UseCase\Auth\RegisterUser::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RegisterUser.php.html#15"><abbr title="App\Application\UseCase\Auth\RegisterUser::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/ChangePassword.php.html#11"><abbr title="App\Application\UseCase\Users\ChangePassword::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/ChangePassword.php.html#15"><abbr title="App\Application\UseCase\Users\ChangePassword::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/GetUserProfile.php.html#10"><abbr title="App\Application\UseCase\Users\GetUserProfile::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/GetUserProfile.php.html#14"><abbr title="App\Application\UseCase\Users\GetUserProfile::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/UpdateUserProfil.php.html#10"><abbr title="App\Application\UseCase\Users\UpdateUserProfile::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Application/UseCase/Users/UpdateUserProfil.php.html#14"><abbr title="App\Application\UseCase\Users\UpdateUserProfile::execute">execute</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#30"><abbr title="App\Domain\Entity\Abonnement::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#51"><abbr title="App\Domain\Entity\Abonnement::id">id</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#56"><abbr title="App\Domain\Entity\Abonnement::userId">userId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#61"><abbr title="App\Domain\Entity\Abonnement::parkingId">parkingId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#66"><abbr title="App\Domain\Entity\Abonnement::weeklyTimeSlots">weeklyTimeSlots</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#71"><abbr title="App\Domain\Entity\Abonnement::startDate">startDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#76"><abbr title="App\Domain\Entity\Abonnement::endDate">endDate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#81"><abbr title="App\Domain\Entity\Abonnement::status">status</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#86"><abbr title="App\Domain\Entity\Abonnement::isActiveAt">isActiveAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#95"><abbr title="App\Domain\Entity\Abonnement::coversTimeSlot">coversTimeSlot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#113"><abbr title="App\Domain\Entity\Abonnement::renew">renew</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#129"><abbr title="App\Domain\Entity\Abonnement::suspend">suspend</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#138"><abbr title="App\Domain\Entity\Abonnement::reactivate">reactivate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#147"><abbr title="App\Domain\Entity\Abonnement::expire">expire</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#152"><abbr title="App\Domain\Entity\Abonnement::validateDuration">validateDuration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#170"><abbr title="App\Domain\Entity\Abonnement::validateTimeSlots">validateTimeSlots</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#23"><abbr title="App\Domain\Entity\ParkingSession::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#37"><abbr title="App\Domain\Entity\ParkingSession::start">start</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#52"><abbr title="App\Domain\Entity\ParkingSession::close">close</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#63"><abbr title="App\Domain\Entity\ParkingSession::isActive">isActive</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#71"><abbr title="App\Domain\Entity\ParkingSession::durationMinutes">durationMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#77"><abbr title="App\Domain\Entity\ParkingSession::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#78"><abbr title="App\Domain\Entity\ParkingSession::getParkingId">getParkingId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#79"><abbr title="App\Domain\Entity\ParkingSession::getUserId">getUserId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#80"><abbr title="App\Domain\Entity\ParkingSession::getSpotId">getSpotId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#81"><abbr title="App\Domain\Entity\ParkingSession::getStartedAt">getStartedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#82"><abbr title="App\Domain\Entity\ParkingSession::getEndedAt">getEndedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#24"><abbr title="App\Domain\Entity\ParkingSpot::isOccupied">isOccupied</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#29"><abbr title="App\Domain\Entity\ParkingSpot::occupy">occupy</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#38"><abbr title="App\Domain\Entity\ParkingSpot::free">free</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#32"><abbr title="App\Domain\Entity\Reservation::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#50"><abbr title="App\Domain\Entity\Reservation::id">id</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#55"><abbr title="App\Domain\Entity\Reservation::userId">userId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#60"><abbr title="App\Domain\Entity\Reservation::parkingId">parkingId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#65"><abbr title="App\Domain\Entity\Reservation::dateRange">dateRange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#70"><abbr title="App\Domain\Entity\Reservation::price">price</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#75"><abbr title="App\Domain\Entity\Reservation::status">status</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#80"><abbr title="App\Domain\Entity\Reservation::createdAt">createdAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#85"><abbr title="App\Domain\Entity\Reservation::cancelledAt">cancelledAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#90"><abbr title="App\Domain\Entity\Reservation::cancellationReason">cancellationReason</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#95"><abbr title="App\Domain\Entity\Reservation::confirm">confirm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#104"><abbr title="App\Domain\Entity\Reservation::cancel">cancel</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#115"><abbr title="App\Domain\Entity\Reservation::markAsCompleted">markAsCompleted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#124"><abbr title="App\Domain\Entity\Reservation::markPaymentFailed">markPaymentFailed</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#133"><abbr title="App\Domain\Entity\Reservation::isActive">isActive</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#138"><abbr title="App\Domain\Entity\Reservation::isCancelled">isCancelled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#29"><abbr title="App\Domain\Entity\User::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#52"><abbr title="App\Domain\Entity\User::register">register</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#73"><abbr title="App\Domain\Entity\User::fromPersistence">fromPersistence</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#86"><abbr title="App\Domain\Entity\User::getId">getId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#91"><abbr title="App\Domain\Entity\User::getEmail">getEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#96"><abbr title="App\Domain\Entity\User::getPasswordHash">getPasswordHash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#101"><abbr title="App\Domain\Entity\User::getRole">getRole</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#106"><abbr title="App\Domain\Entity\User::getFirstName">getFirstName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#111"><abbr title="App\Domain\Entity\User::getLastName">getLastName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#116"><abbr title="App\Domain\Entity\User::getFullName">getFullName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#121"><abbr title="App\Domain\Entity\User::getCreatedAt">getCreatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#126"><abbr title="App\Domain\Entity\User::getUpdatedAt">getUpdatedAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#131"><abbr title="App\Domain\Entity\User::verifyPassword">verifyPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#136"><abbr title="App\Domain\Entity\User::changeEmail">changeEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#146"><abbr title="App\Domain\Entity\User::changeName">changeName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#160"><abbr title="App\Domain\Entity\User::changePassword">changePassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#170"><abbr title="App\Domain\Entity\User::changeRole">changeRole</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#180"><abbr title="App\Domain\Entity\User::sanitizeName">sanitizeName</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#190"><abbr title="App\Domain\Entity\User::touch">touch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#16"><abbr title="App\Domain\Enum\ReservationStatus::canBeCancelled">canBeCancelled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#21"><abbr title="App\Domain\Enum\ReservationStatus::isActive">isActive</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#26"><abbr title="App\Domain\Enum\ReservationStatus::isCompleted">isCompleted</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#31"><abbr title="App\Domain\Enum\ReservationStatus::isCancelled">isCancelled</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#24"><abbr title="App\Domain\Event\ReservationCancelled::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#38"><abbr title="App\Domain\Event\ReservationCancelled::reservationId">reservationId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#43"><abbr title="App\Domain\Event\ReservationCancelled::userId">userId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#48"><abbr title="App\Domain\Event\ReservationCancelled::parkingId">parkingId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#53"><abbr title="App\Domain\Event\ReservationCancelled::cancelledAt">cancelledAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCancelled.php.html#58"><abbr title="App\Domain\Event\ReservationCancelled::reason">reason</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#27"><abbr title="App\Domain\Event\ReservationCreated::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#43"><abbr title="App\Domain\Event\ReservationCreated::reservationId">reservationId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#48"><abbr title="App\Domain\Event\ReservationCreated::userId">userId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#53"><abbr title="App\Domain\Event\ReservationCreated::parkingId">parkingId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#58"><abbr title="App\Domain\Event\ReservationCreated::dateRange">dateRange</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#63"><abbr title="App\Domain\Event\ReservationCreated::price">price</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Event/ReservationCreated.php.html#68"><abbr title="App\Domain\Event\ReservationCreated::createdAt">createdAt</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/DomainException.php.html#21"><abbr title="App\Domain\Exception\DomainException::getContext">getContext</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidAbonnementException.php.html#10"><abbr title="App\Domain\Exception\InvalidAbonnementException::dueToOverlappingSlots">dueToOverlappingSlots</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidAbonnementException.php.html#15"><abbr title="App\Domain\Exception\InvalidAbonnementException::dueToExpiredPeriod">dueToExpiredPeriod</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidAbonnementException.php.html#20"><abbr title="App\Domain\Exception\InvalidAbonnementException::dueToInvalidDuration">dueToInvalidDuration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidSessionTimeException.php.html#7"><abbr title="App\Domain\Exception\InvalidSessionTimeException::startAfterEnd">startAfterEnd</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/InvalidSessionTimeException.php.html#12"><abbr title="App\Domain\Exception\InvalidSessionTimeException::negativeDuration">negativeDuration</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/ParkingFullException.php.html#7"><abbr title="App\Domain\Exception\ParkingFullException::forParking">forParking</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/ReservationNotAvailableException.php.html#10"><abbr title="App\Domain\Exception\ReservationNotAvailableException::forPeriod">forPeriod</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SessionAlreadyClosedException.php.html#7"><abbr title="App\Domain\Exception\SessionAlreadyClosedException::forSession">forSession</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SpotAlreadyExistsException.php.html#7"><abbr title="App\Domain\Exception\SpotAlreadyExistsException::forIdentifier">forIdentifier</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/SpotAlreadyOccupiedException.php.html#7"><abbr title="App\Domain\Exception\SpotAlreadyOccupiedException::forIdentifier">forIdentifier</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/UnauthorizedActionException.php.html#7"><abbr title="App\Domain\Exception\UnauthorizedActionException::becauseRoleCannot">becauseRoleCannot</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/Exception/UnauthorizedActionException.php.html#15"><abbr title="App\Domain\Exception\UnauthorizedActionException::becauseOwnershipMismatch">becauseOwnershipMismatch</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#30"><abbr title="App\Domain\ValueObject\AbonnementId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#35"><abbr title="App\Domain\ValueObject\AbonnementId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#48"><abbr title="App\Domain\ValueObject\AbonnementId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#20"><abbr title="App\Domain\ValueObject\DateRange::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#30"><abbr title="App\Domain\ValueObject\DateRange::fromDateTimes">fromDateTimes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#35"><abbr title="App\Domain\ValueObject\DateRange::getStart">getStart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#40"><abbr title="App\Domain\ValueObject\DateRange::getEnd">getEnd</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#45"><abbr title="App\Domain\ValueObject\DateRange::overlaps">overlaps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#50"><abbr title="App\Domain\ValueObject\DateRange::contains">contains</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#57"><abbr title="App\Domain\ValueObject\DateRange::durationInSeconds">durationInSeconds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#62"><abbr title="App\Domain\ValueObject\DateRange::toImmutable">toImmutable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#16"><abbr title="App\Domain\ValueObject\Email::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#26"><abbr title="App\Domain\ValueObject\Email::fromString">fromString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#31"><abbr title="App\Domain\ValueObject\Email::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#36"><abbr title="App\Domain\ValueObject\Email::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#41"><abbr title="App\Domain\ValueObject\Email::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#19"><abbr title="App\Domain\ValueObject\GeoLocation::getLatitude">getLatitude</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#24"><abbr title="App\Domain\ValueObject\GeoLocation::getLongitude">getLongitude</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#29"><abbr title="App\Domain\ValueObject\GeoLocation::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#34"><abbr title="App\Domain\ValueObject\GeoLocation::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#40"><abbr title="App\Domain\ValueObject\GeoLocation::distanceTo">distanceTo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#60"><abbr title="App\Domain\ValueObject\GeoLocation::isWithinRadius">isWithinRadius</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#17"><abbr title="App\Domain\ValueObject\Money::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#27"><abbr title="App\Domain\ValueObject\Money::fromCents">fromCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#32"><abbr title="App\Domain\ValueObject\Money::fromFloat">fromFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#39"><abbr title="App\Domain\ValueObject\Money::add">add</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#46"><abbr title="App\Domain\ValueObject\Money::subtract">subtract</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#53"><abbr title="App\Domain\ValueObject\Money::multiply">multiply</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#58"><abbr title="App\Domain\ValueObject\Money::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#64"><abbr title="App\Domain\ValueObject\Money::getAmountInCents">getAmountInCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#69"><abbr title="App\Domain\ValueObject\Money::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#74"><abbr title="App\Domain\ValueObject\Money::toFloat">toFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#79"><abbr title="App\Domain\ValueObject\Money::assertSameCurrency">assertSameCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#68"><abbr title="App\Domain\ValueObject\OpeningSchedule::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#152"><abbr title="App\Domain\ValueObject\OpeningSchedule::minutesToString">minutesToString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#37"><abbr title="App\Domain\ValueObject\ParkingId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#54"><abbr title="App\Domain\ValueObject\ParkingId::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#62"><abbr title="App\Domain\ValueObject\ParkingId::value">value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#70"><abbr title="App\Domain\ValueObject\ParkingId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#75"><abbr title="App\Domain\ValueObject\ParkingId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#52"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::center">center</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#57"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::radiusKm">radiusKm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#62"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::at">at</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#67"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::minimumFreeSpots">minimumFreeSpots</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#72"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::maxPriceCents">maxPriceCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#77"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::ownerId">ownerId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSpotId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#45"><abbr title="App\Domain\ValueObject\ParkingSpotId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#50"><abbr title="App\Domain\ValueObject\ParkingSpotId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#16"><abbr title="App\Domain\ValueObject\PasswordHash::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#29"><abbr title="App\Domain\ValueObject\PasswordHash::fromHash">fromHash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#34"><abbr title="App\Domain\ValueObject\PasswordHash::getHash">getHash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#39"><abbr title="App\Domain\ValueObject\PasswordHash::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#44"><abbr title="App\Domain\ValueObject\PasswordHash::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#107"><abbr title="App\Domain\ValueObject\PricingPlan::computeOverstayPriceCents">computeOverstayPriceCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#121"><abbr title="App\Domain\ValueObject\PricingPlan::getStepMinutes">getStepMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#126"><abbr title="App\Domain\ValueObject\PricingPlan::getTiers">getTiers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#131"><abbr title="App\Domain\ValueObject\PricingPlan::getDefaultPricePerStepCents">getDefaultPricePerStepCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#136"><abbr title="App\Domain\ValueObject\PricingPlan::getOverstayPenaltyCents">getOverstayPenaltyCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#141"><abbr title="App\Domain\ValueObject\PricingPlan::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#151"><abbr title="App\Domain\ValueObject\PricingPlan::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#34"><abbr title="App\Domain\ValueObject\ReservationId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#51"><abbr title="App\Domain\ValueObject\ReservationId::value">value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#56"><abbr title="App\Domain\ValueObject\ReservationId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#61"><abbr title="App\Domain\ValueObject\ReservationId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#66"><abbr title="App\Domain\ValueObject\ReservationId::jsonSerialize">jsonSerialize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#71"><abbr title="App\Domain\ValueObject\ReservationId::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#30"><abbr title="App\Domain\ValueObject\StationnementId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#35"><abbr title="App\Domain\ValueObject\StationnementId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#48"><abbr title="App\Domain\ValueObject\StationnementId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#15"><abbr title="App\Domain\ValueObject\TimeSlot::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#31"><abbr title="App\Domain\ValueObject\TimeSlot::fromStrings">fromStrings</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#39"><abbr title="App\Domain\ValueObject\TimeSlot::fromMinutes">fromMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#44"><abbr title="App\Domain\ValueObject\TimeSlot::overlaps">overlaps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#50"><abbr title="App\Domain\ValueObject\TimeSlot::isWithin">isWithin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#57"><abbr title="App\Domain\ValueObject\TimeSlot::getStartMinutes">getStartMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#62"><abbr title="App\Domain\ValueObject\TimeSlot::getEndMinutes">getEndMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#67"><abbr title="App\Domain\ValueObject\TimeSlot::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#72"><abbr title="App\Domain\ValueObject\TimeSlot::parseToMinutes">parseToMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#83"><abbr title="App\Domain\ValueObject\TimeSlot::formatMinutes">formatMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#28"><abbr title="App\Domain\ValueObject\UserId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#44"><abbr title="App\Domain\ValueObject\UserId::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#49"><abbr title="App\Domain\ValueObject\UserId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#54"><abbr title="App\Domain\ValueObject\UserId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#14"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#26"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::findById">findById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#37"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::findByEmail">findByEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#48"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#65"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::existsByEmail">existsByEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#73"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::readAll">readAll</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#88"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::hydrate">hydrate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#15"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#17"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::findById">findById</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#26"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::findByEmail">findByEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#35"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::save">save</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#62"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::existsByEmail">existsByEmail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#73"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::hydrate">hydrate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Security/JwtEncoder.php.html#15"><abbr title="App\Infrastructure\Security\JwtEncoder::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Security/JwtEncoder.php.html#20"><abbr title="App\Infrastructure\Security\JwtEncoder::generateAccessToken">generateAccessToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Security/JwtEncoder.php.html#33"><abbr title="App\Infrastructure\Security\JwtEncoder::generateRefreshToken">generateRefreshToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Infrastructure/Security/JwtEncoder.php.html#45"><abbr title="App\Infrastructure\Security\JwtEncoder::validateToken">validateToken</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#131"><abbr title="App\Domain\ValueObject\OpeningSchedule::assertNoOverlap">assertNoOverlap</abbr></a></td><td class="text-right">25%</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#12"><abbr title="App\Domain\ValueObject\AbonnementId::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#167"><abbr title="App\Domain\ValueObject\PricingPlan::validateStep">validateStep</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#12"><abbr title="App\Domain\ValueObject\StationnementId::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#70"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLatitude">normalizeLatitude</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#17"><abbr title="App\Domain\ValueObject\ParkingId::__construct">__construct</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#220"><abbr title="App\Domain\ValueObject\PricingPlan::validatePrice">validatePrice</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#185"><abbr title="App\Domain\ValueObject\PricingPlan::validateTiers">validateTiers</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#87"><abbr title="App\Domain\ValueObject\OpeningSchedule::normalize">normalize</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#14"><abbr title="App\Domain\ValueObject\ParkingSpotId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#17"><abbr title="App\Domain\ValueObject\ReservationId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#18"><abbr title="App\Domain\ValueObject\UserId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#48"><abbr title="App\Domain\ValueObject\PricingPlan::computePriceCents">computePriceCents</abbr></a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#80"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLongitude">normalizeLongitude</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#141"><abbr title="App\Domain\ValueObject\OpeningSchedule::timeToMinutes">timeToMinutes</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Domain/Entity/Parking.php.html#161"><abbr title="App\Domain\Entity\Parking::freeSpotsAt">freeSpotsAt</abbr></a></td><td class="text-right">81%</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#47"><abbr title="App\Domain\ValueObject\OpeningSchedule::isOpenAt">isOpenAt</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#170"><abbr title="App\Domain\Entity\Abonnement::validateTimeSlots">validateTimeSlots</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">7</td><td class="text-right">56</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#95"><abbr title="App\Domain\Entity\Abonnement::coversTimeSlot">coversTimeSlot</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#15"><abbr title="App\Domain\ValueObject\TimeSlot::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RefreshToken.php.html#15"><abbr title="App\Application\UseCase\Auth\RefreshToken::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="Application/UseCase/Users/UpdateUserProfil.php.html#14"><abbr title="App\Application\UseCase\Users\UpdateUserProfile::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSearchQuery.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#152"><abbr title="App\Domain\Entity\Abonnement::validateDuration">validateDuration</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#151"><abbr title="App\Domain\ValueObject\PricingPlan::fromArray">fromArray</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#73"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::readAll">readAll</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/LoginUser.php.html#15"><abbr title="App\Application\UseCase\Auth\LoginUser::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Application/UseCase/Users/ChangePassword.php.html#15"><abbr title="App\Application\UseCase\Users\ChangePassword::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#86"><abbr title="App\Domain\Entity\Abonnement::isActiveAt">isActiveAt</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#113"><abbr title="App\Domain\Entity\Abonnement::renew">renew</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSession.php.html#52"><abbr title="App\Domain\Entity\ParkingSession::close">close</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#146"><abbr title="App\Domain\Entity\User::changeName">changeName</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#68"><abbr title="App\Domain\ValueObject\OpeningSchedule::toArray">toArray</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#87"><abbr title="App\Domain\ValueObject\OpeningSchedule::normalize">normalize</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">11</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#14"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#37"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::findByEmail">findByEmail</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#88"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::hydrate">hydrate</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="Domain/Entity/Parking.php.html#161"><abbr title="App\Domain\Entity\Parking::freeSpotsAt">freeSpotsAt</abbr></a></td><td class="text-right">81.8%</td><td class="text-right">10</td><td class="text-right">10</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#131"><abbr title="App\Domain\ValueObject\OpeningSchedule::assertNoOverlap">assertNoOverlap</abbr></a></td><td class="text-right">25.0%</td><td class="text-right">4</td><td class="text-right">10</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#185"><abbr title="App\Domain\ValueObject\PricingPlan::validateTiers">validateTiers</abbr></a></td><td class="text-right">73.3%</td><td class="text-right">7</td><td class="text-right">7</td></tr>
+       <tr><td><a href="Application/UseCase/Auth/RegisterUser.php.html#15"><abbr title="App\Application\UseCase\Auth\RegisterUser::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Application/UseCase/Users/GetUserProfile.php.html#14"><abbr title="App\Application\UseCase\Users\GetUserProfile::execute">execute</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#129"><abbr title="App\Domain\Entity\Abonnement::suspend">suspend</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Abonnement.php.html#138"><abbr title="App\Domain\Entity\Abonnement::reactivate">reactivate</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/ParkingSpot.php.html#29"><abbr title="App\Domain\Entity\ParkingSpot::occupy">occupy</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#95"><abbr title="App\Domain\Entity\Reservation::confirm">confirm</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#104"><abbr title="App\Domain\Entity\Reservation::cancel">cancel</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#115"><abbr title="App\Domain\Entity\Reservation::markAsCompleted">markAsCompleted</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/Reservation.php.html#124"><abbr title="App\Domain\Entity\Reservation::markPaymentFailed">markPaymentFailed</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#136"><abbr title="App\Domain\Entity\User::changeEmail">changeEmail</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#160"><abbr title="App\Domain\Entity\User::changePassword">changePassword</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#170"><abbr title="App\Domain\Entity\User::changeRole">changeRole</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Entity/User.php.html#180"><abbr title="App\Domain\Entity\User::sanitizeName">sanitizeName</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#16"><abbr title="App\Domain\Enum\ReservationStatus::canBeCancelled">canBeCancelled</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/Enum/ReservationStatus.php.html#21"><abbr title="App\Domain\Enum\ReservationStatus::isActive">isActive</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#20"><abbr title="App\Domain\ValueObject\DateRange::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#45"><abbr title="App\Domain\ValueObject\DateRange::overlaps">overlaps</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#50"><abbr title="App\Domain\ValueObject\DateRange::contains">contains</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/DateRange.php.html#62"><abbr title="App\Domain\ValueObject\DateRange::toImmutable">toImmutable</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/Email.php.html#16"><abbr title="App\Domain\ValueObject\Email::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#34"><abbr title="App\Domain\ValueObject\GeoLocation::equals">equals</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#60"><abbr title="App\Domain\ValueObject\GeoLocation::isWithinRadius">isWithinRadius</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#17"><abbr title="App\Domain\ValueObject\Money::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#58"><abbr title="App\Domain\ValueObject\Money::equals">equals</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/Money.php.html#79"><abbr title="App\Domain\ValueObject\Money::assertSameCurrency">assertSameCurrency</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/PasswordHash.php.html#16"><abbr title="App\Domain\ValueObject\PasswordHash::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#48"><abbr title="App\Domain\ValueObject\PricingPlan::computePriceCents">computePriceCents</abbr></a></td><td class="text-right">78.3%</td><td class="text-right">6</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#107"><abbr title="App\Domain\ValueObject\PricingPlan::computeOverstayPriceCents">computeOverstayPriceCents</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#44"><abbr title="App\Domain\ValueObject\TimeSlot::overlaps">overlaps</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#50"><abbr title="App\Domain\ValueObject\TimeSlot::isWithin">isWithin</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/TimeSlot.php.html#72"><abbr title="App\Domain\ValueObject\TimeSlot::parseToMinutes">parseToMinutes</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/Json/JsonUserRepository.php.html#26"><abbr title="App\Infrastructure\Persistence\Json\JsonUserRepository::findById">findById</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#17"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::findById">findById</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#26"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::findByEmail">findByEmail</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Infrastructure/Persistence/MySQL/SqlUserRepository.php.html#73"><abbr title="App\Infrastructure\Persistence\MySQL\SqlUserRepository::hydrate">hydrate</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#47"><abbr title="App\Domain\ValueObject\OpeningSchedule::isOpenAt">isOpenAt</abbr></a></td><td class="text-right">87.5%</td><td class="text-right">5</td><td class="text-right">5</td></tr>
+       <tr><td><a href="Domain/ValueObject/AbonnementId.php.html#12"><abbr title="App\Domain\ValueObject\AbonnementId::__construct">__construct</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#70"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLatitude">normalizeLatitude</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#167"><abbr title="App\Domain\ValueObject\PricingPlan::validateStep">validateStep</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="Domain/ValueObject/StationnementId.php.html#12"><abbr title="App\Domain\ValueObject\StationnementId::__construct">__construct</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="Domain/ValueObject/GeoLocation.php.html#80"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLongitude">normalizeLongitude</abbr></a></td><td class="text-right">80.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/OpeningSchedule.php.html#141"><abbr title="App\Domain\ValueObject\OpeningSchedule::timeToMinutes">timeToMinutes</abbr></a></td><td class="text-right">80.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingId.php.html#17"><abbr title="App\Domain\ValueObject\ParkingId::__construct">__construct</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/ParkingSpotId.php.html#14"><abbr title="App\Domain\ValueObject\ParkingSpotId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/PricingPlan.php.html#220"><abbr title="App\Domain\ValueObject\PricingPlan::validatePrice">validatePrice</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/ReservationId.php.html#17"><abbr title="App\Domain\ValueObject\ReservationId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="Domain/ValueObject/UserId.php.html#18"><abbr title="App\Domain\ValueObject\UserId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.1</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.28</a> and <a href="https://phpunit.de/">PHPUnit 12.5.3</a> at Sun Dec 14 2:16:01 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/billboard.pkgd.min.js?v=12.5.1" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,4,"Application\/UseCase\/Auth\/LoginUser.php.html#8","App\\Application\\UseCase\\Auth\\LoginUser","20"],[0,1,"Application\/UseCase\/Auth\/LogoutUser.php.html#5","App\\Application\\UseCase\\Auth\\LogoutUser","2"],[0,6,"Application\/UseCase\/Auth\/RefreshToken.php.html#8","App\\Application\\UseCase\\Auth\\RefreshToken","42"],[0,3,"Application\/UseCase\/Auth\/RegisterUser.php.html#9","App\\Application\\UseCase\\Auth\\RegisterUser","12"],[0,4,"Application\/UseCase\/Users\/ChangePassword.php.html#9","App\\Application\\UseCase\\Users\\ChangePassword","20"],[0,3,"Application\/UseCase\/Users\/GetUserProfile.php.html#8","App\\Application\\UseCase\\Users\\GetUserProfile","12"],[0,6,"Application\/UseCase\/Users\/UpdateUserProfil.php.html#8","App\\Application\\UseCase\\Users\\UpdateUserProfile","42"],[0,36,"Domain\/Entity\/Abonnement.php.html#17","App\\Domain\\Entity\\Abonnement","1332"],[0,13,"Domain\/Entity\/ParkingSession.php.html#14","App\\Domain\\Entity\\ParkingSession","182"],[0,20,"Domain\/Entity\/Reservation.php.html#20","App\\Domain\\Entity\\Reservation","420"],[0,25,"Domain\/Entity\/User.php.html#18","App\\Domain\\Entity\\User","650"],[0,6,"Domain\/Enum\/ReservationStatus.php.html#8","App\\Domain\\Enum\\ReservationStatus","42"],[0,6,"Domain\/Event\/ReservationCancelled.php.html#16","App\\Domain\\Event\\ReservationCancelled","42"],[0,7,"Domain\/Event\/ReservationCreated.php.html#18","App\\Domain\\Event\\ReservationCreated","56"],[0,3,"Domain\/Exception\/InvalidAbonnementException.php.html#8","App\\Domain\\Exception\\InvalidAbonnementException","12"],[0,2,"Domain\/Exception\/InvalidSessionTimeException.php.html#5","App\\Domain\\Exception\\InvalidSessionTimeException","6"],[0,1,"Domain\/Exception\/ParkingFullException.php.html#5","App\\Domain\\Exception\\ParkingFullException","2"],[0,1,"Domain\/Exception\/ReservationNotAvailableException.php.html#8","App\\Domain\\Exception\\ReservationNotAvailableException","2"],[0,1,"Domain\/Exception\/SessionAlreadyClosedException.php.html#5","App\\Domain\\Exception\\SessionAlreadyClosedException","2"],[0,1,"Domain\/Exception\/SpotAlreadyExistsException.php.html#5","App\\Domain\\Exception\\SpotAlreadyExistsException","2"],[0,1,"Domain\/Exception\/SpotAlreadyOccupiedException.php.html#5","App\\Domain\\Exception\\SpotAlreadyOccupiedException","2"],[0,2,"Domain\/Exception\/UnauthorizedActionException.php.html#5","App\\Domain\\Exception\\UnauthorizedActionException","6"],[0,12,"Domain\/ValueObject\/DateRange.php.html#15","App\\Domain\\ValueObject\\DateRange","156"],[0,6,"Domain\/ValueObject\/Email.php.html#12","App\\Domain\\ValueObject\\Email","42"],[0,14,"Domain\/ValueObject\/Money.php.html#12","App\\Domain\\ValueObject\\Money","210"],[0,11,"Domain\/ValueObject\/ParkingSearchQuery.php.html#15","App\\Domain\\ValueObject\\ParkingSearchQuery","132"],[0,6,"Domain\/ValueObject\/PasswordHash.php.html#12","App\\Domain\\ValueObject\\PasswordHash","42"],[0,18,"Domain\/ValueObject\/TimeSlot.php.html#10","App\\Domain\\ValueObject\\TimeSlot","342"],[0,17,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#12","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository","306"],[0,9,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#13","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository","90"],[0,4,"Infrastructure\/Security\/JwtEncoder.php.html#8","App\\Infrastructure\\Security\\JwtEncoder","20"],[23.076923076923077,8,"Domain\/ValueObject\/ParkingId.php.html#13","App\\Domain\\ValueObject\\ParkingId","37.13"],[28.57142857142857,6,"Domain\/Entity\/ParkingSpot.php.html#9","App\\Domain\\Entity\\ParkingSpot","19.12"],[28.57142857142857,14,"Domain\/ValueObject\/GeoLocation.php.html#8","App\\Domain\\ValueObject\\GeoLocation","85.43"],[30.76923076923077,7,"Domain\/ValueObject\/UserId.php.html#12","App\\Domain\\ValueObject\\UserId","23.26"],[31.25,10,"Domain\/ValueObject\/ReservationId.php.html#11","App\\Domain\\ValueObject\\ReservationId","42.50"],[38.46153846153847,7,"Domain\/ValueObject\/ParkingSpotId.php.html#8","App\\Domain\\ValueObject\\ParkingSpotId","18.42"],[50,2,"Domain\/Exception\/DomainException.php.html#8","App\\Domain\\Exception\\DomainException","2.50"],[52.77777777777778,30,"Domain\/ValueObject\/PricingPlan.php.html#15","App\\Domain\\ValueObject\\PricingPlan","124.77"],[63.793103448275865,28,"Domain\/ValueObject\/OpeningSchedule.php.html#14","App\\Domain\\ValueObject\\OpeningSchedule","65.21"],[64.28571428571429,9,"Domain\/ValueObject\/AbonnementId.php.html#8","App\\Domain\\ValueObject\\AbonnementId","12.69"],[64.28571428571429,9,"Domain\/ValueObject\/StationnementId.php.html#8","App\\Domain\\ValueObject\\StationnementId","12.69"],[96.29629629629629,36,"Domain\/Entity\/Parking.php.html#21","App\\Domain\\Entity\\Parking","36"],[100,0,"Application\/DTO\/Auth\/LoginUserRequest.php.html#12","App\\Auth\\LoginUserRequest","0"],[100,0,"Application\/DTO\/Auth\/LoginUserResponse.php.html#12","App\\Auth\\LoginUserResponse","0"],[100,0,"Application\/DTO\/Auth\/RegisterUserRequest.php.html#12","App\\Auth\\RegisterUserRequest","0"],[100,0,"Application\/DTO\/Auth\/RegisterUserResponse.php.html#12","App\\Auth\\RegisterUserResponse","0"],[100,0,"Application\/DTO\/Parkings\/CreateParkingRequest.php.html#12","App\\Parkings\\CreateParkingRequest","0"],[100,0,"Application\/DTO\/Parkings\/CreateParkingResponse.php.html#12","App\\Parkings\\CreateParkingResponse","0"],[100,0,"Application\/DTO\/Parkings\/GetParkingAvailabilityRequest.php.html#12","App\\Parkings\\GetParkingAvailabilityRequest","0"],[100,0,"Application\/DTO\/Parkings\/GetParkingAvailabilityResponse.php.html#12","App\\Parkings\\GetParkingAvailabilityResponse","0"],[100,0,"Application\/DTO\/Payments\/ChargeRequest.php.html#12","App\\Payments\\ChargeRequest","0"],[100,0,"Application\/DTO\/Payments\/PaymentResult.php.html#12","App\\Payments\\PaymentResult","0"],[100,0,"Application\/DTO\/Reservations\/CancelReservationRequest.php.html#12","App\\Reservations\\CancelReservationRequest","0"],[100,0,"Application\/DTO\/Reservations\/CancelReservationResponse.php.html#12","App\\Reservations\\CancelReservationResponse","0"],[100,0,"Application\/DTO\/Reservations\/CreateReservationRequest.php.html#12","App\\Reservations\\CreateReservationRequest","0"],[100,0,"Application\/DTO\/Reservations\/CreateReservationResponse.php.html#12","App\\Reservations\\CreateReservationResponse","0"],[100,0,"Application\/DTO\/Reservations\/ListParkingReservationsRequest.php.html#12","App\\Reservations\\ListParkingReservationsRequest","0"],[100,0,"Application\/DTO\/Reservations\/ListParkingReservationsResponse.php.html#12","App\\Reservations\\ListParkingReservationsResponse","0"],[100,0,"Application\/Event\/Handler\/OnReservationCancelled.php.html#12","App\\Application\\Event\\Handler\\OnReservationCancelled","0"],[100,0,"Application\/Event\/Handler\/OnReservationCreated.php.html#12","App\\Application\\Event\\Handler\\OnReservationCreated","0"],[100,0,"Application\/Exception\/ApplicationException.php.html#8","App\\Application\\Exception\\ApplicationException","0"],[100,0,"Application\/Exception\/TechnicalFailureException.php.html#8","App\\Application\\Exception\\TechnicalFailureException","0"],[100,0,"Application\/Exception\/ValidationException.php.html#8","App\\Application\\Exception\\ValidationException","0"],[100,0,"Application\/UseCase\/Parkings\/CreateParking.php.html#12","App\\Parkings\\CreateParking","0"],[100,0,"Application\/UseCase\/Parkings\/GetParkingAvailability.php.html#12","App\\Parkings\\GetParkingAvailability","0"],[100,0,"Application\/UseCase\/Parkings\/UpdateParkingCapacity.php.html#12","App\\Parkings\\UpdateParkingCapacity","0"],[100,0,"Application\/UseCase\/Parkings\/UpdateParkingTariff.php.html#12","App\\Parkings\\UpdateParkingTariff","0"],[100,0,"Application\/UseCase\/Payments\/HandlePaymentResult.php.html#12","App\\Payments\\HandlePaymentResult","0"],[100,0,"Application\/UseCase\/Reservations\/CancelReservation.php.html#12","App\\Reservations\\CancelReservation","0"],[100,0,"Application\/UseCase\/Reservations\/CreateReservation.php.html#12","App\\Reservations\\CreateReservation","0"],[100,0,"Application\/UseCase\/Reservations\/ListParkingReservations.php.html#12","App\\Reservations\\ListParkingReservations","0"],[100,0,"Domain\/Enum\/UserRole.php.html#5","App\\Domain\\Enum\\UserRole","0"],[100,0,"Infrastructure\/Geo\/SimpleGeoSearch.php.html#6","App\\Infrastructure\\Geo\\SimpleGeoSearch","0"],[100,0,"Infrastructure\/Id\/UuidGenerator.php.html#6","App\\Infrastructure\\Id\\UuidGenerator","0"],[100,0,"Infrastructure\/Logging\/SimpleLogger.php.html#6","App\\Infrastructure\\Logging\\SimpleLogger","0"],[100,0,"Infrastructure\/Messaging\/SimpleEventDispatcher.php.html#6","App\\Infrastructure\\Messaging\\SimpleEventDispatcher","0"],[100,0,"Infrastructure\/Pdf\/DompdfGenerator.php.html#6","App\\Infrastructure\\Pdf\\DompdfGenerator","0"],[100,0,"Infrastructure\/Persistence\/File\/Repository\/ParkingRepositoryFile.php.html#6","App\\Infrastructure\\Persistence\\File\\Repository\\ParkingRepositoryFile","0"],[100,0,"Infrastructure\/Persistence\/File\/Repository\/ReservationRepositoryFile.php.html#6","App\\Infrastructure\\Persistence\\File\\Repository\\ReservationRepositoryFile","0"],[100,0,"Infrastructure\/Persistence\/File\/Repository\/UserRepositoryFile.php.html#6","App\\Infrastructure\\Persistence\\File\\Repository\\UserRepositoryFile","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Connection\/PdoConnectionFactory.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Connection\\PdoConnectionFactory","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Mapper\/ParkingMapper.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Mapper\\ParkingMapper","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Mapper\/ReservationMapper.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Mapper\\ReservationMapper","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Mapper\/UserMapper.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Mapper\\UserMapper","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Repository\/ParkingRepositorySql.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Repository\\ParkingRepositorySql","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Repository\/ReservationRepositorySql.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Repository\\ReservationRepositorySql","0"],[100,0,"Infrastructure\/Persistence\/Sql\/Repository\/UserRepositorySql.php.html#6","App\\Infrastructure\\Persistence\\Sql\\Repository\\UserRepositorySql","0"],[100,0,"Infrastructure\/Security\/PasswordHasher.php.html#6","App\\Infrastructure\\Security\\PasswordHasher","0"],[100,0,"Infrastructure\/Time\/SystemClock.php.html#6","App\\Infrastructure\\Time\\SystemClock","0"],[100,0,"Presentation\/Http\/Controller\/Api\/AuthApiController.php.html#6","App\\Presentation\\Http\\Controller\\Api\\AuthApiController","0"],[100,0,"Presentation\/Http\/Controller\/Api\/ParkingApiController.php.html#6","App\\Presentation\\Http\\Controller\\Api\\ParkingApiController","0"],[100,0,"Presentation\/Http\/Controller\/Api\/ReservationApiController.php.html#6","App\\Presentation\\Http\\Controller\\Api\\ReservationApiController","0"],[100,0,"Presentation\/Http\/Controller\/Web\/AuthController.php.html#6","App\\Presentation\\Http\\Controller\\Web\\AuthController","0"],[100,0,"Presentation\/Http\/Controller\/Web\/ParkingController.php.html#6","App\\Presentation\\Http\\Controller\\Web\\ParkingController","0"],[100,0,"Presentation\/Http\/Controller\/Web\/ReservationController.php.html#6","App\\Presentation\\Http\\Controller\\Web\\ReservationController","0"],[100,0,"Presentation\/Http\/Middleware\/AuthJWTMiddleware.php.html#6","App\\Presentation\\Http\\Middleware\\AuthJWTMiddleware","0"],[100,0,"Presentation\/Http\/Middleware\/ContentTypeJsonMiddleware.php.html#6","App\\Presentation\\Http\\Middleware\\ContentTypeJsonMiddleware","0"],[100,0,"Presentation\/Http\/Middleware\/ErrorHandlerMiddleware.php.html#6","App\\Presentation\\Http\\Middleware\\ErrorHandlerMiddleware","0"],[100,0,"Presentation\/Http\/Request\/BaseRequest.php.html#6","App\\Presentation\\Http\\Request\\BaseRequest","0"],[100,0,"Presentation\/Http\/Response\/HtmlResponder.php.html#6","App\\Presentation\\Http\\Response\\HtmlResponder","0"],[100,0,"Presentation\/Http\/Response\/JsonResponder.php.html#6","App\\Presentation\\Http\\Response\\JsonResponder","0"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"Application\/UseCase\/Auth\/LoginUser.php.html#10","App\\Application\\UseCase\\Auth\\LoginUser::__construct","2"],[0,3,"Application\/UseCase\/Auth\/LoginUser.php.html#15","App\\Application\\UseCase\\Auth\\LoginUser::execute","12"],[0,1,"Application\/UseCase\/Auth\/LogoutUser.php.html#7","App\\Application\\UseCase\\Auth\\LogoutUser::execute","2"],[0,1,"Application\/UseCase\/Auth\/RefreshToken.php.html#10","App\\Application\\UseCase\\Auth\\RefreshToken::__construct","2"],[0,5,"Application\/UseCase\/Auth\/RefreshToken.php.html#15","App\\Application\\UseCase\\Auth\\RefreshToken::execute","30"],[0,1,"Application\/UseCase\/Auth\/RegisterUser.php.html#11","App\\Application\\UseCase\\Auth\\RegisterUser::__construct","2"],[0,2,"Application\/UseCase\/Auth\/RegisterUser.php.html#15","App\\Application\\UseCase\\Auth\\RegisterUser::execute","6"],[0,1,"Application\/UseCase\/Users\/ChangePassword.php.html#11","App\\Application\\UseCase\\Users\\ChangePassword::__construct","2"],[0,3,"Application\/UseCase\/Users\/ChangePassword.php.html#15","App\\Application\\UseCase\\Users\\ChangePassword::execute","12"],[0,1,"Application\/UseCase\/Users\/GetUserProfile.php.html#10","App\\Application\\UseCase\\Users\\GetUserProfile::__construct","2"],[0,2,"Application\/UseCase\/Users\/GetUserProfile.php.html#14","App\\Application\\UseCase\\Users\\GetUserProfile::execute","6"],[0,1,"Application\/UseCase\/Users\/UpdateUserProfil.php.html#10","App\\Application\\UseCase\\Users\\UpdateUserProfile::__construct","2"],[0,5,"Application\/UseCase\/Users\/UpdateUserProfil.php.html#14","App\\Application\\UseCase\\Users\\UpdateUserProfile::execute","30"],[0,1,"Domain\/Entity\/Abonnement.php.html#30","App\\Domain\\Entity\\Abonnement::__construct","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#51","App\\Domain\\Entity\\Abonnement::id","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#56","App\\Domain\\Entity\\Abonnement::userId","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#61","App\\Domain\\Entity\\Abonnement::parkingId","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#66","App\\Domain\\Entity\\Abonnement::weeklyTimeSlots","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#71","App\\Domain\\Entity\\Abonnement::startDate","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#76","App\\Domain\\Entity\\Abonnement::endDate","2"],[0,1,"Domain\/Entity\/Abonnement.php.html#81","App\\Domain\\Entity\\Abonnement::status","2"],[0,3,"Domain\/Entity\/Abonnement.php.html#86","App\\Domain\\Entity\\Abonnement::isActiveAt","12"],[0,6,"Domain\/Entity\/Abonnement.php.html#95","App\\Domain\\Entity\\Abonnement::coversTimeSlot","42"],[0,3,"Domain\/Entity\/Abonnement.php.html#113","App\\Domain\\Entity\\Abonnement::renew","12"],[0,2,"Domain\/Entity\/Abonnement.php.html#129","App\\Domain\\Entity\\Abonnement::suspend","6"],[0,2,"Domain\/Entity\/Abonnement.php.html#138","App\\Domain\\Entity\\Abonnement::reactivate","6"],[0,1,"Domain\/Entity\/Abonnement.php.html#147","App\\Domain\\Entity\\Abonnement::expire","2"],[0,4,"Domain\/Entity\/Abonnement.php.html#152","App\\Domain\\Entity\\Abonnement::validateDuration","20"],[0,7,"Domain\/Entity\/Abonnement.php.html#170","App\\Domain\\Entity\\Abonnement::validateTimeSlots","56"],[0,1,"Domain\/Entity\/ParkingSession.php.html#23","App\\Domain\\Entity\\ParkingSession::__construct","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#37","App\\Domain\\Entity\\ParkingSession::start","2"],[0,3,"Domain\/Entity\/ParkingSession.php.html#52","App\\Domain\\Entity\\ParkingSession::close","12"],[0,1,"Domain\/Entity\/ParkingSession.php.html#63","App\\Domain\\Entity\\ParkingSession::isActive","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#71","App\\Domain\\Entity\\ParkingSession::durationMinutes","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#77","App\\Domain\\Entity\\ParkingSession::getId","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#78","App\\Domain\\Entity\\ParkingSession::getParkingId","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#79","App\\Domain\\Entity\\ParkingSession::getUserId","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#80","App\\Domain\\Entity\\ParkingSession::getSpotId","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#81","App\\Domain\\Entity\\ParkingSession::getStartedAt","2"],[0,1,"Domain\/Entity\/ParkingSession.php.html#82","App\\Domain\\Entity\\ParkingSession::getEndedAt","2"],[0,1,"Domain\/Entity\/ParkingSpot.php.html#24","App\\Domain\\Entity\\ParkingSpot::isOccupied","2"],[0,2,"Domain\/Entity\/ParkingSpot.php.html#29","App\\Domain\\Entity\\ParkingSpot::occupy","6"],[0,1,"Domain\/Entity\/ParkingSpot.php.html#38","App\\Domain\\Entity\\ParkingSpot::free","2"],[0,1,"Domain\/Entity\/Reservation.php.html#32","App\\Domain\\Entity\\Reservation::__construct","2"],[0,1,"Domain\/Entity\/Reservation.php.html#50","App\\Domain\\Entity\\Reservation::id","2"],[0,1,"Domain\/Entity\/Reservation.php.html#55","App\\Domain\\Entity\\Reservation::userId","2"],[0,1,"Domain\/Entity\/Reservation.php.html#60","App\\Domain\\Entity\\Reservation::parkingId","2"],[0,1,"Domain\/Entity\/Reservation.php.html#65","App\\Domain\\Entity\\Reservation::dateRange","2"],[0,1,"Domain\/Entity\/Reservation.php.html#70","App\\Domain\\Entity\\Reservation::price","2"],[0,1,"Domain\/Entity\/Reservation.php.html#75","App\\Domain\\Entity\\Reservation::status","2"],[0,1,"Domain\/Entity\/Reservation.php.html#80","App\\Domain\\Entity\\Reservation::createdAt","2"],[0,1,"Domain\/Entity\/Reservation.php.html#85","App\\Domain\\Entity\\Reservation::cancelledAt","2"],[0,1,"Domain\/Entity\/Reservation.php.html#90","App\\Domain\\Entity\\Reservation::cancellationReason","2"],[0,2,"Domain\/Entity\/Reservation.php.html#95","App\\Domain\\Entity\\Reservation::confirm","6"],[0,2,"Domain\/Entity\/Reservation.php.html#104","App\\Domain\\Entity\\Reservation::cancel","6"],[0,2,"Domain\/Entity\/Reservation.php.html#115","App\\Domain\\Entity\\Reservation::markAsCompleted","6"],[0,2,"Domain\/Entity\/Reservation.php.html#124","App\\Domain\\Entity\\Reservation::markPaymentFailed","6"],[0,1,"Domain\/Entity\/Reservation.php.html#133","App\\Domain\\Entity\\Reservation::isActive","2"],[0,1,"Domain\/Entity\/Reservation.php.html#138","App\\Domain\\Entity\\Reservation::isCancelled","2"],[0,1,"Domain\/Entity\/User.php.html#29","App\\Domain\\Entity\\User::__construct","2"],[0,1,"Domain\/Entity\/User.php.html#52","App\\Domain\\Entity\\User::register","2"],[0,1,"Domain\/Entity\/User.php.html#73","App\\Domain\\Entity\\User::fromPersistence","2"],[0,1,"Domain\/Entity\/User.php.html#86","App\\Domain\\Entity\\User::getId","2"],[0,1,"Domain\/Entity\/User.php.html#91","App\\Domain\\Entity\\User::getEmail","2"],[0,1,"Domain\/Entity\/User.php.html#96","App\\Domain\\Entity\\User::getPasswordHash","2"],[0,1,"Domain\/Entity\/User.php.html#101","App\\Domain\\Entity\\User::getRole","2"],[0,1,"Domain\/Entity\/User.php.html#106","App\\Domain\\Entity\\User::getFirstName","2"],[0,1,"Domain\/Entity\/User.php.html#111","App\\Domain\\Entity\\User::getLastName","2"],[0,1,"Domain\/Entity\/User.php.html#116","App\\Domain\\Entity\\User::getFullName","2"],[0,1,"Domain\/Entity\/User.php.html#121","App\\Domain\\Entity\\User::getCreatedAt","2"],[0,1,"Domain\/Entity\/User.php.html#126","App\\Domain\\Entity\\User::getUpdatedAt","2"],[0,1,"Domain\/Entity\/User.php.html#131","App\\Domain\\Entity\\User::verifyPassword","2"],[0,2,"Domain\/Entity\/User.php.html#136","App\\Domain\\Entity\\User::changeEmail","6"],[0,3,"Domain\/Entity\/User.php.html#146","App\\Domain\\Entity\\User::changeName","12"],[0,2,"Domain\/Entity\/User.php.html#160","App\\Domain\\Entity\\User::changePassword","6"],[0,2,"Domain\/Entity\/User.php.html#170","App\\Domain\\Entity\\User::changeRole","6"],[0,2,"Domain\/Entity\/User.php.html#180","App\\Domain\\Entity\\User::sanitizeName","6"],[0,1,"Domain\/Entity\/User.php.html#190","App\\Domain\\Entity\\User::touch","2"],[0,2,"Domain\/Enum\/ReservationStatus.php.html#16","App\\Domain\\Enum\\ReservationStatus::canBeCancelled","6"],[0,2,"Domain\/Enum\/ReservationStatus.php.html#21","App\\Domain\\Enum\\ReservationStatus::isActive","6"],[0,1,"Domain\/Enum\/ReservationStatus.php.html#26","App\\Domain\\Enum\\ReservationStatus::isCompleted","2"],[0,1,"Domain\/Enum\/ReservationStatus.php.html#31","App\\Domain\\Enum\\ReservationStatus::isCancelled","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#24","App\\Domain\\Event\\ReservationCancelled::__construct","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#38","App\\Domain\\Event\\ReservationCancelled::reservationId","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#43","App\\Domain\\Event\\ReservationCancelled::userId","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#48","App\\Domain\\Event\\ReservationCancelled::parkingId","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#53","App\\Domain\\Event\\ReservationCancelled::cancelledAt","2"],[0,1,"Domain\/Event\/ReservationCancelled.php.html#58","App\\Domain\\Event\\ReservationCancelled::reason","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#27","App\\Domain\\Event\\ReservationCreated::__construct","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#43","App\\Domain\\Event\\ReservationCreated::reservationId","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#48","App\\Domain\\Event\\ReservationCreated::userId","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#53","App\\Domain\\Event\\ReservationCreated::parkingId","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#58","App\\Domain\\Event\\ReservationCreated::dateRange","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#63","App\\Domain\\Event\\ReservationCreated::price","2"],[0,1,"Domain\/Event\/ReservationCreated.php.html#68","App\\Domain\\Event\\ReservationCreated::createdAt","2"],[0,1,"Domain\/Exception\/DomainException.php.html#21","App\\Domain\\Exception\\DomainException::getContext","2"],[0,1,"Domain\/Exception\/InvalidAbonnementException.php.html#10","App\\Domain\\Exception\\InvalidAbonnementException::dueToOverlappingSlots","2"],[0,1,"Domain\/Exception\/InvalidAbonnementException.php.html#15","App\\Domain\\Exception\\InvalidAbonnementException::dueToExpiredPeriod","2"],[0,1,"Domain\/Exception\/InvalidAbonnementException.php.html#20","App\\Domain\\Exception\\InvalidAbonnementException::dueToInvalidDuration","2"],[0,1,"Domain\/Exception\/InvalidSessionTimeException.php.html#7","App\\Domain\\Exception\\InvalidSessionTimeException::startAfterEnd","2"],[0,1,"Domain\/Exception\/InvalidSessionTimeException.php.html#12","App\\Domain\\Exception\\InvalidSessionTimeException::negativeDuration","2"],[0,1,"Domain\/Exception\/ParkingFullException.php.html#7","App\\Domain\\Exception\\ParkingFullException::forParking","2"],[0,1,"Domain\/Exception\/ReservationNotAvailableException.php.html#10","App\\Domain\\Exception\\ReservationNotAvailableException::forPeriod","2"],[0,1,"Domain\/Exception\/SessionAlreadyClosedException.php.html#7","App\\Domain\\Exception\\SessionAlreadyClosedException::forSession","2"],[0,1,"Domain\/Exception\/SpotAlreadyExistsException.php.html#7","App\\Domain\\Exception\\SpotAlreadyExistsException::forIdentifier","2"],[0,1,"Domain\/Exception\/SpotAlreadyOccupiedException.php.html#7","App\\Domain\\Exception\\SpotAlreadyOccupiedException::forIdentifier","2"],[0,1,"Domain\/Exception\/UnauthorizedActionException.php.html#7","App\\Domain\\Exception\\UnauthorizedActionException::becauseRoleCannot","2"],[0,1,"Domain\/Exception\/UnauthorizedActionException.php.html#15","App\\Domain\\Exception\\UnauthorizedActionException::becauseOwnershipMismatch","2"],[0,1,"Domain\/ValueObject\/AbonnementId.php.html#30","App\\Domain\\ValueObject\\AbonnementId::equals","2"],[0,1,"Domain\/ValueObject\/AbonnementId.php.html#35","App\\Domain\\ValueObject\\AbonnementId::__toString","2"],[0,1,"Domain\/ValueObject\/AbonnementId.php.html#48","App\\Domain\\ValueObject\\AbonnementId::generate","2"],[0,2,"Domain\/ValueObject\/DateRange.php.html#20","App\\Domain\\ValueObject\\DateRange::__construct","6"],[0,1,"Domain\/ValueObject\/DateRange.php.html#30","App\\Domain\\ValueObject\\DateRange::fromDateTimes","2"],[0,1,"Domain\/ValueObject\/DateRange.php.html#35","App\\Domain\\ValueObject\\DateRange::getStart","2"],[0,1,"Domain\/ValueObject\/DateRange.php.html#40","App\\Domain\\ValueObject\\DateRange::getEnd","2"],[0,2,"Domain\/ValueObject\/DateRange.php.html#45","App\\Domain\\ValueObject\\DateRange::overlaps","6"],[0,2,"Domain\/ValueObject\/DateRange.php.html#50","App\\Domain\\ValueObject\\DateRange::contains","6"],[0,1,"Domain\/ValueObject\/DateRange.php.html#57","App\\Domain\\ValueObject\\DateRange::durationInSeconds","2"],[0,2,"Domain\/ValueObject\/DateRange.php.html#62","App\\Domain\\ValueObject\\DateRange::toImmutable","6"],[0,2,"Domain\/ValueObject\/Email.php.html#16","App\\Domain\\ValueObject\\Email::__construct","6"],[0,1,"Domain\/ValueObject\/Email.php.html#26","App\\Domain\\ValueObject\\Email::fromString","2"],[0,1,"Domain\/ValueObject\/Email.php.html#31","App\\Domain\\ValueObject\\Email::getValue","2"],[0,1,"Domain\/ValueObject\/Email.php.html#36","App\\Domain\\ValueObject\\Email::equals","2"],[0,1,"Domain\/ValueObject\/Email.php.html#41","App\\Domain\\ValueObject\\Email::__toString","2"],[0,1,"Domain\/ValueObject\/GeoLocation.php.html#19","App\\Domain\\ValueObject\\GeoLocation::getLatitude","2"],[0,1,"Domain\/ValueObject\/GeoLocation.php.html#24","App\\Domain\\ValueObject\\GeoLocation::getLongitude","2"],[0,1,"Domain\/ValueObject\/GeoLocation.php.html#29","App\\Domain\\ValueObject\\GeoLocation::__toString","2"],[0,2,"Domain\/ValueObject\/GeoLocation.php.html#34","App\\Domain\\ValueObject\\GeoLocation::equals","6"],[0,1,"Domain\/ValueObject\/GeoLocation.php.html#40","App\\Domain\\ValueObject\\GeoLocation::distanceTo","2"],[0,2,"Domain\/ValueObject\/GeoLocation.php.html#60","App\\Domain\\ValueObject\\GeoLocation::isWithinRadius","6"],[0,2,"Domain\/ValueObject\/Money.php.html#17","App\\Domain\\ValueObject\\Money::__construct","6"],[0,1,"Domain\/ValueObject\/Money.php.html#27","App\\Domain\\ValueObject\\Money::fromCents","2"],[0,1,"Domain\/ValueObject\/Money.php.html#32","App\\Domain\\ValueObject\\Money::fromFloat","2"],[0,1,"Domain\/ValueObject\/Money.php.html#39","App\\Domain\\ValueObject\\Money::add","2"],[0,1,"Domain\/ValueObject\/Money.php.html#46","App\\Domain\\ValueObject\\Money::subtract","2"],[0,1,"Domain\/ValueObject\/Money.php.html#53","App\\Domain\\ValueObject\\Money::multiply","2"],[0,2,"Domain\/ValueObject\/Money.php.html#58","App\\Domain\\ValueObject\\Money::equals","6"],[0,1,"Domain\/ValueObject\/Money.php.html#64","App\\Domain\\ValueObject\\Money::getAmountInCents","2"],[0,1,"Domain\/ValueObject\/Money.php.html#69","App\\Domain\\ValueObject\\Money::getCurrency","2"],[0,1,"Domain\/ValueObject\/Money.php.html#74","App\\Domain\\ValueObject\\Money::toFloat","2"],[0,2,"Domain\/ValueObject\/Money.php.html#79","App\\Domain\\ValueObject\\Money::assertSameCurrency","6"],[0,3,"Domain\/ValueObject\/OpeningSchedule.php.html#68","App\\Domain\\ValueObject\\OpeningSchedule::toArray","12"],[0,1,"Domain\/ValueObject\/OpeningSchedule.php.html#152","App\\Domain\\ValueObject\\OpeningSchedule::minutesToString","2"],[0,1,"Domain\/ValueObject\/ParkingId.php.html#37","App\\Domain\\ValueObject\\ParkingId::generate","2"],[0,1,"Domain\/ValueObject\/ParkingId.php.html#54","App\\Domain\\ValueObject\\ParkingId::getValue","2"],[0,1,"Domain\/ValueObject\/ParkingId.php.html#62","App\\Domain\\ValueObject\\ParkingId::value","2"],[0,1,"Domain\/ValueObject\/ParkingId.php.html#70","App\\Domain\\ValueObject\\ParkingId::equals","2"],[0,1,"Domain\/ValueObject\/ParkingId.php.html#75","App\\Domain\\ValueObject\\ParkingId::__toString","2"],[0,5,"Domain\/ValueObject\/ParkingSearchQuery.php.html#24","App\\Domain\\ValueObject\\ParkingSearchQuery::__construct","30"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#52","App\\Domain\\ValueObject\\ParkingSearchQuery::center","2"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#57","App\\Domain\\ValueObject\\ParkingSearchQuery::radiusKm","2"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#62","App\\Domain\\ValueObject\\ParkingSearchQuery::at","2"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#67","App\\Domain\\ValueObject\\ParkingSearchQuery::minimumFreeSpots","2"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#72","App\\Domain\\ValueObject\\ParkingSearchQuery::maxPriceCents","2"],[0,1,"Domain\/ValueObject\/ParkingSearchQuery.php.html#77","App\\Domain\\ValueObject\\ParkingSearchQuery::ownerId","2"],[0,1,"Domain\/ValueObject\/ParkingSpotId.php.html#24","App\\Domain\\ValueObject\\ParkingSpotId::generate","2"],[0,1,"Domain\/ValueObject\/ParkingSpotId.php.html#45","App\\Domain\\ValueObject\\ParkingSpotId::equals","2"],[0,1,"Domain\/ValueObject\/ParkingSpotId.php.html#50","App\\Domain\\ValueObject\\ParkingSpotId::__toString","2"],[0,2,"Domain\/ValueObject\/PasswordHash.php.html#16","App\\Domain\\ValueObject\\PasswordHash::__construct","6"],[0,1,"Domain\/ValueObject\/PasswordHash.php.html#29","App\\Domain\\ValueObject\\PasswordHash::fromHash","2"],[0,1,"Domain\/ValueObject\/PasswordHash.php.html#34","App\\Domain\\ValueObject\\PasswordHash::getHash","2"],[0,1,"Domain\/ValueObject\/PasswordHash.php.html#39","App\\Domain\\ValueObject\\PasswordHash::equals","2"],[0,1,"Domain\/ValueObject\/PasswordHash.php.html#44","App\\Domain\\ValueObject\\PasswordHash::__toString","2"],[0,2,"Domain\/ValueObject\/PricingPlan.php.html#107","App\\Domain\\ValueObject\\PricingPlan::computeOverstayPriceCents","6"],[0,1,"Domain\/ValueObject\/PricingPlan.php.html#121","App\\Domain\\ValueObject\\PricingPlan::getStepMinutes","2"],[0,1,"Domain\/ValueObject\/PricingPlan.php.html#126","App\\Domain\\ValueObject\\PricingPlan::getTiers","2"],[0,1,"Domain\/ValueObject\/PricingPlan.php.html#131","App\\Domain\\ValueObject\\PricingPlan::getDefaultPricePerStepCents","2"],[0,1,"Domain\/ValueObject\/PricingPlan.php.html#136","App\\Domain\\ValueObject\\PricingPlan::getOverstayPenaltyCents","2"],[0,1,"Domain\/ValueObject\/PricingPlan.php.html#141","App\\Domain\\ValueObject\\PricingPlan::toArray","2"],[0,4,"Domain\/ValueObject\/PricingPlan.php.html#151","App\\Domain\\ValueObject\\PricingPlan::fromArray","20"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#34","App\\Domain\\ValueObject\\ReservationId::generate","2"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#51","App\\Domain\\ValueObject\\ReservationId::value","2"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#56","App\\Domain\\ValueObject\\ReservationId::equals","2"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#61","App\\Domain\\ValueObject\\ReservationId::__toString","2"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#66","App\\Domain\\ValueObject\\ReservationId::jsonSerialize","2"],[0,1,"Domain\/ValueObject\/ReservationId.php.html#71","App\\Domain\\ValueObject\\ReservationId::toArray","2"],[0,1,"Domain\/ValueObject\/StationnementId.php.html#30","App\\Domain\\ValueObject\\StationnementId::equals","2"],[0,1,"Domain\/ValueObject\/StationnementId.php.html#35","App\\Domain\\ValueObject\\StationnementId::__toString","2"],[0,1,"Domain\/ValueObject\/StationnementId.php.html#48","App\\Domain\\ValueObject\\StationnementId::generate","2"],[0,6,"Domain\/ValueObject\/TimeSlot.php.html#15","App\\Domain\\ValueObject\\TimeSlot::__construct","42"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#31","App\\Domain\\ValueObject\\TimeSlot::fromStrings","2"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#39","App\\Domain\\ValueObject\\TimeSlot::fromMinutes","2"],[0,2,"Domain\/ValueObject\/TimeSlot.php.html#44","App\\Domain\\ValueObject\\TimeSlot::overlaps","6"],[0,2,"Domain\/ValueObject\/TimeSlot.php.html#50","App\\Domain\\ValueObject\\TimeSlot::isWithin","6"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#57","App\\Domain\\ValueObject\\TimeSlot::getStartMinutes","2"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#62","App\\Domain\\ValueObject\\TimeSlot::getEndMinutes","2"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#67","App\\Domain\\ValueObject\\TimeSlot::__toString","2"],[0,2,"Domain\/ValueObject\/TimeSlot.php.html#72","App\\Domain\\ValueObject\\TimeSlot::parseToMinutes","6"],[0,1,"Domain\/ValueObject\/TimeSlot.php.html#83","App\\Domain\\ValueObject\\TimeSlot::formatMinutes","2"],[0,1,"Domain\/ValueObject\/UserId.php.html#28","App\\Domain\\ValueObject\\UserId::generate","2"],[0,1,"Domain\/ValueObject\/UserId.php.html#44","App\\Domain\\ValueObject\\UserId::getValue","2"],[0,1,"Domain\/ValueObject\/UserId.php.html#49","App\\Domain\\ValueObject\\UserId::equals","2"],[0,1,"Domain\/ValueObject\/UserId.php.html#54","App\\Domain\\ValueObject\\UserId::__toString","2"],[0,3,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#14","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::__construct","12"],[0,2,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#26","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::findById","6"],[0,3,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#37","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::findByEmail","12"],[0,1,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#48","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::save","2"],[0,1,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#65","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::existsByEmail","2"],[0,4,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#73","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::readAll","20"],[0,3,"Infrastructure\/Persistence\/Json\/JsonUserRepository.php.html#88","App\\Infrastructure\\Persistence\\Json\\JsonUserRepository::hydrate","12"],[0,1,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#15","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::__construct","2"],[0,2,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#17","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::findById","6"],[0,2,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#26","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::findByEmail","6"],[0,1,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#35","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::save","2"],[0,1,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#62","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::existsByEmail","2"],[0,2,"Infrastructure\/Persistence\/MySQL\/SqlUserRepository.php.html#73","App\\Infrastructure\\Persistence\\MySQL\\SqlUserRepository::hydrate","6"],[0,1,"Infrastructure\/Security\/JwtEncoder.php.html#15","App\\Infrastructure\\Security\\JwtEncoder::__construct","2"],[0,1,"Infrastructure\/Security\/JwtEncoder.php.html#20","App\\Infrastructure\\Security\\JwtEncoder::generateAccessToken","2"],[0,1,"Infrastructure\/Security\/JwtEncoder.php.html#33","App\\Infrastructure\\Security\\JwtEncoder::generateRefreshToken","2"],[0,1,"Infrastructure\/Security\/JwtEncoder.php.html#45","App\\Infrastructure\\Security\\JwtEncoder::validateToken","2"],[25,4,"Domain\/ValueObject\/OpeningSchedule.php.html#131","App\\Domain\\ValueObject\\OpeningSchedule::assertNoOverlap","10.75"],[60,3,"Domain\/ValueObject\/AbonnementId.php.html#12","App\\Domain\\ValueObject\\AbonnementId::__construct","3.58"],[60,3,"Domain\/ValueObject\/PricingPlan.php.html#167","App\\Domain\\ValueObject\\PricingPlan::validateStep","3.58"],[60,3,"Domain\/ValueObject\/StationnementId.php.html#12","App\\Domain\\ValueObject\\StationnementId::__construct","3.58"],[66.66666666666666,3,"Domain\/ValueObject\/GeoLocation.php.html#70","App\\Domain\\ValueObject\\GeoLocation::normalizeLatitude","3.33"],[66.66666666666666,2,"Domain\/ValueObject\/ParkingId.php.html#17","App\\Domain\\ValueObject\\ParkingId::__construct","2.15"],[66.66666666666666,2,"Domain\/ValueObject\/PricingPlan.php.html#220","App\\Domain\\ValueObject\\PricingPlan::validatePrice","2.15"],[73.33333333333333,7,"Domain\/ValueObject\/PricingPlan.php.html#185","App\\Domain\\ValueObject\\PricingPlan::validateTiers","7.93"],[75,11,"Domain\/ValueObject\/OpeningSchedule.php.html#87","App\\Domain\\ValueObject\\OpeningSchedule::normalize","12.89"],[75,2,"Domain\/ValueObject\/ParkingSpotId.php.html#14","App\\Domain\\ValueObject\\ParkingSpotId::__construct","2.06"],[75,2,"Domain\/ValueObject\/ReservationId.php.html#17","App\\Domain\\ValueObject\\ReservationId::__construct","2.06"],[75,2,"Domain\/ValueObject\/UserId.php.html#18","App\\Domain\\ValueObject\\UserId::__construct","2.06"],[78.26086956521739,6,"Domain\/ValueObject\/PricingPlan.php.html#48","App\\Domain\\ValueObject\\PricingPlan::computePriceCents","6.37"],[80,2,"Domain\/ValueObject\/GeoLocation.php.html#80","App\\Domain\\ValueObject\\GeoLocation::normalizeLongitude","2.03"],[80,2,"Domain\/ValueObject\/OpeningSchedule.php.html#141","App\\Domain\\ValueObject\\OpeningSchedule::timeToMinutes","2.03"],[81.81818181818183,10,"Domain\/Entity\/Parking.php.html#161","App\\Domain\\Entity\\Parking::freeSpotsAt","10.60"],[87.5,5,"Domain\/ValueObject\/OpeningSchedule.php.html#47","App\\Domain\\ValueObject\\OpeningSchedule::isOpenAt","5.05"],[100,2,"Domain\/Entity\/Parking.php.html#46","App\\Domain\\Entity\\Parking::__construct","2"],[100,1,"Domain\/Entity\/Parking.php.html#74","App\\Domain\\Entity\\Parking::getId","1"],[100,1,"Domain\/Entity\/Parking.php.html#75","App\\Domain\\Entity\\Parking::getName","1"],[100,1,"Domain\/Entity\/Parking.php.html#76","App\\Domain\\Entity\\Parking::getAddress","1"],[100,1,"Domain\/Entity\/Parking.php.html#77","App\\Domain\\Entity\\Parking::getTotalCapacity","1"],[100,1,"Domain\/Entity\/Parking.php.html#78","App\\Domain\\Entity\\Parking::getPricingPlan","1"],[100,1,"Domain\/Entity\/Parking.php.html#79","App\\Domain\\Entity\\Parking::getLocation","1"],[100,1,"Domain\/Entity\/Parking.php.html#80","App\\Domain\\Entity\\Parking::getOpeningSchedule","1"],[100,1,"Domain\/Entity\/Parking.php.html#81","App\\Domain\\Entity\\Parking::getUserId","1"],[100,1,"Domain\/Entity\/Parking.php.html#82","App\\Domain\\Entity\\Parking::getCreatedAt","1"],[100,1,"Domain\/Entity\/Parking.php.html#83","App\\Domain\\Entity\\Parking::getUpdatedAt","1"],[100,1,"Domain\/Entity\/Parking.php.html#86","App\\Domain\\Entity\\Parking::changePricingPlan","1"],[100,1,"Domain\/Entity\/Parking.php.html#93","App\\Domain\\Entity\\Parking::changeOpeningSchedule","1"],[100,3,"Domain\/Entity\/Parking.php.html#100","App\\Domain\\Entity\\Parking::addSpot","3"],[100,1,"Domain\/Entity\/Parking.php.html#114","App\\Domain\\Entity\\Parking::attachReservation","1"],[100,1,"Domain\/Entity\/Parking.php.html#120","App\\Domain\\Entity\\Parking::attachAbonnement","1"],[100,1,"Domain\/Entity\/Parking.php.html#126","App\\Domain\\Entity\\Parking::attachStationnement","1"],[100,1,"Domain\/Entity\/Parking.php.html#131","App\\Domain\\Entity\\Parking::isFull","1"],[100,1,"Domain\/Entity\/Parking.php.html#138","App\\Domain\\Entity\\Parking::getPhysicalFreeSpotsCount","1"],[100,1,"Domain\/Entity\/Parking.php.html#147","App\\Domain\\Entity\\Parking::computeAvailability","1"],[100,1,"Domain\/Entity\/Parking.php.html#191","App\\Domain\\Entity\\Parking::isOpenAt","1"],[100,1,"Domain\/Entity\/Parking.php.html#197","App\\Domain\\Entity\\Parking::computePriceForDurationMinutes","1"],[100,1,"Domain\/Entity\/Parking.php.html#202","App\\Domain\\Entity\\Parking::touch","1"],[100,1,"Domain\/Entity\/ParkingSpot.php.html#14","App\\Domain\\Entity\\ParkingSpot::__construct","1"],[100,1,"Domain\/Entity\/ParkingSpot.php.html#19","App\\Domain\\Entity\\ParkingSpot::getId","1"],[100,1,"Domain\/Exception\/DomainException.php.html#13","App\\Domain\\Exception\\DomainException::__construct","1"],[100,1,"Domain\/ValueObject\/AbonnementId.php.html#25","App\\Domain\\ValueObject\\AbonnementId::getValue","1"],[100,1,"Domain\/ValueObject\/AbonnementId.php.html#40","App\\Domain\\ValueObject\\AbonnementId::isValidUuid","1"],[100,1,"Domain\/ValueObject\/AbonnementId.php.html#53","App\\Domain\\ValueObject\\AbonnementId::fromString","1"],[100,1,"Domain\/ValueObject\/GeoLocation.php.html#13","App\\Domain\\ValueObject\\GeoLocation::__construct","1"],[100,1,"Domain\/ValueObject\/OpeningSchedule.php.html#26","App\\Domain\\ValueObject\\OpeningSchedule::__construct","1"],[100,1,"Domain\/ValueObject\/OpeningSchedule.php.html#34","App\\Domain\\ValueObject\\OpeningSchedule::alwaysOpen","1"],[100,1,"Domain\/ValueObject\/ParkingId.php.html#29","App\\Domain\\ValueObject\\ParkingId::fromString","1"],[100,1,"Domain\/ValueObject\/ParkingSpotId.php.html#35","App\\Domain\\ValueObject\\ParkingSpotId::fromString","1"],[100,1,"Domain\/ValueObject\/ParkingSpotId.php.html#40","App\\Domain\\ValueObject\\ParkingSpotId::getValue","1"],[100,1,"Domain\/ValueObject\/PricingPlan.php.html#29","App\\Domain\\ValueObject\\PricingPlan::__construct","1"],[100,1,"Domain\/ValueObject\/ReservationId.php.html#28","App\\Domain\\ValueObject\\ReservationId::fromString","1"],[100,1,"Domain\/ValueObject\/ReservationId.php.html#45","App\\Domain\\ValueObject\\ReservationId::getValue","1"],[100,1,"Domain\/ValueObject\/StationnementId.php.html#25","App\\Domain\\ValueObject\\StationnementId::getValue","1"],[100,1,"Domain\/ValueObject\/StationnementId.php.html#40","App\\Domain\\ValueObject\\StationnementId::isValidUuid","1"],[100,1,"Domain\/ValueObject\/StationnementId.php.html#53","App\\Domain\\ValueObject\\StationnementId::fromString","1"],[100,1,"Domain\/ValueObject\/UserId.php.html#39","App\\Domain\\ValueObject\\UserId::fromString","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [31,0,0,3,3,0,2,3,0,0,1,59])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [210,0,0,1,0,0,0,6,6,4,0,42])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        const crap = complexityData[data[0].index][4];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Crap</td><td class="value">${crap}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>
