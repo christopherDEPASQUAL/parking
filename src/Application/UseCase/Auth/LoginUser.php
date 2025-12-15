@@ -2,14 +2,17 @@
 
 namespace App\Application\UseCase\Auth;
 
+use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\PasswordHash;
 use App\Infrastructure\Security\JwtEncoder;
 
 final class LoginUser
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-        private readonly JwtEncoder $jwtEncoder
+        private readonly JwtEncoder $jwtEncoder,
+        private readonly PasswordHasherInterface $passwordHasher
     ) {}
 
     public function execute(string $email, string $password): array
@@ -20,7 +23,9 @@ final class LoginUser
             throw new \InvalidArgumentException("Invalid credentials");
         }
 
-        if (!$user->verifyPassword($password)) {
+        $storedPasswordHash = PasswordHash::fromHash($user->getPasswordHash());
+
+        if (!$this->passwordHasher->verify($password, $storedPasswordHash)) {
             throw new \InvalidArgumentException("Invalid credentials");
         }
 
