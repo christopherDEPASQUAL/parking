@@ -2,6 +2,7 @@
 
 namespace App\Application\UseCase\Users;
 
+use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\PasswordHash;
@@ -9,7 +10,8 @@ use App\Domain\ValueObject\PasswordHash;
 final class ChangePassword
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly PasswordHasherInterface $passwordHasher
     ) {}
 
     public function execute(
@@ -23,11 +25,13 @@ final class ChangePassword
             throw new \InvalidArgumentException("User not found");
         }
 
-        if (!$user->verifyPassword($currentPassword)) {
+        $storedPasswordHash = PasswordHash::fromHash($user->getPasswordHash());
+
+        if (!$this->passwordHasher->verify($currentPassword, $storedPasswordHash)) {
             throw new \InvalidArgumentException("Current password is incorrect");
         }
 
-        $newPasswordHash = PasswordHash::fromPlainText($newPassword);
+        $newPasswordHash = $this->passwordHasher->hash($newPassword);
 
         $updatedUser = User::fromPersistence(
             $user->getId(),

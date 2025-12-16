@@ -2,14 +2,17 @@
 
 namespace App\Application\UseCase\Auth;
 
+use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Entity\User;
 use App\Domain\Entity\UserRole;
 use App\Domain\Repository\UserRepositoryInterface;
+use Ramsey\Uuid\Uuid;
 
 final class RegisterUser
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository,
+        private readonly PasswordHasherInterface $passwordHasher
     ) {}
 
     public function execute(
@@ -23,12 +26,16 @@ final class RegisterUser
             throw new \InvalidArgumentException("Email already exists");
         }
 
-        $user = User::create(
+        $passwordHash = $this->passwordHasher->hash($password);
+
+        $user = User::fromPersistence(
+            Uuid::uuid4()->toString(),
             $email,
-            $password,
+            $passwordHash->getHash(),
             $role,
             $firstName,
-            $lastName
+            $lastName,
+            new \DateTimeImmutable()
         );
 
         $this->userRepository->save($user);
