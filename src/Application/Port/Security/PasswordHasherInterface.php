@@ -1,19 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace App\Infrastructure\Security;
+namespace App\Application\Port\Security;
 
-use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\ValueObject\PasswordHash;
 
-final class PasswordHasher implements PasswordHasherInterface
+/**
+ * Port pour hacher et verifier les mots de passe.
+ */
+interface PasswordHasherInterface
 {
-    public function hash(string $plainPassword): PasswordHash
-    {
-        return PasswordHash::fromPlainText($plainPassword);
-    }
+    public function hash(string $plainPassword): PasswordHash;
 
-    public function verify(string $plainPassword, PasswordHash $passwordHash): bool
-    {
-        return $passwordHash->verify($plainPassword);
-    }
+    public function verify(string $plainPassword, PasswordHash $hash): bool;
 }

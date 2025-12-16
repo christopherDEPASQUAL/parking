@@ -2,7 +2,13 @@
 
 namespace App\Domain\Exception;
 
-/**
- * Raised when attempting to close an already closed session.
- */
-class SessionAlreadyClosedException extends \DomainException {}
+final class SessionAlreadyClosedException extends DomainException
+{
+    public static function forSession(string $sessionId): self
+    {
+        return new self(
+            sprintf('Session "%s" is already closed.', $sessionId),
+            ['session_id' => $sessionId]
+        );
+    }
+}

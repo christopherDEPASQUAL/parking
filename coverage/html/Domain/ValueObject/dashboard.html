@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /app/src/Domain/ValueObject</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../../_css/bootstrap.min.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="../../_css/billboard.min.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="../../_css/style.css?v=12.5.1" rel="stylesheet" type="text/css">
+  <link href="../../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../../index.html">/app/src</a></li>
+         <li class="breadcrumb-item"><a href="../index.html">Domain</a></li>
+         <li class="breadcrumb-item"><a href="index.html">ValueObject</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classesCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="DateRange.php.html#15">App\Domain\ValueObject\DateRange</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#12">App\Domain\ValueObject\Email</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#12">App\Domain\ValueObject\Money</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#15">App\Domain\ValueObject\ParkingSearchQuery</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#12">App\Domain\ValueObject\PasswordHash</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#10">App\Domain\ValueObject\TimeSlot</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#13">App\Domain\ValueObject\ParkingId</a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#8">App\Domain\ValueObject\GeoLocation</a></td><td class="text-right">28%</td></tr>
+       <tr><td><a href="UserId.php.html#12">App\Domain\ValueObject\UserId</a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="ReservationId.php.html#11">App\Domain\ValueObject\ReservationId</a></td><td class="text-right">31%</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#8">App\Domain\ValueObject\ParkingSpotId</a></td><td class="text-right">38%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#15">App\Domain\ValueObject\PricingPlan</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#14">App\Domain\ValueObject\OpeningSchedule</a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="AbonnementId.php.html#8">App\Domain\ValueObject\AbonnementId</a></td><td class="text-right">64%</td></tr>
+       <tr><td><a href="StationnementId.php.html#8">App\Domain\ValueObject\StationnementId</a></td><td class="text-right">64%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TimeSlot.php.html#10">App\Domain\ValueObject\TimeSlot</a></td><td class="text-right">0.0%</td><td class="text-right">18</td><td class="text-right">342</td></tr>
+       <tr><td><a href="Money.php.html#12">App\Domain\ValueObject\Money</a></td><td class="text-right">0.0%</td><td class="text-right">14</td><td class="text-right">210</td></tr>
+       <tr><td><a href="DateRange.php.html#15">App\Domain\ValueObject\DateRange</a></td><td class="text-right">0.0%</td><td class="text-right">12</td><td class="text-right">156</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#15">App\Domain\ValueObject\ParkingSearchQuery</a></td><td class="text-right">0.0%</td><td class="text-right">11</td><td class="text-right">132</td></tr>
+       <tr><td><a href="PricingPlan.php.html#15">App\Domain\ValueObject\PricingPlan</a></td><td class="text-right">52.8%</td><td class="text-right">30</td><td class="text-right">124</td></tr>
+       <tr><td><a href="GeoLocation.php.html#8">App\Domain\ValueObject\GeoLocation</a></td><td class="text-right">28.6%</td><td class="text-right">14</td><td class="text-right">85</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#14">App\Domain\ValueObject\OpeningSchedule</a></td><td class="text-right">63.8%</td><td class="text-right">28</td><td class="text-right">65</td></tr>
+       <tr><td><a href="Email.php.html#12">App\Domain\ValueObject\Email</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="PasswordHash.php.html#12">App\Domain\ValueObject\PasswordHash</a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ReservationId.php.html#11">App\Domain\ValueObject\ReservationId</a></td><td class="text-right">31.2%</td><td class="text-right">10</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ParkingId.php.html#13">App\Domain\ValueObject\ParkingId</a></td><td class="text-right">23.1%</td><td class="text-right">8</td><td class="text-right">37</td></tr>
+       <tr><td><a href="UserId.php.html#12">App\Domain\ValueObject\UserId</a></td><td class="text-right">30.8%</td><td class="text-right">7</td><td class="text-right">23</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#8">App\Domain\ValueObject\ParkingSpotId</a></td><td class="text-right">38.5%</td><td class="text-right">7</td><td class="text-right">18</td></tr>
+       <tr><td><a href="AbonnementId.php.html#8">App\Domain\ValueObject\AbonnementId</a></td><td class="text-right">64.3%</td><td class="text-right">9</td><td class="text-right">12</td></tr>
+       <tr><td><a href="StationnementId.php.html#8">App\Domain\ValueObject\StationnementId</a></td><td class="text-right">64.3%</td><td class="text-right">9</td><td class="text-right">12</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2 style="margin-top: 3rem;">Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodsCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="AbonnementId.php.html#30"><abbr title="App\Domain\ValueObject\AbonnementId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbonnementId.php.html#35"><abbr title="App\Domain\ValueObject\AbonnementId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="AbonnementId.php.html#48"><abbr title="App\Domain\ValueObject\AbonnementId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#20"><abbr title="App\Domain\ValueObject\DateRange::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#30"><abbr title="App\Domain\ValueObject\DateRange::fromDateTimes">fromDateTimes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#35"><abbr title="App\Domain\ValueObject\DateRange::getStart">getStart</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#40"><abbr title="App\Domain\ValueObject\DateRange::getEnd">getEnd</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#45"><abbr title="App\Domain\ValueObject\DateRange::overlaps">overlaps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#50"><abbr title="App\Domain\ValueObject\DateRange::contains">contains</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#57"><abbr title="App\Domain\ValueObject\DateRange::durationInSeconds">durationInSeconds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="DateRange.php.html#62"><abbr title="App\Domain\ValueObject\DateRange::toImmutable">toImmutable</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#16"><abbr title="App\Domain\ValueObject\Email::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#26"><abbr title="App\Domain\ValueObject\Email::fromString">fromString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#31"><abbr title="App\Domain\ValueObject\Email::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#36"><abbr title="App\Domain\ValueObject\Email::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Email.php.html#41"><abbr title="App\Domain\ValueObject\Email::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#19"><abbr title="App\Domain\ValueObject\GeoLocation::getLatitude">getLatitude</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#24"><abbr title="App\Domain\ValueObject\GeoLocation::getLongitude">getLongitude</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#29"><abbr title="App\Domain\ValueObject\GeoLocation::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#34"><abbr title="App\Domain\ValueObject\GeoLocation::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#40"><abbr title="App\Domain\ValueObject\GeoLocation::distanceTo">distanceTo</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#60"><abbr title="App\Domain\ValueObject\GeoLocation::isWithinRadius">isWithinRadius</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#17"><abbr title="App\Domain\ValueObject\Money::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#27"><abbr title="App\Domain\ValueObject\Money::fromCents">fromCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#32"><abbr title="App\Domain\ValueObject\Money::fromFloat">fromFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#39"><abbr title="App\Domain\ValueObject\Money::add">add</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#46"><abbr title="App\Domain\ValueObject\Money::subtract">subtract</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#53"><abbr title="App\Domain\ValueObject\Money::multiply">multiply</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#58"><abbr title="App\Domain\ValueObject\Money::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#64"><abbr title="App\Domain\ValueObject\Money::getAmountInCents">getAmountInCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#69"><abbr title="App\Domain\ValueObject\Money::getCurrency">getCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#74"><abbr title="App\Domain\ValueObject\Money::toFloat">toFloat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Money.php.html#79"><abbr title="App\Domain\ValueObject\Money::assertSameCurrency">assertSameCurrency</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#68"><abbr title="App\Domain\ValueObject\OpeningSchedule::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#152"><abbr title="App\Domain\ValueObject\OpeningSchedule::minutesToString">minutesToString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#37"><abbr title="App\Domain\ValueObject\ParkingId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#54"><abbr title="App\Domain\ValueObject\ParkingId::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#62"><abbr title="App\Domain\ValueObject\ParkingId::value">value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#70"><abbr title="App\Domain\ValueObject\ParkingId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingId.php.html#75"><abbr title="App\Domain\ValueObject\ParkingId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#52"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::center">center</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#57"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::radiusKm">radiusKm</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#62"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::at">at</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#67"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::minimumFreeSpots">minimumFreeSpots</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#72"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::maxPriceCents">maxPriceCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#77"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::ownerId">ownerId</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSpotId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#45"><abbr title="App\Domain\ValueObject\ParkingSpotId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#50"><abbr title="App\Domain\ValueObject\ParkingSpotId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#16"><abbr title="App\Domain\ValueObject\PasswordHash::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#29"><abbr title="App\Domain\ValueObject\PasswordHash::fromHash">fromHash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#34"><abbr title="App\Domain\ValueObject\PasswordHash::getHash">getHash</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#39"><abbr title="App\Domain\ValueObject\PasswordHash::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PasswordHash.php.html#44"><abbr title="App\Domain\ValueObject\PasswordHash::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#107"><abbr title="App\Domain\ValueObject\PricingPlan::computeOverstayPriceCents">computeOverstayPriceCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#121"><abbr title="App\Domain\ValueObject\PricingPlan::getStepMinutes">getStepMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#126"><abbr title="App\Domain\ValueObject\PricingPlan::getTiers">getTiers</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#131"><abbr title="App\Domain\ValueObject\PricingPlan::getDefaultPricePerStepCents">getDefaultPricePerStepCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#136"><abbr title="App\Domain\ValueObject\PricingPlan::getOverstayPenaltyCents">getOverstayPenaltyCents</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#141"><abbr title="App\Domain\ValueObject\PricingPlan::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#151"><abbr title="App\Domain\ValueObject\PricingPlan::fromArray">fromArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#34"><abbr title="App\Domain\ValueObject\ReservationId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#51"><abbr title="App\Domain\ValueObject\ReservationId::value">value</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#56"><abbr title="App\Domain\ValueObject\ReservationId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#61"><abbr title="App\Domain\ValueObject\ReservationId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#66"><abbr title="App\Domain\ValueObject\ReservationId::jsonSerialize">jsonSerialize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ReservationId.php.html#71"><abbr title="App\Domain\ValueObject\ReservationId::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StationnementId.php.html#30"><abbr title="App\Domain\ValueObject\StationnementId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StationnementId.php.html#35"><abbr title="App\Domain\ValueObject\StationnementId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="StationnementId.php.html#48"><abbr title="App\Domain\ValueObject\StationnementId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#15"><abbr title="App\Domain\ValueObject\TimeSlot::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#31"><abbr title="App\Domain\ValueObject\TimeSlot::fromStrings">fromStrings</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#39"><abbr title="App\Domain\ValueObject\TimeSlot::fromMinutes">fromMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#44"><abbr title="App\Domain\ValueObject\TimeSlot::overlaps">overlaps</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#50"><abbr title="App\Domain\ValueObject\TimeSlot::isWithin">isWithin</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#57"><abbr title="App\Domain\ValueObject\TimeSlot::getStartMinutes">getStartMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#62"><abbr title="App\Domain\ValueObject\TimeSlot::getEndMinutes">getEndMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#67"><abbr title="App\Domain\ValueObject\TimeSlot::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#72"><abbr title="App\Domain\ValueObject\TimeSlot::parseToMinutes">parseToMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="TimeSlot.php.html#83"><abbr title="App\Domain\ValueObject\TimeSlot::formatMinutes">formatMinutes</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserId.php.html#28"><abbr title="App\Domain\ValueObject\UserId::generate">generate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserId.php.html#44"><abbr title="App\Domain\ValueObject\UserId::getValue">getValue</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserId.php.html#49"><abbr title="App\Domain\ValueObject\UserId::equals">equals</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UserId.php.html#54"><abbr title="App\Domain\ValueObject\UserId::__toString">__toString</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#131"><abbr title="App\Domain\ValueObject\OpeningSchedule::assertNoOverlap">assertNoOverlap</abbr></a></td><td class="text-right">25%</td></tr>
+       <tr><td><a href="AbonnementId.php.html#12"><abbr title="App\Domain\ValueObject\AbonnementId::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#167"><abbr title="App\Domain\ValueObject\PricingPlan::validateStep">validateStep</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="StationnementId.php.html#12"><abbr title="App\Domain\ValueObject\StationnementId::__construct">__construct</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#70"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLatitude">normalizeLatitude</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="ParkingId.php.html#17"><abbr title="App\Domain\ValueObject\ParkingId::__construct">__construct</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#220"><abbr title="App\Domain\ValueObject\PricingPlan::validatePrice">validatePrice</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#185"><abbr title="App\Domain\ValueObject\PricingPlan::validateTiers">validateTiers</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#87"><abbr title="App\Domain\ValueObject\OpeningSchedule::normalize">normalize</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#14"><abbr title="App\Domain\ValueObject\ParkingSpotId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="ReservationId.php.html#17"><abbr title="App\Domain\ValueObject\ReservationId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="UserId.php.html#18"><abbr title="App\Domain\ValueObject\UserId::__construct">__construct</abbr></a></td><td class="text-right">75%</td></tr>
+       <tr><td><a href="PricingPlan.php.html#48"><abbr title="App\Domain\ValueObject\PricingPlan::computePriceCents">computePriceCents</abbr></a></td><td class="text-right">78%</td></tr>
+       <tr><td><a href="GeoLocation.php.html#80"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLongitude">normalizeLongitude</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#141"><abbr title="App\Domain\ValueObject\OpeningSchedule::timeToMinutes">timeToMinutes</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#47"><abbr title="App\Domain\ValueObject\OpeningSchedule::isOpenAt">isOpenAt</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3 style="margin-top: 2rem;">Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+         <th class="text-right">Complexity</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="TimeSlot.php.html#15"><abbr title="App\Domain\ValueObject\TimeSlot::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">6</td><td class="text-right">42</td></tr>
+       <tr><td><a href="ParkingSearchQuery.php.html#24"><abbr title="App\Domain\ValueObject\ParkingSearchQuery::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">5</td><td class="text-right">30</td></tr>
+       <tr><td><a href="PricingPlan.php.html#151"><abbr title="App\Domain\ValueObject\PricingPlan::fromArray">fromArray</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">4</td><td class="text-right">20</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#68"><abbr title="App\Domain\ValueObject\OpeningSchedule::toArray">toArray</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">3</td><td class="text-right">12</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#87"><abbr title="App\Domain\ValueObject\OpeningSchedule::normalize">normalize</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">11</td><td class="text-right">12</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#131"><abbr title="App\Domain\ValueObject\OpeningSchedule::assertNoOverlap">assertNoOverlap</abbr></a></td><td class="text-right">25.0%</td><td class="text-right">4</td><td class="text-right">10</td></tr>
+       <tr><td><a href="PricingPlan.php.html#185"><abbr title="App\Domain\ValueObject\PricingPlan::validateTiers">validateTiers</abbr></a></td><td class="text-right">73.3%</td><td class="text-right">7</td><td class="text-right">7</td></tr>
+       <tr><td><a href="DateRange.php.html#20"><abbr title="App\Domain\ValueObject\DateRange::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DateRange.php.html#45"><abbr title="App\Domain\ValueObject\DateRange::overlaps">overlaps</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DateRange.php.html#50"><abbr title="App\Domain\ValueObject\DateRange::contains">contains</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="DateRange.php.html#62"><abbr title="App\Domain\ValueObject\DateRange::toImmutable">toImmutable</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Email.php.html#16"><abbr title="App\Domain\ValueObject\Email::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="GeoLocation.php.html#34"><abbr title="App\Domain\ValueObject\GeoLocation::equals">equals</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="GeoLocation.php.html#60"><abbr title="App\Domain\ValueObject\GeoLocation::isWithinRadius">isWithinRadius</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Money.php.html#17"><abbr title="App\Domain\ValueObject\Money::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Money.php.html#58"><abbr title="App\Domain\ValueObject\Money::equals">equals</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="Money.php.html#79"><abbr title="App\Domain\ValueObject\Money::assertSameCurrency">assertSameCurrency</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="PasswordHash.php.html#16"><abbr title="App\Domain\ValueObject\PasswordHash::__construct">__construct</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="PricingPlan.php.html#48"><abbr title="App\Domain\ValueObject\PricingPlan::computePriceCents">computePriceCents</abbr></a></td><td class="text-right">78.3%</td><td class="text-right">6</td><td class="text-right">6</td></tr>
+       <tr><td><a href="PricingPlan.php.html#107"><abbr title="App\Domain\ValueObject\PricingPlan::computeOverstayPriceCents">computeOverstayPriceCents</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="TimeSlot.php.html#44"><abbr title="App\Domain\ValueObject\TimeSlot::overlaps">overlaps</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="TimeSlot.php.html#50"><abbr title="App\Domain\ValueObject\TimeSlot::isWithin">isWithin</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="TimeSlot.php.html#72"><abbr title="App\Domain\ValueObject\TimeSlot::parseToMinutes">parseToMinutes</abbr></a></td><td class="text-right">0.0%</td><td class="text-right">2</td><td class="text-right">6</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#47"><abbr title="App\Domain\ValueObject\OpeningSchedule::isOpenAt">isOpenAt</abbr></a></td><td class="text-right">87.5%</td><td class="text-right">5</td><td class="text-right">5</td></tr>
+       <tr><td><a href="AbonnementId.php.html#12"><abbr title="App\Domain\ValueObject\AbonnementId::__construct">__construct</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="GeoLocation.php.html#70"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLatitude">normalizeLatitude</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="PricingPlan.php.html#167"><abbr title="App\Domain\ValueObject\PricingPlan::validateStep">validateStep</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="StationnementId.php.html#12"><abbr title="App\Domain\ValueObject\StationnementId::__construct">__construct</abbr></a></td><td class="text-right">60.0%</td><td class="text-right">3</td><td class="text-right">3</td></tr>
+       <tr><td><a href="GeoLocation.php.html#80"><abbr title="App\Domain\ValueObject\GeoLocation::normalizeLongitude">normalizeLongitude</abbr></a></td><td class="text-right">80.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="OpeningSchedule.php.html#141"><abbr title="App\Domain\ValueObject\OpeningSchedule::timeToMinutes">timeToMinutes</abbr></a></td><td class="text-right">80.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="ParkingId.php.html#17"><abbr title="App\Domain\ValueObject\ParkingId::__construct">__construct</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="ParkingSpotId.php.html#14"><abbr title="App\Domain\ValueObject\ParkingSpotId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="PricingPlan.php.html#220"><abbr title="App\Domain\ValueObject\PricingPlan::validatePrice">validatePrice</abbr></a></td><td class="text-right">66.7%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="ReservationId.php.html#17"><abbr title="App\Domain\ValueObject\ReservationId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+       <tr><td><a href="UserId.php.html#18"><abbr title="App\Domain\ValueObject\UserId::__construct">__construct</abbr></a></td><td class="text-right">75.0%</td><td class="text-right">2</td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 12.5.1</a> using <a href="https://www.php.net/" target="_top">PHP 8.3.28</a> and <a href="https://phpunit.de/">PHPUnit 12.5.3</a> at Sun Dec 14 2:16:01 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../../_js/billboard.pkgd.min.js?v=12.5.1" type="text/javascript"></script>
+  <script type="application/json" id="complexity_class">[[0,12,"DateRange.php.html#15","App\\Domain\\ValueObject\\DateRange","156"],[0,6,"Email.php.html#12","App\\Domain\\ValueObject\\Email","42"],[0,14,"Money.php.html#12","App\\Domain\\ValueObject\\Money","210"],[0,11,"ParkingSearchQuery.php.html#15","App\\Domain\\ValueObject\\ParkingSearchQuery","132"],[0,6,"PasswordHash.php.html#12","App\\Domain\\ValueObject\\PasswordHash","42"],[0,18,"TimeSlot.php.html#10","App\\Domain\\ValueObject\\TimeSlot","342"],[23.076923076923077,8,"ParkingId.php.html#13","App\\Domain\\ValueObject\\ParkingId","37.13"],[28.57142857142857,14,"GeoLocation.php.html#8","App\\Domain\\ValueObject\\GeoLocation","85.43"],[30.76923076923077,7,"UserId.php.html#12","App\\Domain\\ValueObject\\UserId","23.26"],[31.25,10,"ReservationId.php.html#11","App\\Domain\\ValueObject\\ReservationId","42.50"],[38.46153846153847,7,"ParkingSpotId.php.html#8","App\\Domain\\ValueObject\\ParkingSpotId","18.42"],[52.77777777777778,30,"PricingPlan.php.html#15","App\\Domain\\ValueObject\\PricingPlan","124.77"],[63.793103448275865,28,"OpeningSchedule.php.html#14","App\\Domain\\ValueObject\\OpeningSchedule","65.21"],[64.28571428571429,9,"AbonnementId.php.html#8","App\\Domain\\ValueObject\\AbonnementId","12.69"],[64.28571428571429,9,"StationnementId.php.html#8","App\\Domain\\ValueObject\\StationnementId","12.69"]]</script>
+  <script type="application/json" id="complexity_method">[[0,1,"AbonnementId.php.html#30","App\\Domain\\ValueObject\\AbonnementId::equals","2"],[0,1,"AbonnementId.php.html#35","App\\Domain\\ValueObject\\AbonnementId::__toString","2"],[0,1,"AbonnementId.php.html#48","App\\Domain\\ValueObject\\AbonnementId::generate","2"],[0,2,"DateRange.php.html#20","App\\Domain\\ValueObject\\DateRange::__construct","6"],[0,1,"DateRange.php.html#30","App\\Domain\\ValueObject\\DateRange::fromDateTimes","2"],[0,1,"DateRange.php.html#35","App\\Domain\\ValueObject\\DateRange::getStart","2"],[0,1,"DateRange.php.html#40","App\\Domain\\ValueObject\\DateRange::getEnd","2"],[0,2,"DateRange.php.html#45","App\\Domain\\ValueObject\\DateRange::overlaps","6"],[0,2,"DateRange.php.html#50","App\\Domain\\ValueObject\\DateRange::contains","6"],[0,1,"DateRange.php.html#57","App\\Domain\\ValueObject\\DateRange::durationInSeconds","2"],[0,2,"DateRange.php.html#62","App\\Domain\\ValueObject\\DateRange::toImmutable","6"],[0,2,"Email.php.html#16","App\\Domain\\ValueObject\\Email::__construct","6"],[0,1,"Email.php.html#26","App\\Domain\\ValueObject\\Email::fromString","2"],[0,1,"Email.php.html#31","App\\Domain\\ValueObject\\Email::getValue","2"],[0,1,"Email.php.html#36","App\\Domain\\ValueObject\\Email::equals","2"],[0,1,"Email.php.html#41","App\\Domain\\ValueObject\\Email::__toString","2"],[0,1,"GeoLocation.php.html#19","App\\Domain\\ValueObject\\GeoLocation::getLatitude","2"],[0,1,"GeoLocation.php.html#24","App\\Domain\\ValueObject\\GeoLocation::getLongitude","2"],[0,1,"GeoLocation.php.html#29","App\\Domain\\ValueObject\\GeoLocation::__toString","2"],[0,2,"GeoLocation.php.html#34","App\\Domain\\ValueObject\\GeoLocation::equals","6"],[0,1,"GeoLocation.php.html#40","App\\Domain\\ValueObject\\GeoLocation::distanceTo","2"],[0,2,"GeoLocation.php.html#60","App\\Domain\\ValueObject\\GeoLocation::isWithinRadius","6"],[0,2,"Money.php.html#17","App\\Domain\\ValueObject\\Money::__construct","6"],[0,1,"Money.php.html#27","App\\Domain\\ValueObject\\Money::fromCents","2"],[0,1,"Money.php.html#32","App\\Domain\\ValueObject\\Money::fromFloat","2"],[0,1,"Money.php.html#39","App\\Domain\\ValueObject\\Money::add","2"],[0,1,"Money.php.html#46","App\\Domain\\ValueObject\\Money::subtract","2"],[0,1,"Money.php.html#53","App\\Domain\\ValueObject\\Money::multiply","2"],[0,2,"Money.php.html#58","App\\Domain\\ValueObject\\Money::equals","6"],[0,1,"Money.php.html#64","App\\Domain\\ValueObject\\Money::getAmountInCents","2"],[0,1,"Money.php.html#69","App\\Domain\\ValueObject\\Money::getCurrency","2"],[0,1,"Money.php.html#74","App\\Domain\\ValueObject\\Money::toFloat","2"],[0,2,"Money.php.html#79","App\\Domain\\ValueObject\\Money::assertSameCurrency","6"],[0,3,"OpeningSchedule.php.html#68","App\\Domain\\ValueObject\\OpeningSchedule::toArray","12"],[0,1,"OpeningSchedule.php.html#152","App\\Domain\\ValueObject\\OpeningSchedule::minutesToString","2"],[0,1,"ParkingId.php.html#37","App\\Domain\\ValueObject\\ParkingId::generate","2"],[0,1,"ParkingId.php.html#54","App\\Domain\\ValueObject\\ParkingId::getValue","2"],[0,1,"ParkingId.php.html#62","App\\Domain\\ValueObject\\ParkingId::value","2"],[0,1,"ParkingId.php.html#70","App\\Domain\\ValueObject\\ParkingId::equals","2"],[0,1,"ParkingId.php.html#75","App\\Domain\\ValueObject\\ParkingId::__toString","2"],[0,5,"ParkingSearchQuery.php.html#24","App\\Domain\\ValueObject\\ParkingSearchQuery::__construct","30"],[0,1,"ParkingSearchQuery.php.html#52","App\\Domain\\ValueObject\\ParkingSearchQuery::center","2"],[0,1,"ParkingSearchQuery.php.html#57","App\\Domain\\ValueObject\\ParkingSearchQuery::radiusKm","2"],[0,1,"ParkingSearchQuery.php.html#62","App\\Domain\\ValueObject\\ParkingSearchQuery::at","2"],[0,1,"ParkingSearchQuery.php.html#67","App\\Domain\\ValueObject\\ParkingSearchQuery::minimumFreeSpots","2"],[0,1,"ParkingSearchQuery.php.html#72","App\\Domain\\ValueObject\\ParkingSearchQuery::maxPriceCents","2"],[0,1,"ParkingSearchQuery.php.html#77","App\\Domain\\ValueObject\\ParkingSearchQuery::ownerId","2"],[0,1,"ParkingSpotId.php.html#24","App\\Domain\\ValueObject\\ParkingSpotId::generate","2"],[0,1,"ParkingSpotId.php.html#45","App\\Domain\\ValueObject\\ParkingSpotId::equals","2"],[0,1,"ParkingSpotId.php.html#50","App\\Domain\\ValueObject\\ParkingSpotId::__toString","2"],[0,2,"PasswordHash.php.html#16","App\\Domain\\ValueObject\\PasswordHash::__construct","6"],[0,1,"PasswordHash.php.html#29","App\\Domain\\ValueObject\\PasswordHash::fromHash","2"],[0,1,"PasswordHash.php.html#34","App\\Domain\\ValueObject\\PasswordHash::getHash","2"],[0,1,"PasswordHash.php.html#39","App\\Domain\\ValueObject\\PasswordHash::equals","2"],[0,1,"PasswordHash.php.html#44","App\\Domain\\ValueObject\\PasswordHash::__toString","2"],[0,2,"PricingPlan.php.html#107","App\\Domain\\ValueObject\\PricingPlan::computeOverstayPriceCents","6"],[0,1,"PricingPlan.php.html#121","App\\Domain\\ValueObject\\PricingPlan::getStepMinutes","2"],[0,1,"PricingPlan.php.html#126","App\\Domain\\ValueObject\\PricingPlan::getTiers","2"],[0,1,"PricingPlan.php.html#131","App\\Domain\\ValueObject\\PricingPlan::getDefaultPricePerStepCents","2"],[0,1,"PricingPlan.php.html#136","App\\Domain\\ValueObject\\PricingPlan::getOverstayPenaltyCents","2"],[0,1,"PricingPlan.php.html#141","App\\Domain\\ValueObject\\PricingPlan::toArray","2"],[0,4,"PricingPlan.php.html#151","App\\Domain\\ValueObject\\PricingPlan::fromArray","20"],[0,1,"ReservationId.php.html#34","App\\Domain\\ValueObject\\ReservationId::generate","2"],[0,1,"ReservationId.php.html#51","App\\Domain\\ValueObject\\ReservationId::value","2"],[0,1,"ReservationId.php.html#56","App\\Domain\\ValueObject\\ReservationId::equals","2"],[0,1,"ReservationId.php.html#61","App\\Domain\\ValueObject\\ReservationId::__toString","2"],[0,1,"ReservationId.php.html#66","App\\Domain\\ValueObject\\ReservationId::jsonSerialize","2"],[0,1,"ReservationId.php.html#71","App\\Domain\\ValueObject\\ReservationId::toArray","2"],[0,1,"StationnementId.php.html#30","App\\Domain\\ValueObject\\StationnementId::equals","2"],[0,1,"StationnementId.php.html#35","App\\Domain\\ValueObject\\StationnementId::__toString","2"],[0,1,"StationnementId.php.html#48","App\\Domain\\ValueObject\\StationnementId::generate","2"],[0,6,"TimeSlot.php.html#15","App\\Domain\\ValueObject\\TimeSlot::__construct","42"],[0,1,"TimeSlot.php.html#31","App\\Domain\\ValueObject\\TimeSlot::fromStrings","2"],[0,1,"TimeSlot.php.html#39","App\\Domain\\ValueObject\\TimeSlot::fromMinutes","2"],[0,2,"TimeSlot.php.html#44","App\\Domain\\ValueObject\\TimeSlot::overlaps","6"],[0,2,"TimeSlot.php.html#50","App\\Domain\\ValueObject\\TimeSlot::isWithin","6"],[0,1,"TimeSlot.php.html#57","App\\Domain\\ValueObject\\TimeSlot::getStartMinutes","2"],[0,1,"TimeSlot.php.html#62","App\\Domain\\ValueObject\\TimeSlot::getEndMinutes","2"],[0,1,"TimeSlot.php.html#67","App\\Domain\\ValueObject\\TimeSlot::__toString","2"],[0,2,"TimeSlot.php.html#72","App\\Domain\\ValueObject\\TimeSlot::parseToMinutes","6"],[0,1,"TimeSlot.php.html#83","App\\Domain\\ValueObject\\TimeSlot::formatMinutes","2"],[0,1,"UserId.php.html#28","App\\Domain\\ValueObject\\UserId::generate","2"],[0,1,"UserId.php.html#44","App\\Domain\\ValueObject\\UserId::getValue","2"],[0,1,"UserId.php.html#49","App\\Domain\\ValueObject\\UserId::equals","2"],[0,1,"UserId.php.html#54","App\\Domain\\ValueObject\\UserId::__toString","2"],[25,4,"OpeningSchedule.php.html#131","App\\Domain\\ValueObject\\OpeningSchedule::assertNoOverlap","10.75"],[60,3,"AbonnementId.php.html#12","App\\Domain\\ValueObject\\AbonnementId::__construct","3.58"],[60,3,"PricingPlan.php.html#167","App\\Domain\\ValueObject\\PricingPlan::validateStep","3.58"],[60,3,"StationnementId.php.html#12","App\\Domain\\ValueObject\\StationnementId::__construct","3.58"],[66.66666666666666,3,"GeoLocation.php.html#70","App\\Domain\\ValueObject\\GeoLocation::normalizeLatitude","3.33"],[66.66666666666666,2,"ParkingId.php.html#17","App\\Domain\\ValueObject\\ParkingId::__construct","2.15"],[66.66666666666666,2,"PricingPlan.php.html#220","App\\Domain\\ValueObject\\PricingPlan::validatePrice","2.15"],[73.33333333333333,7,"PricingPlan.php.html#185","App\\Domain\\ValueObject\\PricingPlan::validateTiers","7.93"],[75,11,"OpeningSchedule.php.html#87","App\\Domain\\ValueObject\\OpeningSchedule::normalize","12.89"],[75,2,"ParkingSpotId.php.html#14","App\\Domain\\ValueObject\\ParkingSpotId::__construct","2.06"],[75,2,"ReservationId.php.html#17","App\\Domain\\ValueObject\\ReservationId::__construct","2.06"],[75,2,"UserId.php.html#18","App\\Domain\\ValueObject\\UserId::__construct","2.06"],[78.26086956521739,6,"PricingPlan.php.html#48","App\\Domain\\ValueObject\\PricingPlan::computePriceCents","6.37"],[80,2,"GeoLocation.php.html#80","App\\Domain\\ValueObject\\GeoLocation::normalizeLongitude","2.03"],[80,2,"OpeningSchedule.php.html#141","App\\Domain\\ValueObject\\OpeningSchedule::timeToMinutes","2.03"],[87.5,5,"OpeningSchedule.php.html#47","App\\Domain\\ValueObject\\OpeningSchedule::isOpenAt","5.05"],[100,1,"AbonnementId.php.html#25","App\\Domain\\ValueObject\\AbonnementId::getValue","1"],[100,1,"AbonnementId.php.html#40","App\\Domain\\ValueObject\\AbonnementId::isValidUuid","1"],[100,1,"AbonnementId.php.html#53","App\\Domain\\ValueObject\\AbonnementId::fromString","1"],[100,1,"GeoLocation.php.html#13","App\\Domain\\ValueObject\\GeoLocation::__construct","1"],[100,1,"OpeningSchedule.php.html#26","App\\Domain\\ValueObject\\OpeningSchedule::__construct","1"],[100,1,"OpeningSchedule.php.html#34","App\\Domain\\ValueObject\\OpeningSchedule::alwaysOpen","1"],[100,1,"ParkingId.php.html#29","App\\Domain\\ValueObject\\ParkingId::fromString","1"],[100,1,"ParkingSpotId.php.html#35","App\\Domain\\ValueObject\\ParkingSpotId::fromString","1"],[100,1,"ParkingSpotId.php.html#40","App\\Domain\\ValueObject\\ParkingSpotId::getValue","1"],[100,1,"PricingPlan.php.html#29","App\\Domain\\ValueObject\\PricingPlan::__construct","1"],[100,1,"ReservationId.php.html#28","App\\Domain\\ValueObject\\ReservationId::fromString","1"],[100,1,"ReservationId.php.html#45","App\\Domain\\ValueObject\\ReservationId::getValue","1"],[100,1,"StationnementId.php.html#25","App\\Domain\\ValueObject\\StationnementId::getValue","1"],[100,1,"StationnementId.php.html#40","App\\Domain\\ValueObject\\StationnementId::isValidUuid","1"],[100,1,"StationnementId.php.html#53","App\\Domain\\ValueObject\\StationnementId::fromString","1"],[100,1,"UserId.php.html#39","App\\Domain\\ValueObject\\UserId::fromString","1"]]</script>
+  <script type="text/javascript" defer>
+  const barLabels = [
+    '0%',
+    '0-10%',
+    '10-20%',
+    '20-30%',
+    '30-40%',
+    '40-50%',
+    '50-60%',
+    '60-70%',
+    '70-80%',
+    '80-90%',
+    '90-100%',
+    '100%'
+  ];
+  const barConfig = (name, fullName, values) => ({
+    axis: {
+      x: {
+        type: "category",
+        categories: barLabels,
+      },
+      y: {
+        label: {
+          text: `#${name}`,
+          position: 'outer-top',
+        },
+      },
+    },
+    bindto: `#${name}CoverageDistribution`,
+    data: {
+      columns: [
+        [fullName].concat(values),
+      ],
+      colors: {
+        [fullName]: "rgba(69, 114, 167, 0.75)",
+      },
+      type: "bar",
+    },
+    bar: {
+      width: {
+        ratio: 0.9,
+      },
+    },
+    grid: {
+      focus: {
+        show: false,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">Coverage ${barLabels[data[0].x]}</th></tr>
+            <tr><td class="value">${data[0].value} ${name}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  bb.generate(
+    barConfig('classes', "Class Coverage", [6,0,0,2,3,0,1,3,0,0,0,0])
+  );
+  bb.generate(
+    barConfig('methods', "Method Coverage", [85,0,0,1,0,0,0,6,6,3,0,16])
+  );
+
+  const scatterConfig = (name, complexityData) => ({
+    axis: {
+      x: {
+        label: {
+          text: 'Code Coverage (in percent)',
+          position: 'outer-right',
+        },
+        tick: {
+          values: [0, 20, 40, 60, 80, 100],
+        },
+      },
+      y: {
+        label: {
+          text: 'Cyclomatic Complexity',
+          position: 'outer-top',
+        },
+        min: 0,
+        padding: {
+          bottom: 0,
+          top: 5,
+        },
+      },
+    },
+    bindto: `#${name}Complexity`,
+    data: {
+      columns: [
+        ["complexity_x"].concat(complexityData.map(d => d[0])),
+        ["complexity"].concat(complexityData.map(d => d[1])),
+      ],
+      onclick: function(data, element) {
+        window.location = complexityData[data.index][2];
+      },
+      type: "scatter",
+      xs: {
+        "complexity": "complexity_x",
+      },
+    },
+    grid: {
+      focus: {
+        show: true,
+        y: true,
+      },
+      x: {
+        show: true,
+      },
+      y: {
+        show: true,
+      },
+    },
+    legend: {
+      show: false,
+    },
+    tooltip: {
+      contents: function (data) {
+        const coverage = Math.round(data[0].x);
+        const complexity = data[0].value;
+        const targetName = complexityData[data[0].index][3];
+        const crap = complexityData[data[0].index][4];
+        return `<table class="bb-tooltip"><tbody>
+            <tr><th colspan="2">${targetName}</th></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Coverage</td><td class="name">${coverage}%</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Complexity</td><td class="value">${complexity}</td></tr>
+            <tr class="bb-tooltip-name-complexity"><td>Crap</td><td class="value">${crap}</td></tr>
+          </tbody></table>`;
+      },
+      grouped: false,
+    },
+  });
+  const classComplexityData = JSON.parse(document.getElementById('complexity_class').textContent);
+  bb.generate(
+    scatterConfig("class", classComplexityData)
+  );
+  const methodComplexityData = JSON.parse(document.getElementById('complexity_method').textContent);
+  bb.generate(
+    scatterConfig("method", methodComplexityData),
+  );
+  </script>
+ </body>
+</html>

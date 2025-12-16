@@ -2,7 +2,9 @@
 
 namespace App\Domain\Enum;
 
-/**
- * User roles (CLIENT, PROPRIETAIRE, ADMIN?).
- */
-final class UserRole {}
+enum UserRole: string
+{
+    case ADMIN = 'admin';
+    case CLIENT = 'client';
+    case PROPRIETOR = 'proprietor';
+}
