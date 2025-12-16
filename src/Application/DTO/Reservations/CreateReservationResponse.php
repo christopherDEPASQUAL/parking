@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Output (reservationId, status, amount, createdAt).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données de sortie après création de réservation.
  */
-final class CreateReservationResponse {}
+final class CreateReservationResponse
+{
+    public function __construct(
+        public readonly string $reservationId,
+        public readonly string $status,
+        public readonly int $priceCents,
+        public readonly string $currency,
+        public readonly \DateTimeImmutable $startsAt,
+        public readonly \DateTimeImmutable $endsAt
+    ) {
+    }
+}

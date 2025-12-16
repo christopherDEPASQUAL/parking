@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Input for reservation creation (parkingId, userId, start, end, amount).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données d'entrée pour créer une réservation.
  */
-final class CreateReservationRequest {}
+final class CreateReservationRequest
+{
+    public function __construct(
+        public readonly string $parkingId,
+        public readonly string $userId,
+        public readonly \DateTimeImmutable $startsAt,
+        public readonly \DateTimeImmutable $endsAt
+    ) {
+    }
+}

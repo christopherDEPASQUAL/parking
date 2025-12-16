@@ -3,6 +3,6 @@
 namespace App\Application\Exception;
 
 /**
- * Maps infra/transport failures to a controlled app error.
+ * Erreur technique (I/O, transport, service externe) remontée à la couche application.
  */
-class TechnicalFailureException extends \RuntimeException {}
+class TechnicalFailureException extends ApplicationException {}
