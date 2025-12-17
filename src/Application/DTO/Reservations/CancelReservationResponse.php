@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Output (status, cancelledAt).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données de sortie après annulation d'une réservation.
  */
-final class CancelReservationResponse {}
+final class CancelReservationResponse
+{
+    public function __construct(
+        public readonly string $reservationId,
+        public readonly string $status,
+        public readonly ?\DateTimeImmutable $cancelledAt = null,
+        public readonly ?string $reason = null
+    ) {
+    }
+}

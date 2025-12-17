@@ -2,19 +2,20 @@
 
 namespace App\Infrastructure\Security;
 
+use App\Application\Port\Services\JwtEncoderInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
-final class JwtEncoder
+final class JwtEncoder implements JwtEncoderInterface
 {
     private string $secretKey;
     private const ALGORITHM = 'HS256';
     private const ACCESS_TOKEN_EXPIRATION = 3600;
     private const REFRESH_TOKEN_EXPIRATION = 2592000;
 
-    public function __construct()
+    public function __construct(?string $secretKey = null)
     {
-        $this->secretKey = $_ENV['JWT_SECRET_KEY'] ?? bin2hex(random_bytes(32));
+        $this->secretKey = $secretKey ?? ($_ENV['JWT_SECRET_KEY'] ?? bin2hex(random_bytes(32)));
     }
 
     public function generateAccessToken(string $userId, string $email, string $role): string

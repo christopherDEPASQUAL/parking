@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Parkings;
-
+namespace App\Application\DTO\Parkings;
 /**
  * DTO: Create parking output (parkingId, createdAt).
  *
@@ -9,4 +8,12 @@ namespace App\Parkings;
  *  - Boundary type between Presentation and Application layers.
  *  - No framework dependencies.
  */
-final class CreateParkingResponse {}
+
+final class CreateParkingResponse
+{
+    public function __construct(
+        public readonly string $parkingId,
+        public readonly int $totalCapacity,
+        public readonly \DateTimeImmutable $createdAt
+    ) {}
+}

@@ -2,11 +2,16 @@
 
 namespace App\Application\Event\Handler;
 
+use App\Domain\Event\ReservationCreated;
+
 /**
- * Application Event Handler
- * React to Domain\Event\ReservationCreated (notify, project, billing).
- *
- * Notes:
- *  - Invoked by EventDispatcherInterface implementation (Infrastructure).
+ * Handler application invoqué quand une réservation est créée.
+ * Ici on se contente d'un stub, à implémenter (projection, notification, etc.).
  */
-final class OnReservationCreated {}
+final class OnReservationCreated
+{
+    public function __invoke(ReservationCreated $event): void
+    {
+        // TODO: notifier / projeter / facturer
+    }
+}

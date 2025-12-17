@@ -1,11 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Geo;
+namespace App\Application\Port\Geo;
+
+use App\Domain\ValueObject\GeoLocation;
 
 /**
- * Port: geospatial search for nearby parkings.
- *
- * Implementations:
- *  - Infrastructure layer.
+ * Port : recherche géo pour trouver les parkings proches d'un point.
  */
-interface GeoSearchInterface {}
+interface GeoSearchInterface
+{
+    /**
+     * @return array<int, array{parkingId:string,distanceKm:float}>
+     */
+    public function searchNearby(GeoLocation $center, float $radiusKm, int $limit = 20): array;
+}
