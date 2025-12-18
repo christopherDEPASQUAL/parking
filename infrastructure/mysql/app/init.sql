@@ -13,6 +13,7 @@ CREATE TABLE parkings (
     id CHAR(36) PRIMARY KEY,
     owner_id CHAR(36) NOT NULL,
     name VARCHAR(150) NOT NULL,
+    address VARCHAR(255) NOT NULL,
     description TEXT,
     latitude DECIMAL(10,7) NOT NULL,
     longitude DECIMAL(10,7) NOT NULL,
@@ -20,6 +21,14 @@ CREATE TABLE parkings (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id)
+);
+
+CREATE TABLE parking_pricing_plans (
+    parking_id CHAR(36) PRIMARY KEY,
+    plan_json JSON NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL,
+    FOREIGN KEY (parking_id) REFERENCES parkings(id)
 );
 
 CREATE TABLE opening_hours (
@@ -49,8 +58,11 @@ CREATE TABLE reservations (
     parking_id CHAR(36) NOT NULL,
     starts_at DATETIME NOT NULL,
     ends_at DATETIME NOT NULL,
-    status ENUM('pending','confirmed','cancelled','completed') NOT NULL,
+    status ENUM('pending','confirmed','cancelled','completed','payment_failed') NOT NULL,
     price DECIMAL(10,2) NULL,
+    currency CHAR(3) NOT NULL DEFAULT 'EUR',
+    cancelled_at DATETIME NULL,
+    cancellation_reason TEXT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (parking_id) REFERENCES parkings(id)
