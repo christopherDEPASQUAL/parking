@@ -2,13 +2,6 @@
 
 namespace App\Domain\ValueObject;
 
-/**
- * PasswordHash value object that encapsulates hashed secret (never plain).
- *
- * Notes:
- *  - Immutable; validates invariants in constructor.
- *  - Ne hash jamais lui-même : le domaine reçoit un hash déjà calculé (service d'auth/app).
- */
 final class PasswordHash
 {
     private string $hash;
@@ -23,9 +16,15 @@ final class PasswordHash
         $this->hash = $hash;
     }
 
-    /**
-     * Rehydrates a PasswordHash from a stored hash (e.g., database).
-     */
+    public static function fromPlainText(string $plainPassword): self
+    {
+        if (strlen($plainPassword) < 8) {
+            throw new \InvalidArgumentException('Password must be at least 8 characters');
+        }
+
+        return new self(password_hash($plainPassword, PASSWORD_BCRYPT));
+    }
+
     public static function fromHash(string $hash): self
     {
         return new self($hash);
@@ -34,6 +33,11 @@ final class PasswordHash
     public function getHash(): string
     {
         return $this->hash;
+    }
+
+    public function verify(string $plainPassword): bool
+    {
+        return password_verify($plainPassword, $this->hash);
     }
 
     public function equals(PasswordHash $other): bool
