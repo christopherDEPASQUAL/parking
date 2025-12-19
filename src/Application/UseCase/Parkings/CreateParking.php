@@ -40,7 +40,8 @@ final class CreateParking
             $pricingPlan,
             new GeoLocation($request->latitude, $request->longitude),
             $opening,
-            UserId::fromString($request->ownerId)
+            UserId::fromString($request->ownerId),
+            $request->description
         );
 
         $this->parkingRepository->save($parking);

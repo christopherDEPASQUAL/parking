@@ -67,6 +67,36 @@ final class JsonUserRepository implements UserRepositoryInterface
         return $this->findByEmail($email) !== null;
     }
 
+    public function delete(UserId $id): void
+    {
+        $records = $this->readAll();
+        unset($records[(string) $id]);
+        file_put_contents($this->filePath, json_encode($records, JSON_PRETTY_PRINT));
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findAll(): array
+    {
+        return array_values(array_map(fn(array $r) => $this->hydrate($r), $this->readAll()));
+    }
+
+    /**
+     * @return User[]
+     */
+    public function findByRole(UserRole $role): array
+    {
+        $result = [];
+        foreach ($this->readAll() as $record) {
+            if (($record['role'] ?? null) === $role->value) {
+                $result[] = $this->hydrate($record);
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * @return array<string, array<string, mixed>>
      */

@@ -23,6 +23,7 @@ final class Parking
     private ParkingId $id;
     private string $name;
     private string $address;
+    private ?string $description;
     private int $totalCapacity;
     private PricingPlan $pricingPlan;
     private GeoLocation $location;
@@ -52,6 +53,7 @@ final class Parking
         GeoLocation $location,
         OpeningSchedule $openingSchedule,
         UserId $UserId,
+        ?string $description = null,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null
     ) {
@@ -62,6 +64,7 @@ final class Parking
         $this->id = $id;
         $this->name = trim($name);
         $this->address = trim($address);
+        $this->description = $description !== null ? trim($description) : null;
         $this->totalCapacity = $totalCapacity;
         $this->pricingPlan = $pricingPlan;
         $this->location = $location;
@@ -74,6 +77,7 @@ final class Parking
     public function getId(): ParkingId { return $this->id; }
     public function getName(): string { return $this->name; }
     public function getAddress(): string { return $this->address; }
+    public function getDescription(): ?string { return $this->description; }
     public function getTotalCapacity(): int { return $this->totalCapacity; }
     public function getPricingPlan(): PricingPlan { return $this->pricingPlan; }
     public function getLocation(): GeoLocation { return $this->location; }
