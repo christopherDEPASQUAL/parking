@@ -6,9 +6,67 @@ services:
     working_dir: /app
     environment:
       XDEBUG_MODE: off
+      APP_DB_DSN: mysql:host=app_db;port=3306;dbname=${APP_DB_NAME};charset=utf8mb4
+      APP_DB_USER: ${APP_DB_USER}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+      JSON_PARKING_STORAGE: ${JSON_PARKING_STORAGE}
+      JSON_RESERVATION_STORAGE: ${JSON_RESERVATION_STORAGE}
+      TEST_DB_DSN: mysql:host=test_db;port=3306;dbname=${TEST_DB_NAME};charset=utf8mb4
+      TEST_DB_USER: ${TEST_DB_USER}
+      TEST_DB_PASSWORD: ${TEST_DB_PASSWORD}
+      JSON_USER_STORAGE: /app/${JSON_USER_STORAGE}
+      PERSISTENCE_DRIVER: ${PERSISTENCE_DRIVER}
     volumes:
       - .:/app
+      - ./storage:/app/storage
     ports:
-      - "8000:8000"
+      - "${APP_PORT:-8000}:8000"
     tty: true
     stdin_open: true
+    depends_on:
+      - app_db
+      - test_db
+
+  app_db:
+    image: mysql:8.0
+    container_name: parking_app_db
+    environment:
+      MYSQL_DATABASE: ${APP_DB_NAME}
+      MYSQL_USER: ${APP_DB_USER}
+      MYSQL_PASSWORD: ${APP_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${APP_DB_ROOT_PASSWORD}
+    volumes:
+      - ./infrastructure/mysql/app/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - app_db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  test_db:
+    image: mysql:8.0
+    container_name: parking_test_db
+    environment:
+      MYSQL_DATABASE: ${TEST_DB_NAME}
+      MYSQL_USER: ${TEST_DB_USER}
+      MYSQL_PASSWORD: ${TEST_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${APP_DB_ROOT_PASSWORD}
+    volumes:
+      - ./infrastructure/mysql/test/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - test_db_data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2
+    container_name: parking_phpmyadmin
+    environment:
+      PMA_HOST: app_db
+      PMA_USER: ${APP_DB_USER}
+      PMA_PASSWORD: ${APP_DB_PASSWORD}
+    ports:
+      - "${PHPMYADMIN_PORT:-8080}:80"
+    depends_on:
+      - app_db
+
+volumes:
+  app_db_data:
+  test_db_data:

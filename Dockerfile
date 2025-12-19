@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
     && rm -rf /var/lib/apt/lists/*
 
+RUN docker-php-ext-install pdo pdo_mysql
+
 # Xdebug pour la couverture de code
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug

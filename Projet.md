@@ -439,6 +439,13 @@ Barème
 - Architecture du projet : 2 points
 
 ```
+Persistance (SQL / JSON)
+```
+- Le projet doit rester interchangeable entre MySQL et un stockage JSON pour illustrer l'architecture hexagonale.
+- Le driver se choisit via la variable `PERSISTENCE_DRIVER=sql|json` ; les chemins JSON sont configurables (`JSON_USER_STORAGE`, `JSON_PARKING_STORAGE`, `JSON_RESERVATION_STORAGE`).
+- Le mode JSON sert de fallback/demo (capacite brute pour la dispo, revenus fixes a 0) et peut etre reinitialise avec `php bin/reset-json-storage.php`.
+
+```
 Rendu
 ```
 Vous  devez rendre votre projet sous  la forme d’un  fichier compressé .zip  contenant l’ensemble du 

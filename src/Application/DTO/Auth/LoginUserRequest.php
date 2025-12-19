@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Auth;
+namespace App\Application\DTO\Auth;
 
-/**
- * DTO: Credentials for login (email, password).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
- */
-final class LoginUserRequest {}
+final readonly class LoginUserRequest
+{
+    public function __construct(
+        public string $email,
+        public string $password
+    ) {}
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+            $data['email'] ?? throw new \InvalidArgumentException('Email is required'),
+            $data['password'] ?? throw new \InvalidArgumentException('Password is required')
+        );
+    }
+}

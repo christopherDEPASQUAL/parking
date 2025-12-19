@@ -1,12 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Input (reservationId, actorId).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données d'entrée pour annuler une réservation.
  */
-final class CancelReservationRequest {}
+final class CancelReservationRequest
+{
+    public function __construct(
+        public readonly string $reservationId,
+        public readonly string $actorUserId,
+        public readonly ?string $reason = null
+    ) {
+    }
+}

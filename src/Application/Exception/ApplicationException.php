@@ -3,6 +3,7 @@
 namespace App\Application\Exception;
 
 /**
- * Base class for application-level exceptions.
+ * Exception de base pour la couche application.
+ * Permet de distinguer les erreurs métier/validation de celles d'infrastructure.
  */
 class ApplicationException extends \RuntimeException {}

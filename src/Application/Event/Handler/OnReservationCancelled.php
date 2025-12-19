@@ -2,11 +2,15 @@
 
 namespace App\Application\Event\Handler;
 
+use App\Domain\Event\ReservationCancelled;
+
 /**
- * Application Event Handler
- * React to Domain\Event\ReservationCancelled (notify, release slot).
- *
- * Notes:
- *  - Invoked by EventDispatcherInterface implementation (Infrastructure).
+ * Handler application invoqué quand une réservation est annulée.
  */
-final class OnReservationCancelled {}
+final class OnReservationCancelled
+{
+    public function __invoke(ReservationCancelled $event): void
+    {
+        // TODO: notifier / libérer des ressources / projeter
+    }
+}

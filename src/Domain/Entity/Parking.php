@@ -4,16 +4,16 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use DateTimeImmutable;
-use Domain\Exception\ParkingFullException;
-use Domain\Exception\SpotAlreadyExistsException;
-use Domain\ValueObject\GeoLocation;
-use Domain\ValueObject\OpeningSchedule; 
-use Domain\ValueObject\ParkingId;
-use Domain\ValueObject\PricingPlan;        
-use Domain\ValueObject\UserId;            
-use Domain\ValueObject\ReservationId;
-use Domain\ValueObject\AbonnementId;
-use Domain\ValueObject\StationnementId;
+use App\Domain\Exception\ParkingFullException;
+use App\Domain\Exception\SpotAlreadyExistsException;
+use App\Domain\ValueObject\GeoLocation;
+use App\Domain\ValueObject\OpeningSchedule; 
+use App\Domain\ValueObject\ParkingId;
+use App\Domain\ValueObject\PricingPlan;        
+use App\Domain\ValueObject\UserId;            
+use App\Domain\ValueObject\ReservationId;
+use App\Domain\ValueObject\AbonnementId;
+use App\Domain\ValueObject\StationnementId;
 
 /**
  * Aggregate root Parking : disponibilité, spots, règles d’accès.
@@ -23,6 +23,7 @@ final class Parking
     private ParkingId $id;
     private string $name;
     private string $address;
+    private ?string $description;
     private int $totalCapacity;
     private PricingPlan $pricingPlan;
     private GeoLocation $location;
@@ -52,6 +53,7 @@ final class Parking
         GeoLocation $location,
         OpeningSchedule $openingSchedule,
         UserId $UserId,
+        ?string $description = null,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null
     ) {
@@ -62,6 +64,7 @@ final class Parking
         $this->id = $id;
         $this->name = trim($name);
         $this->address = trim($address);
+        $this->description = $description !== null ? trim($description) : null;
         $this->totalCapacity = $totalCapacity;
         $this->pricingPlan = $pricingPlan;
         $this->location = $location;
@@ -74,6 +77,7 @@ final class Parking
     public function getId(): ParkingId { return $this->id; }
     public function getName(): string { return $this->name; }
     public function getAddress(): string { return $this->address; }
+    public function getDescription(): ?string { return $this->description; }
     public function getTotalCapacity(): int { return $this->totalCapacity; }
     public function getPricingPlan(): PricingPlan { return $this->pricingPlan; }
     public function getLocation(): GeoLocation { return $this->location; }
@@ -197,6 +201,25 @@ final class Parking
     public function computePriceForDurationMinutes(int $minutes): int
     {
         return $this->pricingPlan->computePriceCents($minutes);
+    }
+
+    /** Met à jour la capacité totale en respectant les places déjà ajoutées. */
+    public function updateCapacity(int $newCapacity): void
+    {
+        if ($newCapacity <= 0) {
+            throw new \InvalidArgumentException('La capacite totale doit etre superieure a zero.');
+        }
+
+        if ($newCapacity < \count($this->parkingSpots)) {
+            throw new \InvalidArgumentException('La nouvelle capacite ne peut pas etre inferieure aux places existantes.');
+        }
+
+        if ($newCapacity === $this->totalCapacity) {
+            return;
+        }
+
+        $this->totalCapacity = $newCapacity;
+        $this->touch();
     }
 
     private function touch(): void
