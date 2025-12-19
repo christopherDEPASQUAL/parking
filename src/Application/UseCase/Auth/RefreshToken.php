@@ -3,6 +3,7 @@
 namespace App\Application\UseCase\Auth;
 
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\UserId;
 use App\Infrastructure\Security\JwtEncoder;
 
 final class RefreshToken
@@ -24,15 +25,16 @@ final class RefreshToken
             throw new \InvalidArgumentException("Invalid token type");
         }
 
-        $user = $this->userRepository->findById($decoded->user_id);
+        $userId = UserId::fromString($decoded->user_id);
+        $user = $this->userRepository->findById($userId);
 
         if ($user === null) {
             throw new \InvalidArgumentException("User not found");
         }
 
         $accessToken = $this->jwtEncoder->generateAccessToken(
-            $user->getId(),
-            $user->getEmail(),
+            (string) $user->getId(),
+            (string) $user->getEmail(),
             $user->getRole()->value
         );
 

@@ -4,9 +4,9 @@ namespace App\Application\UseCase\Auth;
 
 use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Entity\User;
-use App\Domain\Entity\UserRole;
+use App\Domain\Enum\UserRole;
 use App\Domain\Repository\UserRepositoryInterface;
-use Ramsey\Uuid\Uuid;
+use App\Domain\ValueObject\Email;
 
 final class RegisterUser
 {
@@ -22,20 +22,20 @@ final class RegisterUser
         string $lastName,
         UserRole $role = UserRole::CLIENT
     ): User {
-        if ($this->userRepository->existsByEmail($email)) {
+        $emailVO = Email::fromString($email);
+
+        if ($this->userRepository->existsByEmail($emailVO)) {
             throw new \InvalidArgumentException("Email already exists");
         }
 
         $passwordHash = $this->passwordHasher->hash($password);
 
-        $user = User::fromPersistence(
-            Uuid::uuid4()->toString(),
-            $email,
-            $passwordHash->getHash(),
+        $user = User::register(
+            $emailVO,
+            $passwordHash,
             $role,
             $firstName,
-            $lastName,
-            new \DateTimeImmutable()
+            $lastName
         );
 
         $this->userRepository->save($user);
