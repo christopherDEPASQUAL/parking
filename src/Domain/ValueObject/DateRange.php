@@ -43,7 +43,7 @@ final class DateRange
     }
 
     /**
-     * Alias pour compatibilité avec le code existant.
+     * Alias pour compatibilité avec le code existant (AvailabilityService).
      */
     public function start(): DateTimeImmutable
     {
@@ -51,7 +51,7 @@ final class DateRange
     }
 
     /**
-     * Alias pour compatibilité avec le code existant.
+     * Alias pour compatibilité avec le code existant (AvailabilityService).
      */
     public function end(): DateTimeImmutable
     {
