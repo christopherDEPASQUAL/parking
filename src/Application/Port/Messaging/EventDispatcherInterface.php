@@ -1,11 +1,21 @@
 <?php declare(strict_types=1);
 
-namespace App\Messaging;
+namespace App\Application\Port\Messaging;
 
 /**
- * Port: dispatch domain events to application handlers.
- *
- * Implementations:
- *  - Infrastructure layer.
+ * Port : dispatcher d'événements de domaine vers les handlers applicatifs.
  */
-interface EventDispatcherInterface {}
+interface EventDispatcherInterface
+{
+    /**
+     * Dispatch un événement unique (synchronement ou asynchronement selon l'implémentation).
+     */
+    public function dispatch(object $event): void;
+
+    /**
+     * Dispatch plusieurs événements.
+     *
+     * @param iterable<int, object> $events
+     */
+    public function dispatchAll(iterable $events): void;
+}

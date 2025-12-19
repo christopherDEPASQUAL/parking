@@ -199,6 +199,25 @@ final class Parking
         return $this->pricingPlan->computePriceCents($minutes);
     }
 
+    /** Met à jour la capacité totale en respectant les places déjà ajoutées. */
+    public function updateCapacity(int $newCapacity): void
+    {
+        if ($newCapacity <= 0) {
+            throw new \InvalidArgumentException('La capacite totale doit etre superieure a zero.');
+        }
+
+        if ($newCapacity < \count($this->parkingSpots)) {
+            throw new \InvalidArgumentException('La nouvelle capacite ne peut pas etre inferieure aux places existantes.');
+        }
+
+        if ($newCapacity === $this->totalCapacity) {
+            return;
+        }
+
+        $this->totalCapacity = $newCapacity;
+        $this->touch();
+    }
+
     private function touch(): void
     {
         $this->updatedAt = new DateTimeImmutable();

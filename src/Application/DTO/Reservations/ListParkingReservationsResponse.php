@@ -1,12 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Output (list items + page info).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données de sortie pour la liste des réservations d'un parking.
  */
-final class ListParkingReservationsResponse {}
+final class ListParkingReservationsResponse
+{
+    /**
+     * @param array<int, array{reservationId:string,userId:string,status:string,startsAt:\DateTimeImmutable,endsAt:\DateTimeImmutable,priceCents:int,currency:string}> $items
+     */
+    public function __construct(
+        public readonly array $items,
+        public readonly int $page,
+        public readonly int $perPage,
+        public readonly int $total
+    ) {
+    }
+}

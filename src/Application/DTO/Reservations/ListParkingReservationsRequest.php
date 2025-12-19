@@ -1,12 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace App\Reservations;
+namespace App\Application\DTO\Reservations;
 
 /**
- * DTO: Input (parkingId, filters/pagination).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
+ * Données d'entrée pour lister les réservations d'un parking (avec filtres simples).
  */
-final class ListParkingReservationsRequest {}
+final class ListParkingReservationsRequest
+{
+    public function __construct(
+        public readonly string $parkingId,
+        public readonly ?string $status = null,
+        public readonly ?\DateTimeImmutable $from = null,
+        public readonly ?\DateTimeImmutable $to = null,
+        public readonly int $page = 1,
+        public readonly int $perPage = 20
+    ) {
+    }
+}

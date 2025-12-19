@@ -41,6 +41,13 @@ interface ParkingRepositoryInterface
     public function getAvailabilityAt(ParkingId $parkingId, DateTimeImmutable $at): int;
 
     /**
+     * Donne le contexte nécessaire au calcul métier de disponibilité (réservations, abonnements, stationnements).
+     *
+     * @return array{reservations:iterable, abonnements:iterable, stationnements:iterable}
+     */
+    public function getAvailabilityContext(ParkingId $parkingId, DateTimeImmutable $at): array;
+
+    /**
      * Chiffre d'affaire mensuel (centimes) calcule a partir des reservations terminees et des abonnements.
      */
     public function getMonthlyRevenueCents(ParkingId $parkingId, int $year, int $month): int;

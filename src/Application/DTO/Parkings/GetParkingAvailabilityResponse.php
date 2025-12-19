@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Parkings;
+namespace App\Application\DTO\Parkings;
 
 /**
  * DTO: Output (slots, counters).
@@ -9,4 +9,14 @@ namespace App\Parkings;
  *  - Boundary type between Presentation and Application layers.
  *  - No framework dependencies.
  */
-final class GetParkingAvailabilityResponse {}
+
+final class GetParkingAvailabilityResponse
+{
+    public function __construct(
+        public readonly string $parkingId,
+        public readonly \DateTimeImmutable $at,
+        public readonly int $freeSpots,
+        public readonly int $totalCapacity
+    ) {}
+}
+

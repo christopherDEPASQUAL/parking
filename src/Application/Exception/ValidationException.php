@@ -3,6 +3,6 @@
 namespace App\Application\Exception;
 
 /**
- * Thrown when input DTOs fail validation (format/range).
+ * Erreur de validation d'entrée (DTO, paramètres).
  */
-class ValidationException extends \RuntimeException {}
+class ValidationException extends ApplicationException {}
