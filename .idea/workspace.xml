@@ -5,15 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97823a41-9f79-48f7-8515-fde36a12712d" name="Changes" comment="Use cases user et modifications nécessaires pour la clean archi">
+      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Infrastructure/DependencyInjection/Container.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Infrastructure/Http/Router.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/DTO/Auth/LoginUserResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/DTO/Auth/LoginUserResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/DTO/Auth/RegisterUserResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/DTO/Auth/RegisterUserResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Auth/LoginUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Auth/LoginUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Auth/RefreshToken.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Auth/RefreshToken.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Auth/RegisterUser.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Auth/RegisterUser.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Users/ChangePassword.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Users/ChangePassword.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Users/GetUserProfile.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Users/GetUserProfile.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Application/UseCase/Users/UpdateUserProfil.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Application/UseCase/Users/UpdateUserProfil.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Infrastructure/Persistence/Json/JsonUserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Infrastructure/Persistence/Json/JsonUserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Infrastructure/Persistence/MySQL/SqlUserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Infrastructure/Persistence/MySQL/SqlUserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/storage/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage/users.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +50,6 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/object-enumerator" />
       <path value="$PROJECT_DIR$/vendor/sebastian/object-reflector" />
       <path value="$PROJECT_DIR$/vendor/sebastian/complexity" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
       <path value="$PROJECT_DIR$/vendor/sebastian/diff" />
       <path value="$PROJECT_DIR$/vendor/nikic/php-parser" />
       <path value="$PROJECT_DIR$/vendor/sebastian/recursion-context" />
@@ -54,7 +57,6 @@
       <path value="$PROJECT_DIR$/vendor/sebastian/type" />
       <path value="$PROJECT_DIR$/vendor/sebastian/version" />
       <path value="$PROJECT_DIR$/vendor/sebastian/cli-parser" />
-      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit" />
       <path value="$PROJECT_DIR$/vendor/sebastian/environment" />
       <path value="$PROJECT_DIR$/vendor/sebastian/exporter" />
       <path value="$PROJECT_DIR$/vendor/myclabs/deep-copy" />
@@ -67,6 +69,8 @@
       <path value="$PROJECT_DIR$/vendor/phar-io/version" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/vendor/sebastian/code-unit-reverse-lookup" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -83,7 +87,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "auth-update",
+    "git-widget-placeholder": "routing",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -94,6 +98,10 @@
   }
 }]]></component>
   <component name="RunManager">
+    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
+      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
+      <method v="2" />
+    </configuration>
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />

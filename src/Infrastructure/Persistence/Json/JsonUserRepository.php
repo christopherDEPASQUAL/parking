@@ -67,9 +67,44 @@ final class JsonUserRepository implements UserRepositoryInterface
         return $this->findByEmail($email) !== null;
     }
 
-    /**
-     * @return array<string, array<string, mixed>>
-     */
+    public function delete(UserId $id): void
+    {
+        $records = $this->readAll();
+        $idString = (string) $id;
+
+        if (isset($records[$idString])) {
+            unset($records[$idString]);
+            file_put_contents($this->filePath, json_encode($records, JSON_PRETTY_PRINT));
+        }
+    }
+
+    public function findAll(): array
+    {
+        $records = $this->readAll();
+        $users = [];
+
+        foreach ($records as $record) {
+            $users[] = $this->hydrate($record);
+        }
+
+        return $users;
+    }
+
+    public function findByRole(UserRole $role): array
+    {
+        $records = $this->readAll();
+        $users = [];
+
+        foreach ($records as $record) {
+            $user = $this->hydrate($record);
+            if ($user->getRole() === $role) {
+                $users[] = $user;
+            }
+        }
+
+        return $users;
+    }
+
     private function readAll(): array
     {
         $contents = file_get_contents($this->filePath);
@@ -82,9 +117,6 @@ final class JsonUserRepository implements UserRepositoryInterface
         return is_array($decoded) ? $decoded : [];
     }
 
-    /**
-     * @param array<string, mixed> $record
-     */
     private function hydrate(array $record): User
     {
         return User::fromPersistence(
@@ -101,4 +133,3 @@ final class JsonUserRepository implements UserRepositoryInterface
         );
     }
 }
-
