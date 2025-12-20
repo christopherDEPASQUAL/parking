@@ -9,10 +9,13 @@ services:
       APP_DB_DSN: mysql:host=app_db;port=3306;dbname=${APP_DB_NAME};charset=utf8mb4
       APP_DB_USER: ${APP_DB_USER}
       APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+      JSON_PARKING_STORAGE: ${JSON_PARKING_STORAGE}
+      JSON_RESERVATION_STORAGE: ${JSON_RESERVATION_STORAGE}
       TEST_DB_DSN: mysql:host=test_db;port=3306;dbname=${TEST_DB_NAME};charset=utf8mb4
       TEST_DB_USER: ${TEST_DB_USER}
       TEST_DB_PASSWORD: ${TEST_DB_PASSWORD}
       JSON_USER_STORAGE: /app/${JSON_USER_STORAGE}
+      PERSISTENCE_DRIVER: ${PERSISTENCE_DRIVER}
     volumes:
       - .:/app
       - ./storage:/app/storage
