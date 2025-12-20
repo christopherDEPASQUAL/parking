@@ -4,6 +4,7 @@ namespace App\Application\UseCase\Users;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\UserId;
 
 final class GetUserProfile
 {
@@ -13,7 +14,8 @@ final class GetUserProfile
 
     public function execute(string $userId): User
     {
-        $user = $this->userRepository->findById($userId);
+        $userIdVO = UserId::fromString($userId);
+        $user = $this->userRepository->findById($userIdVO);
 
         if ($user === null) {
             throw new \InvalidArgumentException("User not found");

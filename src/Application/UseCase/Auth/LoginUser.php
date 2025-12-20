@@ -4,7 +4,7 @@ namespace App\Application\UseCase\Auth;
 
 use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Repository\UserRepositoryInterface;
-use App\Domain\ValueObject\PasswordHash;
+use App\Domain\ValueObject\Email;
 use App\Infrastructure\Security\JwtEncoder;
 
 final class LoginUser
@@ -17,25 +17,24 @@ final class LoginUser
 
     public function execute(string $email, string $password): array
     {
-        $user = $this->userRepository->findByEmail($email);
+        $emailVO = Email::fromString($email);
+        $user = $this->userRepository->findByEmail($emailVO);
 
         if ($user === null) {
             throw new \InvalidArgumentException("Invalid credentials");
         }
 
-        $storedPasswordHash = PasswordHash::fromHash($user->getPasswordHash());
-
-        if (!$this->passwordHasher->verify($password, $storedPasswordHash)) {
+        if (!$this->passwordHasher->verify($password, $user->getPasswordHash())) {
             throw new \InvalidArgumentException("Invalid credentials");
         }
 
         $accessToken = $this->jwtEncoder->generateAccessToken(
-            $user->getId(),
-            $user->getEmail(),
+            (string) $user->getId(),
+            (string) $user->getEmail(),
             $user->getRole()->value
         );
 
-        $refreshToken = $this->jwtEncoder->generateRefreshToken($user->getId());
+        $refreshToken = $this->jwtEncoder->generateRefreshToken((string) $user->getId());
 
         return [
             'access_token' => $accessToken,
