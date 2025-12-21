@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Application\Port\Services;
 
 /**
  * Port: render PDFs (invoices/receipts).
@@ -8,4 +8,7 @@ namespace App\Services;
  * Implementations:
  *  - Infrastructure layer.
  */
-interface PdfGeneratorInterface {}
+interface PdfGeneratorInterface
+{
+    public function renderToFile(string $html, string $filePath): void;
+}

@@ -3,7 +3,11 @@
 namespace App\Infrastructure\Persistence\Sql\Repository;
 
 use App\Domain\Entity\Parking;
+use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
+use App\Domain\Repository\PaymentRepositoryInterface;
+use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\Repository\StationnementRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\ParkingSearchQuery;
 use App\Domain\ValueObject\UserId;
@@ -12,21 +16,27 @@ use App\Infrastructure\Persistence\Sql\Mapper\ParkingMapper;
 use DateTimeImmutable;
 use PDO;
 
-/**
- * SQL implementation of ParkingRepository port.
- *
- * This adapter keeps the SQL surface minimal (basic CRUD + simple search) and
- * delegates entity reconstruction to the shared mapper.
- */
 final class ParkingRepositorySql implements ParkingRepositoryInterface
 {
     private ParkingMapper $mapper;
+    private ReservationRepositoryInterface $reservationRepository;
+    private AbonnementRepositoryInterface $abonnementRepository;
+    private StationnementRepositoryInterface $stationnementRepository;
+    private PaymentRepositoryInterface $paymentRepository;
 
     public function __construct(
         private readonly PdoConnectionFactory $connectionFactory,
-        ?ParkingMapper $mapper = null
+        ?ParkingMapper $mapper = null,
+        ?ReservationRepositoryInterface $reservationRepository = null,
+        ?AbonnementRepositoryInterface $abonnementRepository = null,
+        ?StationnementRepositoryInterface $stationnementRepository = null,
+        ?PaymentRepositoryInterface $paymentRepository = null
     ) {
         $this->mapper = $mapper ?? new ParkingMapper();
+        $this->reservationRepository = $reservationRepository ?? new ReservationRepositorySql($connectionFactory);
+        $this->abonnementRepository = $abonnementRepository ?? new AbonnementRepositorySql($connectionFactory);
+        $this->stationnementRepository = $stationnementRepository ?? new StationnementRepositorySql($connectionFactory);
+        $this->paymentRepository = $paymentRepository ?? new PaymentRepositorySql($connectionFactory);
     }
 
     public function save(Parking $parking): void
@@ -153,7 +163,14 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
                 }
             }
 
-            if ($parking->getTotalCapacity() < $query->minimumFreeSpots()) {
+            $context = $this->getAvailabilityContext($parking->getId(), $query->at());
+            $free = $parking->freeSpotsAt(
+                $query->at(),
+                $context['reservations'],
+                $context['abonnements'],
+                $context['stationnements']
+            );
+            if ($free < $query->minimumFreeSpots()) {
                 continue;
             }
 
@@ -170,24 +187,23 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
             return 0;
         }
 
-        // Contexte indisponible ici, on renvoie la capacité physique.
-        return $parking->getTotalCapacity();
+        $context = $this->getAvailabilityContext($parkingId, $at);
+
+        return $parking->freeSpotsAt($at, $context['reservations'], $context['abonnements'], $context['stationnements']);
     }
 
     public function getAvailabilityContext(ParkingId $parkingId, DateTimeImmutable $at): array
     {
-        // Les rÇ¸servations/abonnements/stationnements ne sont pas gÇ¸rÇ¸s dans cet adaptateur.
         return [
-            'reservations' => [],
-            'abonnements' => [],
-            'stationnements' => [],
+            'reservations' => $this->reservationRepository->listActiveAt($parkingId, $at),
+            'abonnements' => $this->abonnementRepository->listActiveAt($parkingId, $at),
+            'stationnements' => $this->stationnementRepository->listActiveAt($parkingId, $at),
         ];
     }
 
     public function getMonthlyRevenueCents(ParkingId $parkingId, int $year, int $month): int
     {
-        // Aucun calcul de revenu sans tables de flux rÇ¸els ici.
-        return 0;
+        return $this->paymentRepository->sumApprovedByParkingAndMonth($parkingId, $year, $month);
     }
 
     private function hydrateParking(array $row): Parking
@@ -241,27 +257,26 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
         ];
     }
 
-    /**
-     * @return array<int, array<int, array{start:string,end:string}>>
-     */
     private function fetchOpeningSchedule(string $parkingId): array
     {
         $pdo = $this->pdo();
-        $stmt = $pdo->prepare('SELECT day_of_week, open_time, close_time FROM opening_hours WHERE parking_id = :id');
+        $stmt = $pdo->prepare(
+            'SELECT day_of_week, end_day_of_week, open_time, close_time
+             FROM opening_hours WHERE parking_id = :id'
+        );
         $stmt->execute(['id' => $parkingId]);
 
         $schedule = [];
         while ($row = $stmt->fetch()) {
-            $day = (int) $row['day_of_week'];
-            $schedule[$day] ??= [];
-            $schedule[$day][] = [
-                'start' => substr((string) $row['open_time'], 0, 5),
-                'end' => substr((string) $row['close_time'], 0, 5),
+            $schedule[] = [
+                'start_day' => (int) $row['day_of_week'],
+                'end_day' => isset($row['end_day_of_week']) ? (int) $row['end_day_of_week'] : (int) $row['day_of_week'],
+                'start_time' => substr((string) $row['open_time'], 0, 5),
+                'end_time' => substr((string) $row['close_time'], 0, 5),
             ];
         }
 
         if ($schedule === []) {
-            // Fallback : ouvert 24/7 si aucune plage n'est en base.
             return \App\Domain\ValueObject\OpeningSchedule::alwaysOpen()->toArray();
         }
 
@@ -292,25 +307,23 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
 
         $schedule = $parking->getOpeningSchedule()->toArray();
         $insert = $pdo->prepare(
-            'INSERT INTO opening_hours (parking_id, day_of_week, open_time, close_time)
-             VALUES (:parking_id, :day, :open_time, :close_time)'
+            'INSERT INTO opening_hours (parking_id, day_of_week, end_day_of_week, open_time, close_time)
+             VALUES (:parking_id, :day, :end_day, :open_time, :close_time)'
         );
 
-        foreach ($schedule as $day => $intervals) {
-            foreach ($intervals as $interval) {
-                $insert->execute([
-                    'parking_id' => $parking->getId()->getValue(),
-                    'day' => (int) $day,
-                    'open_time' => $this->normalizeTimeForSql($interval['start']),
-                    'close_time' => $this->normalizeTimeForSql($interval['end']),
-                ]);
-            }
+        foreach ($schedule as $slot) {
+            $insert->execute([
+                'parking_id' => $parking->getId()->getValue(),
+                'day' => (int) $slot['start_day'],
+                'end_day' => (int) $slot['end_day'],
+                'open_time' => $this->normalizeTimeForSql($slot['start_time']),
+                'close_time' => $this->normalizeTimeForSql($slot['end_time']),
+            ]);
         }
     }
 
     private function normalizeTimeForSql(string $time): string
     {
-        // MySQL n'accepte pas 24:00: on rabat Çÿ 23:59:59.
         if ($time === '24:00') {
             return '23:59:59';
         }

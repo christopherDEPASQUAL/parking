@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Application\Port\Services;
 
 /**
  * Port: provide current time (testable clock).
@@ -8,4 +8,7 @@ namespace App\Services;
  * Implementations:
  *  - Infrastructure layer.
  */
-interface ClockInterface {}
+interface ClockInterface
+{
+    public function now(): \DateTimeImmutable;
+}

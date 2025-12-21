@@ -2,5 +2,12 @@
 
 namespace App\Infrastructure\Time;
 
-/** System-backed implementation of ClockInterface. */
-final class SystemClock {}
+use App\Application\Port\Services\ClockInterface;
+
+final class SystemClock implements ClockInterface
+{
+    public function now(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable();
+    }
+}

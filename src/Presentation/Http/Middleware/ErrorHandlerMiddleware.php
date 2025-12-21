@@ -2,5 +2,19 @@
 
 namespace App\Presentation\Http\Middleware;
 
-/** Middleware: Catch exceptions and produce proper HTTP error responses. */
-final class ErrorHandlerMiddleware {}
+final class ErrorHandlerMiddleware
+{
+    public function handle(callable $next): void
+    {
+        try {
+            $next();
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            header('Content-Type: application/json');
+            echo json_encode([
+                'success' => false,
+                'message' => 'Internal server error.',
+            ]);
+        }
+    }
+}
