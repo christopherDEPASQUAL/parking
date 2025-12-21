@@ -107,3 +107,23 @@ final class ExitParking
     }
 }
 
+
+                    return self::PENALTY_CENTS;
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
+
+                    return self::PENALTY_CENTS;
+                }
+            }
+        }
+
+        return 0;
+    }
+}
+
