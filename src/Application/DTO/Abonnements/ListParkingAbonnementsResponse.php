@@ -1,0 +1,11 @@
+<?php declare(strict_types=1);
+
+namespace App\Application\DTO\Abonnements;
+
+final class ListParkingAbonnementsResponse
+{
+    public function __construct(
+        public readonly array $abonnements
+    ) {}
+}
+
