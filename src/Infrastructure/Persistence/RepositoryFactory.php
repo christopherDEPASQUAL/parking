@@ -2,15 +2,21 @@
 
 namespace App\Infrastructure\Persistence;
 
+use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
+use App\Domain\Repository\ParkingSessionRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Infrastructure\Persistence\File\Repository\AbonnementRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\ParkingRepositoryFile;
+use App\Infrastructure\Persistence\File\Repository\ParkingSessionRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\ReservationRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\UserRepositoryFile;
 use App\Infrastructure\Persistence\Sql\Connection\PdoConnectionFactory;
 use App\Infrastructure\Persistence\Sql\Mapper\ParkingMapper;
+use App\Infrastructure\Persistence\Sql\Repository\AbonnementRepositorySql;
 use App\Infrastructure\Persistence\Sql\Repository\ParkingRepositorySql;
+use App\Infrastructure\Persistence\Sql\Repository\ParkingSessionRepositorySql;
 use App\Infrastructure\Persistence\Sql\Repository\ReservationRepositorySql;
 use RuntimeException;
 
@@ -45,6 +51,24 @@ final class RepositoryFactory
             'json' => new UserRepositoryFile(),
             'sql' => throw new RuntimeException('UserRepository SQL not implemented.'),
             default => throw new RuntimeException('Unsupported persistence driver for User'),
+        };
+    }
+
+    public static function createAbonnementRepository(?string $driver = null): AbonnementRepositoryInterface
+    {
+        return match (self::resolveDriver($driver)) {
+            'sql' => new AbonnementRepositorySql(new PdoConnectionFactory()),
+            'json' => new AbonnementRepositoryFile(),
+            default => throw new RuntimeException('Unsupported persistence driver for Abonnement'),
+        };
+    }
+
+    public static function createParkingSessionRepository(?string $driver = null): ParkingSessionRepositoryInterface
+    {
+        return match (self::resolveDriver($driver)) {
+            'sql' => new ParkingSessionRepositorySql(new PdoConnectionFactory()),
+            'json' => new ParkingSessionRepositoryFile(),
+            default => throw new RuntimeException('Unsupported persistence driver for ParkingSession'),
         };
     }
 
