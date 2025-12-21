@@ -4,6 +4,8 @@ namespace App\Application\UseCase\Users;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\UserId;
 
 final class UpdateUserProfile
 {
@@ -17,31 +19,33 @@ final class UpdateUserProfile
         ?string $firstName = null,
         ?string $lastName = null
     ): User {
-        $user = $this->userRepository->findById($userId);
+        $userIdVO = UserId::fromString($userId);
+        $user = $this->userRepository->findById($userIdVO);
 
         if ($user === null) {
             throw new \InvalidArgumentException("User not found");
         }
 
-        if ($email !== null && $email !== $user->getEmail()) {
-            if ($this->userRepository->existsByEmail($email)) {
-                throw new \InvalidArgumentException("Email already exists");
+        if ($email !== null) {
+            $emailVO = Email::fromString($email);
+
+            if (!$user->getEmail()->equals($emailVO)) {
+                if ($this->userRepository->existsByEmail($emailVO)) {
+                    throw new \InvalidArgumentException("Email already exists");
+                }
+                $user->changeEmail($emailVO);
             }
         }
 
-        $updatedUser = User::fromPersistence(
-            $user->getId(),
-            $email ?? $user->getEmail(),
-            $user->getPasswordHash(),
-            $user->getRole(),
-            $firstName ?? $user->getFirstName(),
-            $lastName ?? $user->getLastName(),
-            $user->getCreatedAt(),
-            new \DateTimeImmutable()
-        );
+        if ($firstName !== null || $lastName !== null) {
+            $user->changeName(
+                $firstName ?? $user->getFirstName(),
+                $lastName ?? $user->getLastName()
+            );
+        }
 
-        $this->userRepository->save($updatedUser);
+        $this->userRepository->save($user);
 
-        return $updatedUser;
+        return $user;
     }
 }
