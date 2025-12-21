@@ -6,6 +6,7 @@ use App\Application\DTO\Parkings\EnterParkingRequest;
 use App\Application\DTO\Parkings\EnterParkingResponse;
 use App\Application\Exception\ValidationException;
 use App\Domain\Entity\ParkingSession;
+use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\Repository\ParkingSessionRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
@@ -30,6 +31,7 @@ final class EnterParking
         private readonly ParkingRepositoryInterface $parkingRepository,
         private readonly ParkingSessionRepositoryInterface $sessionRepository,
         private readonly ReservationRepositoryInterface $reservationRepository,
+        private readonly AbonnementRepositoryInterface $abonnementRepository,
         private readonly UserRepositoryInterface $userRepository
     ) {}
 
@@ -103,8 +105,14 @@ final class EnterParking
 
     private function hasActiveAbonnement(UserId $userId, ParkingId $parkingId, DateTimeImmutable $at): bool
     {
-        // TODO: Implémenter quand AbonnementRepository sera créé
-        // Pour l'instant, on retourne false
+        $abonnements = $this->abonnementRepository->listByUser($userId);
+        
+        foreach ($abonnements as $abonnement) {
+            if ($abonnement->parkingId()->equals($parkingId) && $abonnement->coversTimeSlot($at)) {
+                return true;
+            }
+        }
+        
         return false;
     }
 }

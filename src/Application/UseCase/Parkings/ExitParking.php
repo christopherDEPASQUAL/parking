@@ -5,6 +5,7 @@ namespace App\Application\UseCase\Parkings;
 use App\Application\DTO\Parkings\ExitParkingRequest;
 use App\Application\DTO\Parkings\ExitParkingResponse;
 use App\Application\Exception\ValidationException;
+use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\Repository\ParkingSessionRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
@@ -27,7 +28,8 @@ final class ExitParking
     public function __construct(
         private readonly ParkingRepositoryInterface $parkingRepository,
         private readonly ParkingSessionRepositoryInterface $sessionRepository,
-        private readonly ReservationRepositoryInterface $reservationRepository
+        private readonly ReservationRepositoryInterface $reservationRepository,
+        private readonly AbonnementRepositoryInterface $abonnementRepository
     ) {}
 
     public function execute(ExitParkingRequest $request): ExitParkingResponse
@@ -91,7 +93,15 @@ final class ExitParking
             }
         }
 
-        // TODO: Vérifier aussi les abonnements quand AbonnementRepository sera créé
+        $abonnements = $this->abonnementRepository->listByUser($userId);
+        
+        foreach ($abonnements as $abonnement) {
+            if ($abonnement->parkingId()->equals($parkingId)) {
+                if (!$abonnement->coversTimeSlot($startedAt) || !$abonnement->coversTimeSlot($endedAt)) {
+                    return self::PENALTY_CENTS;
+                }
+            }
+        }
 
         return 0;
     }
