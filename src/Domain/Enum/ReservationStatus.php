@@ -7,6 +7,7 @@ namespace App\Domain\Enum;
  */
 enum ReservationStatus: string
 {
+    case PENDING_PAYMENT = 'PENDING_PAYMENT';
     case PENDING = 'PENDING';
     case CONFIRMED = 'CONFIRMED';
     case CANCELLED = 'CANCELLED';
@@ -15,12 +16,17 @@ enum ReservationStatus: string
 
     public function canBeCancelled(): bool
     {
-        return $this === self::PENDING || $this === self::CONFIRMED;
+        return $this === self::PENDING_PAYMENT || $this === self::PENDING || $this === self::CONFIRMED;
     }
 
     public function isActive(): bool
     {
-        return $this === self::PENDING || $this === self::CONFIRMED;
+        return $this === self::PENDING_PAYMENT || $this === self::PENDING || $this === self::CONFIRMED;
+    }
+
+    public function isEntryAllowed(): bool
+    {
+        return $this === self::CONFIRMED;
     }
 
     public function isCompleted(): bool

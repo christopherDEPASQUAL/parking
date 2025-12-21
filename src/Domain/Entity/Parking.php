@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use DateTimeImmutable;
-use App\Domain\Exception\ParkingFullException;
-use App\Domain\Exception\SpotAlreadyExistsException;
 use App\Domain\ValueObject\GeoLocation;
 use App\Domain\ValueObject\OpeningSchedule; 
 use App\Domain\ValueObject\ParkingId;
@@ -31,9 +29,6 @@ final class Parking
     private UserId $UserId; //(Owner)
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
-
-    /** @var array<string, ParkingSpot> */
-    private array $parkingSpots = [];
 
     /** @var array<string, ReservationId> */
     private array $reservationIds = [];
@@ -100,22 +95,7 @@ final class Parking
         $this->touch();
     }
 
-    /** Ajoute une place si capacité non dépassée et id unique. */
-    public function addSpot(ParkingSpot $spot): void
-    {
-        $spotId = $spot->getId()->getValue();
-        if (isset($this->parkingSpots[$spotId])) {
-            throw new SpotAlreadyExistsException('Cette place existe deja dans ce parking.');
-        }
-        if ($this->isFull()) {
-            throw new ParkingFullException('Capacite maximale atteinte.');
-        }
-        $this->parkingSpots[$spotId] = $spot;
-        $this->touch();
-    }
-
-    /** Marque une réservation liée à ce parking (pour suivi de dispo). */
-    public function attachReservation(ReservationId $reservationId): void
+    /** Ajoute une place si capacité non dépassée et id unique. */\n\n    public function attachReservation(ReservationId $reservationId): void
     {
         $this->reservationIds[$reservationId->getValue()] = $reservationId;
     }
@@ -130,25 +110,7 @@ final class Parking
     public function attachStationnement(StationnementId $stationnementId): void
     {
         $this->stationnementIds[$stationnementId->getValue()] = $stationnementId;
-    }
-
-    public function isFull(): bool
-    {
-        // capacité statique par spots ajoutés
-        return \count($this->parkingSpots) >= $this->totalCapacity;
-    }
-
-    /** Places libres à un instant t selon la capacité physique et slots. */
-    public function getPhysicalFreeSpotsCount(): int
-    {
-        return $this->totalCapacity - \count($this->parkingSpots);
-    }
-
-    /**
-     * Nombre de places restantes tenant compte des réservations/abonnements/stationnements actifs.
-     * Les services de domaine (non montrés ici) doivent fournir les counts à t.
-     */
-    public function computeAvailability(int $activeReservations, int $activeAbonnements, int $activeStationnements): int
+    }\n\n    public function computeAvailability(int $activeReservations, int $activeAbonnements, int $activeStationnements): int
     {
         $used = $activeReservations + $activeAbonnements + $activeStationnements;
         return max(0, $this->totalCapacity - $used);
@@ -210,10 +172,6 @@ final class Parking
             throw new \InvalidArgumentException('La capacite totale doit etre superieure a zero.');
         }
 
-        if ($newCapacity < \count($this->parkingSpots)) {
-            throw new \InvalidArgumentException('La nouvelle capacite ne peut pas etre inferieure aux places existantes.');
-        }
-
         if ($newCapacity === $this->totalCapacity) {
             return;
         }
@@ -227,3 +185,9 @@ final class Parking
         $this->updatedAt = new DateTimeImmutable();
     }
 }
+
+
+
+
+
+

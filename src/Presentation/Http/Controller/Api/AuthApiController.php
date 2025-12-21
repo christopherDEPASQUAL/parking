@@ -108,8 +108,18 @@ final class AuthApiController
 
         try {
             $data = json_decode(file_get_contents('php://input'), true);
+            $token = $data['token'] ?? null;
+            if ($token === null && isset($_SERVER['HTTP_AUTHORIZATION'])) {
+                if (preg_match('/^Bearer\\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+                    $token = trim($matches[1]);
+                }
+            }
 
-            $this->logoutUser->execute($data['token']);
+            if ($token === null) {
+                throw new \InvalidArgumentException('Token is required.');
+            }
+
+            $this->logoutUser->execute($token);
 
             http_response_code(200);
             echo json_encode([

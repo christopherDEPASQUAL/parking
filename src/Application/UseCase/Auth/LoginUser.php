@@ -3,15 +3,15 @@
 namespace App\Application\UseCase\Auth;
 
 use App\Application\Port\Security\PasswordHasherInterface;
+use App\Application\Port\Services\JwtEncoderInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\Email;
-use App\Infrastructure\Security\JwtEncoder;
 
 final class LoginUser
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-        private readonly JwtEncoder $jwtEncoder,
+        private readonly JwtEncoderInterface $jwtEncoder,
         private readonly PasswordHasherInterface $passwordHasher
     ) {}
 

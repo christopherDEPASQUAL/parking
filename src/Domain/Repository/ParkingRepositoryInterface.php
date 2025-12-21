@@ -48,7 +48,7 @@ interface ParkingRepositoryInterface
     public function getAvailabilityContext(ParkingId $parkingId, DateTimeImmutable $at): array;
 
     /**
-     * Chiffre d'affaire mensuel (centimes) calcule a partir des reservations terminees et des abonnements.
+     * Chiffre d'affaire mensuel (centimes) calcule a partir des paiements approuves.
      */
     public function getMonthlyRevenueCents(ParkingId $parkingId, int $year, int $month): int;
 }

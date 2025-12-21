@@ -72,7 +72,7 @@ final class ReservationRepositorySql implements ReservationRepositoryInterface
     {
         $sql = "SELECT COUNT(*) FROM reservations
                 WHERE parking_id = :parking_id
-                  AND status IN ('pending','confirmed')
+                  AND status IN ('pending_payment','pending','confirmed')
                   AND starts_at < :range_end AND ends_at > :range_start";
 
         $stmt = $this->pdo()->prepare($sql);
@@ -89,7 +89,7 @@ final class ReservationRepositorySql implements ReservationRepositoryInterface
     {
         $sql = "SELECT COUNT(*) FROM reservations
                 WHERE user_id = :user_id
-                  AND status IN ('pending','confirmed')
+                  AND status IN ('pending_payment','pending','confirmed')
                   AND starts_at < :range_end AND ends_at > :range_start";
 
         $params = [
@@ -155,7 +155,7 @@ final class ReservationRepositorySql implements ReservationRepositoryInterface
     {
         $sql = "SELECT * FROM reservations
                 WHERE parking_id = :parking_id
-                  AND status IN ('pending','confirmed')
+                  AND status IN ('pending_payment','pending','confirmed')
                   AND starts_at <= :at AND ends_at >= :at";
 
         $stmt = $this->pdo()->prepare($sql);
