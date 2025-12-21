@@ -16,8 +16,8 @@ final readonly class RegisterUserResponse
             'success' => true,
             'message' => 'User registered successfully',
             'user' => [
-                'id' => $this->user->getId(),
-                'email' => $this->user->getEmail(),
+                'id' => (string) $this->user->getId(),
+                'email' => (string) $this->user->getEmail(),
                 'first_name' => $this->user->getFirstName(),
                 'last_name' => $this->user->getLastName(),
                 'role' => $this->user->getRole()->value

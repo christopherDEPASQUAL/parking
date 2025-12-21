@@ -5,7 +5,7 @@ namespace App\Application\UseCase\Users;
 use App\Application\Port\Security\PasswordHasherInterface;
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepositoryInterface;
-use App\Domain\ValueObject\PasswordHash;
+use App\Domain\ValueObject\UserId;
 
 final class ChangePassword
 {
@@ -19,33 +19,22 @@ final class ChangePassword
         string $currentPassword,
         string $newPassword
     ): User {
-        $user = $this->userRepository->findById($userId);
+        $userIdVO = UserId::fromString($userId);
+        $user = $this->userRepository->findById($userIdVO);
 
         if ($user === null) {
             throw new \InvalidArgumentException("User not found");
         }
 
-        $storedPasswordHash = PasswordHash::fromHash($user->getPasswordHash());
-
-        if (!$this->passwordHasher->verify($currentPassword, $storedPasswordHash)) {
+        if (!$this->passwordHasher->verify($currentPassword, $user->getPasswordHash())) {
             throw new \InvalidArgumentException("Current password is incorrect");
         }
 
         $newPasswordHash = $this->passwordHasher->hash($newPassword);
+        $user->changePassword($newPasswordHash);
 
-        $updatedUser = User::fromPersistence(
-            $user->getId(),
-            $user->getEmail(),
-            $newPasswordHash->getHash(),
-            $user->getRole(),
-            $user->getFirstName(),
-            $user->getLastName(),
-            $user->getCreatedAt(),
-            new \DateTimeImmutable()
-        );
+        $this->userRepository->save($user);
 
-        $this->userRepository->save($updatedUser);
-
-        return $updatedUser;
+        return $user;
     }
 }

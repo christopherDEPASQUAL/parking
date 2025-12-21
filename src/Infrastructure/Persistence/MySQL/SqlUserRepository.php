@@ -67,9 +67,39 @@ final class SqlUserRepository implements UserRepositoryInterface
         return (bool) $stmt->fetchColumn();
     }
 
-    /**
-     * @param array<string, mixed> $data
-     */
+    public function delete(UserId $id): void
+    {
+        $stmt = $this->connection->prepare('DELETE FROM users WHERE id = :id');
+        $stmt->execute(['id' => (string) $id]);
+    }
+
+    public function findAll(): array
+    {
+        $stmt = $this->connection->query('SELECT * FROM users');
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $users = [];
+        foreach ($data as $row) {
+            $users[] = $this->hydrate($row);
+        }
+
+        return $users;
+    }
+
+    public function findByRole(UserRole $role): array
+    {
+        $stmt = $this->connection->prepare('SELECT * FROM users WHERE role = :role');
+        $stmt->execute(['role' => $role->value]);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $users = [];
+        foreach ($data as $row) {
+            $users[] = $this->hydrate($row);
+        }
+
+        return $users;
+    }
+
     private function hydrate(array $data): User
     {
         return User::fromPersistence(
@@ -84,4 +114,3 @@ final class SqlUserRepository implements UserRepositoryInterface
         );
     }
 }
-

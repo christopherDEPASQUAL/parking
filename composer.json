@@ -3,7 +3,8 @@
     "description": "Projet academique de reservation de ticket de parking",
     "require": {
         "php": "^8.3",
-        "ramsey/uuid": "^4.9"
+        "ramsey/uuid": "^4.9",
+        "firebase/php-jwt": "^7.0"
       
     },
     "require-dev": {
