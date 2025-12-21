@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="97823a41-9f79-48f7-8515-fde36a12712d" name="Changes" comment="Use cases user et modifications nécessaires pour la clean archi">
-      <change afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Infrastructure/DependencyInjection/Container.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Infrastructure/Http/Router.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Unit/Domain/Entity/AbonnementTest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/Unit/Domain/Entity/ReservationTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Infrastructure/Persistence/Json/JsonUserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Infrastructure/Persistence/Json/JsonUserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Infrastructure/Persistence/MySQL/SqlUserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Infrastructure/Persistence/MySQL/SqlUserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/storage/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/storage/users.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.phpunit.result.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/ParkingTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Domain/Entity/ParkingTest.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +79,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "routing",
+    "git-widget-placeholder": "testentity",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -97,11 +89,12 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/tests/Unit/Domain/Entity" />
+    </key>
+  </component>
   <component name="RunManager">
-    <configuration default="true" type="ComposerRunConfigurationType" factoryName="Composer Script">
-      <option name="pathToComposerJson" value="$PROJECT_DIR$/composer.json" />
-      <method v="2" />
-    </configuration>
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
       <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml.dist" scope="XML" use_alternative_configuration_file="true" />
       <method v="2" />
@@ -150,6 +143,8 @@
       <workItem from="1766050595351" duration="180000" />
       <workItem from="1766050786980" duration="69000" />
       <workItem from="1766050860522" duration="2000" />
+      <workItem from="1766150617455" duration="759000" />
+      <workItem from="1766327444212" duration="5089000" />
     </task>
     <task id="LOCAL-00001" summary="Première version user et user roles">
       <option name="closed" value="true" />
