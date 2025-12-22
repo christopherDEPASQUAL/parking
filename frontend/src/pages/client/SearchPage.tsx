@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -91,14 +91,7 @@ export function SearchPage() {
             <Button type="submit">Rechercher</Button>
           </form>
         </Card>
-        <div className={styles.mapCard} aria-hidden="true">
-          <img
-            className={styles.mapImage}
-            src="/parkingLocalisation.png"
-            alt=""
-            loading="lazy"
-          />
-        </div>
+
         <div className={styles.results}>
           {query.isLoading ? (
             <div className={styles.cards}>
@@ -146,6 +139,14 @@ export function SearchPage() {
               ))}
             </div>
           ) : null}
+        <div className={styles.mapCard} aria-hidden="true">
+          <img
+            className={styles.mapImage}
+            src="/parkingLocalisation.png"
+            alt=""
+            loading="lazy"
+          />
+        </div>
         </div>
       </div>
     </div>

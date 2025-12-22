@@ -187,6 +187,20 @@ final class ReservationTest extends TestCase
         self::assertNull($reservation->cancellationReason());
     }
 
+    public function testIsActiveAtAndEntryAllowedAt(): void
+    {
+        $reservation = $this->createReservation(ReservationStatus::CONFIRMED);
+        $inside = new \DateTimeImmutable('2025-01-01 11:00:00');
+        $outside = new \DateTimeImmutable('2025-01-01 13:00:00');
+
+        self::assertTrue($reservation->isActiveAt($inside));
+        self::assertFalse($reservation->isActiveAt($outside));
+        self::assertTrue($reservation->isEntryAllowedAt($inside));
+
+        $reservation->markPaymentFailed();
+        self::assertFalse($reservation->isEntryAllowedAt($inside));
+    }
+
     private function createReservation(
         ReservationStatus $status = ReservationStatus::PENDING
     ): Reservation {

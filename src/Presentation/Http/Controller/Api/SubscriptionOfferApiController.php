@@ -6,12 +6,15 @@ use App\Application\DTO\SubscriptionOffers\CreateSubscriptionOfferRequest;
 use App\Application\DTO\SubscriptionOffers\ListParkingSubscriptionOffersRequest;
 use App\Application\UseCase\SubscriptionOffers\CreateSubscriptionOffer;
 use App\Application\UseCase\SubscriptionOffers\ListParkingSubscriptionOffers;
+use App\Domain\Repository\ParkingRepositoryInterface;
+use App\Domain\ValueObject\ParkingId;
 
 final class SubscriptionOfferApiController
 {
     public function __construct(
         private readonly CreateSubscriptionOffer $createSubscriptionOffer,
-        private readonly ListParkingSubscriptionOffers $listParkingSubscriptionOffers
+        private readonly ListParkingSubscriptionOffers $listParkingSubscriptionOffers,
+        private readonly ParkingRepositoryInterface $parkingRepository
     ) {}
 
     public function create(): void
@@ -20,6 +23,9 @@ final class SubscriptionOfferApiController
             $data = $this->readJson();
             if (!isset($data['parking_id']) && isset($_GET['id'])) {
                 $data['parking_id'] = $_GET['id'];
+            }
+            if (isset($data['parking_id'])) {
+                $this->assertOwnerAccess((string) $data['parking_id']);
             }
             $request = CreateSubscriptionOfferRequest::fromArray($data);
             $result = $this->createSubscriptionOffer->execute($request);
@@ -66,5 +72,27 @@ final class SubscriptionOfferApiController
     private function errorResponse(string $message, int $status): void
     {
         $this->jsonResponse(['success' => false, 'message' => $message], $status);
+    }
+
+    private function assertOwnerAccess(string $parkingId): void
+    {
+        $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($authUserId === null) {
+            throw new \InvalidArgumentException('Missing authenticated user.');
+        }
+        if ($role === 'admin') {
+            return;
+        }
+        if ($role !== 'proprietor') {
+            throw new \InvalidArgumentException('Owner access required.');
+        }
+        $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
+        if ($parking === null) {
+            throw new \InvalidArgumentException('Parking not found.');
+        }
+        if ($parking->getUserId()->getValue() !== $authUserId) {
+            throw new \InvalidArgumentException('Not authorized to access this parking.');
+        }
     }
 }

@@ -8,7 +8,9 @@ use App\Application\DTO\Reservations\ListParkingReservationsRequest;
 use App\Application\UseCase\Reservations\CancelReservation;
 use App\Application\UseCase\Reservations\CreateReservation;
 use App\Application\UseCase\Reservations\ListParkingReservations;
+use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\ReservationId;
 use App\Domain\ValueObject\UserId;
 
@@ -18,7 +20,8 @@ final class ReservationApiController
         private readonly CreateReservation $createReservation,
         private readonly CancelReservation $cancelReservation,
         private readonly ListParkingReservations $listParkingReservations,
-        private readonly ReservationRepositoryInterface $reservationRepository
+        private readonly ReservationRepositoryInterface $reservationRepository,
+        private readonly ParkingRepositoryInterface $parkingRepository
     ) {}
 
     public function create(): void
@@ -86,8 +89,13 @@ final class ReservationApiController
     public function listByParking(): void
     {
         try {
+            $parkingId = $_GET['parking_id'] ?? ($_GET['id'] ?? null);
+            if ($parkingId === null) {
+                throw new \InvalidArgumentException('parking_id is required');
+            }
+            $this->assertOwnerAccess($parkingId);
             $request = new ListParkingReservationsRequest(
-                $_GET['parking_id'] ?? ($_GET['id'] ?? throw new \InvalidArgumentException('parking_id is required')),
+                $parkingId,
                 $_GET['status'] ?? null,
                 isset($_GET['from']) ? new \DateTimeImmutable($_GET['from']) : null,
                 isset($_GET['to']) ? new \DateTimeImmutable($_GET['to']) : null,
@@ -238,5 +246,27 @@ final class ReservationApiController
     private function errorResponse(string $message, int $status): void
     {
         $this->jsonResponse(['success' => false, 'message' => $message], $status);
+    }
+
+    private function assertOwnerAccess(string $parkingId): void
+    {
+        $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($authUserId === null) {
+            throw new \InvalidArgumentException('Missing authenticated user.');
+        }
+        if ($role === 'admin') {
+            return;
+        }
+        if ($role !== 'proprietor') {
+            throw new \InvalidArgumentException('Owner access required.');
+        }
+        $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
+        if ($parking === null) {
+            throw new \InvalidArgumentException('Parking not found.');
+        }
+        if ($parking->getUserId()->getValue() !== $authUserId) {
+            throw new \InvalidArgumentException('Not authorized to access this parking.');
+        }
     }
 }

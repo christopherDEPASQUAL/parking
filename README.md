@@ -2,6 +2,9 @@
 
 Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) et PhpMyAdmin.
 
+## Apercu de l'interface
+![Interface de l'application](frontend/public/Interface.png)
+
 ## Prerequis
 - Docker Desktop (ou equivalent) avec Docker Compose plugin.
 
@@ -14,6 +17,11 @@ Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) e
    - `parking` (application) depuis `infrastructure/mysql/app/init.sql`
    - `parking_test` (tests) depuis `infrastructure/mysql/test/init.sql`
 6. Le stockage alternatif JSON (pour demontrer l'interchangeabilite des depots) ecrit dans `storage/*.json` (users, parkings, reservations, abonnements, subscription_offers, stationnements, paiements).
+
+## Base de donnees de test
+- Dump complet (donnees de test) : `infrastructure/parking.sql`.
+- Exemple d'import dans le conteneur MySQL :
+  `docker compose exec -T app_db mysql -u parking -psecret parking < infrastructure/parking.sql`
 
 ## Modes de persistance (SQL / JSON)
 
@@ -28,9 +36,9 @@ Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) e
 ## Commandes utiles
 - Installer les dependances : `docker compose run --rm app composer install`
 - Mettre a jour l'autoload : `docker compose run --rm app composer dump-autoload`
-- Lancer tous les tests : `docker compose run --rm app ./vendor/bin/phpunit`
-- Lancer une suite : `docker compose run --rm app ./vendor/bin/phpunit --testsuite Unit` (ou `Integration`, `Functional`)
-- Couverture (Xdebug) en texte : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit --coverage-text`
+- Lancer tous les tests : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit`
+- Lancer une suite : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit --testsuite Unit` (ou `Integration`, `Functional`)
+- Couverture (domaine uniquement) : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit --coverage-filter src/Domain --coverage-text`
 - Couverture HTML : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit --coverage-html coverage` puis ouvrir `coverage/index.html`
 - Ouvrir un shell dans le conteneur : `docker compose run --rm app bash`
 - (Optionnel) serveur PHP interne : `docker compose run --rm --service-ports app php -S 0.0.0.0:8000 -t public`
@@ -58,3 +66,12 @@ Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) e
 - `GET /api/parkings/subscription-plans` : alias vers `/api/parkings/subscription-offers`.
 - `GET /api/users/me` : profil utilisateur (JWT).
 - `POST /api/users/change-password` : changement mot de passe (JWT).
+
+
+## IDENTIFIANT CLIENT DE TEST 
+Prénom : correction
+Nom : vérification
+Email : correction@gmail.com
+Mot de passe : 12345678
+
+Pour voir plus de parking ajuster le rayon à 10000

@@ -45,10 +45,16 @@ final class ParkingApiController
     {
         try {
             $data = $this->readJson();
-            $ownerId = $data['owner_id'] ?? ($_SERVER['AUTH_USER_ID'] ?? null);
-            if ($ownerId === null) {
-                throw new \InvalidArgumentException('owner_id is required');
+            $this->assertOwnerRole();
+            $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+            if ($authUserId === null) {
+                throw new \InvalidArgumentException('Missing authenticated user.');
             }
+            $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+            if ($role !== 'admin' && isset($data['owner_id']) && $data['owner_id'] !== $authUserId) {
+                throw new \InvalidArgumentException('Not authorized to create a parking for another owner.');
+            }
+            $ownerId = $role === 'admin' ? ($data['owner_id'] ?? $authUserId) : $authUserId;
 
             $pricingPlan = is_array($data['pricing_plan'] ?? null) ? $data['pricing_plan'] : [];
             $pricingTiers = $data['pricing_tiers'] ?? ($pricingPlan['tiers'] ?? []);
@@ -153,8 +159,13 @@ final class ParkingApiController
     {
         try {
             $data = $this->readJson();
+            $parkingId = $data['parking_id'] ?? null;
+            if ($parkingId === null) {
+                throw new \InvalidArgumentException('parking_id is required');
+            }
+            $this->assertOwnerAccess($parkingId);
             $request = new UpdateParkingCapacityRequest(
-                $data['parking_id'] ?? throw new \InvalidArgumentException('parking_id is required'),
+                $parkingId,
                 (int) ($data['capacity'] ?? throw new \InvalidArgumentException('capacity is required'))
             );
 
@@ -169,8 +180,13 @@ final class ParkingApiController
     {
         try {
             $data = $this->readJson();
+            $parkingId = $data['parking_id'] ?? null;
+            if ($parkingId === null) {
+                throw new \InvalidArgumentException('parking_id is required');
+            }
+            $this->assertOwnerAccess($parkingId);
             $request = new UpdateParkingTariffRequest(
-                $data['parking_id'] ?? throw new \InvalidArgumentException('parking_id is required'),
+                $parkingId,
                 $data['pricing_tiers'] ?? [],
                 (int) ($data['default_price_per_step_cents'] ?? throw new \InvalidArgumentException('default_price_per_step_cents is required')),
                 isset($data['overstay_penalty_cents']) ? (int) $data['overstay_penalty_cents'] : null,
@@ -192,6 +208,7 @@ final class ParkingApiController
             if ($parkingId === null) {
                 throw new \InvalidArgumentException('parking_id is required');
             }
+            $this->assertOwnerAccess($parkingId);
             $request = new UpdateParkingOpeningHoursRequest(
                 $parkingId,
                 $data['opening_hours'] ?? throw new \InvalidArgumentException('opening_hours is required')
@@ -210,6 +227,9 @@ final class ParkingApiController
             $payload = $_GET;
             if (!isset($payload['parking_id']) && isset($payload['id'])) {
                 $payload['parking_id'] = $payload['id'];
+            }
+            if (isset($payload['parking_id'])) {
+                $this->assertOwnerAccess((string) $payload['parking_id']);
             }
             if (!isset($payload['year'], $payload['month']) && isset($payload['month'])) {
                 [$year, $month] = explode('-', (string) $payload['month']) + [null, null];
@@ -232,6 +252,9 @@ final class ParkingApiController
             $payload = $_GET;
             if (!isset($payload['parking_id']) && isset($payload['id'])) {
                 $payload['parking_id'] = $payload['id'];
+            }
+            if (isset($payload['parking_id'])) {
+                $this->assertOwnerAccess((string) $payload['parking_id']);
             }
             if (!isset($payload['at']) && isset($payload['month'])) {
                 $payload['at'] = $payload['month'] . '-01';
@@ -262,6 +285,7 @@ final class ParkingApiController
     public function listOwner(): void
     {
         try {
+            $this->assertOwnerRole();
             $ownerId = $_SERVER['AUTH_USER_ID'] ?? null;
             if ($ownerId === null) {
                 throw new \InvalidArgumentException('Missing authenticated user.');
@@ -291,11 +315,7 @@ final class ParkingApiController
             if ($parking === null) {
                 throw new \InvalidArgumentException('Parking not found.');
             }
-            $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
-            $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
-            if ($authUserId !== null && $parking->getUserId()->getValue() !== $authUserId && $role !== 'admin') {
-                throw new \InvalidArgumentException('Not authorized to update this parking.');
-            }
+            $this->assertOwnerOrAdminForParking($parking);
 
             $name = $data['name'] ?? $parking->getName();
             $address = $data['address'] ?? $parking->getAddress();
@@ -338,6 +358,7 @@ final class ParkingApiController
             if ($parkingId === null) {
                 throw new \InvalidArgumentException('parking_id is required');
             }
+            $this->assertOwnerAccess($parkingId);
             $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
             if ($parking === null) {
                 throw new \InvalidArgumentException('Parking not found.');
@@ -358,6 +379,7 @@ final class ParkingApiController
             if ($parkingId === null) {
                 throw new \InvalidArgumentException('parking_id is required');
             }
+            $this->assertOwnerAccess($parkingId);
             $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
             if ($parking === null) {
                 throw new \InvalidArgumentException('Parking not found.');
@@ -375,6 +397,7 @@ final class ParkingApiController
             if ($parkingId === null) {
                 throw new \InvalidArgumentException('parking_id is required');
             }
+            $this->assertOwnerAccess($parkingId);
             $data = $this->readJson();
             $pricingPlan = is_array($data) ? $data : [];
 
@@ -484,5 +507,50 @@ final class ParkingApiController
     private function errorResponse(string $message, int $status): void
     {
         $this->jsonResponse(['success' => false, 'message' => $message], $status);
+    }
+
+    private function assertOwnerRole(): void
+    {
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($role !== 'proprietor' && $role !== 'admin') {
+            throw new \InvalidArgumentException('Owner access required.');
+        }
+    }
+
+    private function assertOwnerAccess(string $parkingId): void
+    {
+        $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($authUserId === null) {
+            throw new \InvalidArgumentException('Missing authenticated user.');
+        }
+        if ($role === 'admin') {
+            return;
+        }
+        if ($role !== 'proprietor') {
+            throw new \InvalidArgumentException('Owner access required.');
+        }
+        $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
+        if ($parking === null) {
+            throw new \InvalidArgumentException('Parking not found.');
+        }
+        if ($parking->getUserId()->getValue() !== $authUserId) {
+            throw new \InvalidArgumentException('Not authorized to access this parking.');
+        }
+    }
+
+    private function assertOwnerOrAdminForParking(\App\Domain\Entity\Parking $parking): void
+    {
+        $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($authUserId === null) {
+            throw new \InvalidArgumentException('Missing authenticated user.');
+        }
+        if ($role === 'admin') {
+            return;
+        }
+        if ($role !== 'proprietor' || $parking->getUserId()->getValue() !== $authUserId) {
+            throw new \InvalidArgumentException('Not authorized to access this parking.');
+        }
     }
 }

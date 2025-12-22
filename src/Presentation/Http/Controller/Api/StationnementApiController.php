@@ -10,6 +10,7 @@ use App\Application\UseCase\Stationnements\EnterParking;
 use App\Application\UseCase\Stationnements\ExitParking;
 use App\Application\UseCase\Stationnements\ListParkingStationnements;
 use App\Application\UseCase\Stationnements\ListUserStationnements;
+use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\Repository\StationnementRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\UserId;
@@ -21,7 +22,8 @@ final class StationnementApiController
         private readonly ExitParking $exitParking,
         private readonly ListParkingStationnements $listParkingStationnements,
         private readonly ListUserStationnements $listUserStationnements,
-        private readonly StationnementRepositoryInterface $stationnementRepository
+        private readonly StationnementRepositoryInterface $stationnementRepository,
+        private readonly ParkingRepositoryInterface $parkingRepository
     ) {}
 
     public function enter(): void
@@ -74,6 +76,9 @@ final class StationnementApiController
             $payload = $_GET;
             if (!isset($payload['parking_id']) && isset($payload['id'])) {
                 $payload['parking_id'] = $payload['id'];
+            }
+            if (isset($payload['parking_id'])) {
+                $this->assertOwnerAccess((string) $payload['parking_id']);
             }
             $request = ListParkingStationnementsRequest::fromArray($payload);
             $items = $this->listParkingStationnements->execute($request);
@@ -159,5 +164,27 @@ final class StationnementApiController
     private function errorResponse(string $message, int $status): void
     {
         $this->jsonResponse(['success' => false, 'message' => $message], $status);
+    }
+
+    private function assertOwnerAccess(string $parkingId): void
+    {
+        $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+        $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+        if ($authUserId === null) {
+            throw new \InvalidArgumentException('Missing authenticated user.');
+        }
+        if ($role === 'admin') {
+            return;
+        }
+        if ($role !== 'proprietor') {
+            throw new \InvalidArgumentException('Owner access required.');
+        }
+        $parking = $this->parkingRepository->findById(ParkingId::fromString($parkingId));
+        if ($parking === null) {
+            throw new \InvalidArgumentException('Parking not found.');
+        }
+        if ($parking->getUserId()->getValue() !== $authUserId) {
+            throw new \InvalidArgumentException('Not authorized to access this parking.');
+        }
     }
 }

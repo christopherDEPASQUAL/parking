@@ -470,7 +470,8 @@ final class Container
             $this->get(CreateReservation::class),
             $this->get(CancelReservation::class),
             $this->get(ListParkingReservations::class),
-            $this->get(ReservationRepositoryInterface::class)
+            $this->get(ReservationRepositoryInterface::class),
+            $this->get(ParkingRepositoryInterface::class)
         );
     }
 
@@ -479,7 +480,8 @@ final class Container
         return new AbonnementApiController(
             $this->get(CreateAbonnement::class),
             $this->get(ListParkingAbonnements::class),
-            $this->get(ListUserAbonnements::class)
+            $this->get(ListUserAbonnements::class),
+            $this->get(ParkingRepositoryInterface::class)
         );
     }
 
@@ -490,7 +492,8 @@ final class Container
             $this->get(ExitParking::class),
             $this->get(ListParkingStationnements::class),
             $this->get(ListUserStationnements::class),
-            $this->get(StationnementRepositoryInterface::class)
+            $this->get(StationnementRepositoryInterface::class),
+            $this->get(ParkingRepositoryInterface::class)
         );
     }
 
@@ -509,7 +512,8 @@ final class Container
     {
         return new SubscriptionOfferApiController(
             $this->get(CreateSubscriptionOffer::class),
-            $this->get(ListParkingSubscriptionOffers::class)
+            $this->get(ListParkingSubscriptionOffers::class),
+            $this->get(ParkingRepositoryInterface::class)
         );
     }
 

@@ -220,6 +220,94 @@ final class AbonnementTest extends TestCase
         self::assertSame('expired', $abonnement->status());
     }
 
+    public function testGettersAndCoversMethod(): void
+    {
+        $abonnement = $this->createAbonnement();
+
+        self::assertSame($this->abonnementId, $abonnement->id());
+        self::assertSame($this->userId, $abonnement->userId());
+        self::assertSame($this->parkingId, $abonnement->parkingId());
+        self::assertSame($this->offerId, $abonnement->offerId());
+        self::assertSame($this->weeklyTimeSlots, $abonnement->weeklyTimeSlots());
+        self::assertSame($this->startDate, $abonnement->startDate());
+        self::assertSame($this->endDate, $abonnement->endDate());
+
+        self::assertTrue($abonnement->covers(new \DateTimeImmutable('2025-01-06 09:00')));
+        self::assertFalse($abonnement->covers(new \DateTimeImmutable('2025-01-08 09:00')));
+    }
+
+    public function testCoversTimeSlotAcrossWeekEnd(): void
+    {
+        $slots = [
+            ['start_day' => 5, 'end_day' => 1, 'start_time' => '18:00', 'end_time' => '10:00'],
+        ];
+        $abonnement = new Abonnement(
+            $this->abonnementId,
+            $this->userId,
+            $this->parkingId,
+            $this->offerId,
+            $slots,
+            $this->startDate,
+            $this->endDate
+        );
+
+        self::assertTrue($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-04 02:00')));
+        self::assertTrue($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-06 09:00')));
+        self::assertFalse($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-07 09:00')));
+    }
+
+    public function testCoversTimeSlotWithMidnightEnd(): void
+    {
+        $slots = [
+            ['start_day' => 1, 'end_day' => 1, 'start_time' => '22:00', 'end_time' => '24:00'],
+        ];
+        $abonnement = new Abonnement(
+            $this->abonnementId,
+            $this->userId,
+            $this->parkingId,
+            $this->offerId,
+            $slots,
+            $this->startDate,
+            $this->endDate
+        );
+
+        self::assertTrue($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-06 23:30')));
+    }
+
+    public function testInvalidDayThrowsException(): void
+    {
+        $this->expectException(InvalidAbonnementException::class);
+
+        new Abonnement(
+            $this->abonnementId,
+            $this->userId,
+            $this->parkingId,
+            $this->offerId,
+            [
+                ['start_day' => 7, 'end_day' => 7, 'start_time' => '08:00', 'end_time' => '10:00'],
+            ],
+            $this->startDate,
+            $this->endDate
+        );
+    }
+
+    public function testInvalidTimeFormatThrowsException(): void
+    {
+        $this->expectException(InvalidAbonnementException::class);
+
+        new Abonnement(
+            $this->abonnementId,
+            $this->userId,
+            $this->parkingId,
+            $this->offerId,
+            [
+                ['start_day' => 1, 'end_day' => 1, 'start_time' => '24:30', 'end_time' => '25:00'],
+            ],
+            $this->startDate,
+            $this->endDate
+        );
+    }
+
     private function createAbonnement(string $status = 'active'): Abonnement
     {
         return new Abonnement(
