@@ -4,111 +4,72 @@ namespace App\Infrastructure\Persistence;
 
 use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
-use App\Domain\Repository\PaymentRepositoryInterface;
+use App\Domain\Repository\ParkingSessionRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
-use App\Domain\Repository\StationnementRepositoryInterface;
-use App\Domain\Repository\SubscriptionOfferRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Infrastructure\Persistence\File\Repository\AbonnementRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\ParkingRepositoryFile;
-use App\Infrastructure\Persistence\File\Repository\PaymentRepositoryFile;
+use App\Infrastructure\Persistence\File\Repository\ParkingSessionRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\ReservationRepositoryFile;
-use App\Infrastructure\Persistence\File\Repository\StationnementRepositoryFile;
-use App\Infrastructure\Persistence\File\Repository\SubscriptionOfferRepositoryFile;
 use App\Infrastructure\Persistence\File\Repository\UserRepositoryFile;
 use App\Infrastructure\Persistence\Sql\Connection\PdoConnectionFactory;
+use App\Infrastructure\Persistence\Sql\Mapper\ParkingMapper;
 use App\Infrastructure\Persistence\Sql\Repository\AbonnementRepositorySql;
 use App\Infrastructure\Persistence\Sql\Repository\ParkingRepositorySql;
-use App\Infrastructure\Persistence\Sql\Repository\PaymentRepositorySql;
+use App\Infrastructure\Persistence\Sql\Repository\ParkingSessionRepositorySql;
 use App\Infrastructure\Persistence\Sql\Repository\ReservationRepositorySql;
-use App\Infrastructure\Persistence\Sql\Repository\StationnementRepositorySql;
-use App\Infrastructure\Persistence\Sql\Repository\SubscriptionOfferRepositorySql;
-use App\Infrastructure\Persistence\Sql\Repository\UserRepositorySql;
+use RuntimeException;
 
 final class RepositoryFactory
 {
-    private static ?PdoConnectionFactory $pdoFactory = null;
-
-    public static function createUserRepository(?string $driver = null): UserRepositoryInterface
-    {
-        return match (self::driver($driver)) {
-            'sql' => new UserRepositorySql(self::pdo()),
-            'json' => new UserRepositoryFile(),
-        };
-    }
-
     public static function createParkingRepository(?string $driver = null): ParkingRepositoryInterface
     {
-        return match (self::driver($driver)) {
-            'sql' => new ParkingRepositorySql(self::pdo()),
+        return match (self::resolveDriver($driver)) {
+            'sql' => new ParkingRepositorySql(new PdoConnectionFactory(), new ParkingMapper()),
             'json' => new ParkingRepositoryFile(),
+            default => throw new RuntimeException('Unsupported persistence driver for Parking'),
         };
     }
 
     public static function createReservationRepository(?string $driver = null): ReservationRepositoryInterface
     {
-        return match (self::driver($driver)) {
-            'sql' => new ReservationRepositorySql(self::pdo()),
+        return match (self::resolveDriver($driver)) {
             'json' => new ReservationRepositoryFile(),
+            'sql' => new ReservationRepositorySql(new PdoConnectionFactory()),
+            default => throw new RuntimeException('Unsupported persistence driver for Reservation'),
+        };
+    }
+
+    public static function createUserRepository(?string $driver = null): UserRepositoryInterface
+    {
+        return match (self::resolveDriver($driver)) {
+            'json' => new UserRepositoryFile(),
+            'sql' => throw new RuntimeException('UserRepository SQL not implemented.'),
+            default => throw new RuntimeException('Unsupported persistence driver for User'),
         };
     }
 
     public static function createAbonnementRepository(?string $driver = null): AbonnementRepositoryInterface
     {
-        return match (self::driver($driver)) {
-            'sql' => new AbonnementRepositorySql(self::pdo()),
+        return match (self::resolveDriver($driver)) {
+            'sql' => new AbonnementRepositorySql(new PdoConnectionFactory()),
             'json' => new AbonnementRepositoryFile(),
+            default => throw new RuntimeException('Unsupported persistence driver for Abonnement'),
         };
     }
 
-    public static function createStationnementRepository(?string $driver = null): StationnementRepositoryInterface
+    public static function createParkingSessionRepository(?string $driver = null): ParkingSessionRepositoryInterface
     {
-        return match (self::driver($driver)) {
-            'sql' => new StationnementRepositorySql(self::pdo()),
-            'json' => new StationnementRepositoryFile(),
+        return match (self::resolveDriver($driver)) {
+            'sql' => new ParkingSessionRepositorySql(new PdoConnectionFactory()),
+            'json' => new ParkingSessionRepositoryFile(),
+            default => throw new RuntimeException('Unsupported persistence driver for ParkingSession'),
         };
     }
 
-    public static function createPaymentRepository(?string $driver = null): PaymentRepositoryInterface
+    private static function resolveDriver(?string $driver): string
     {
-        return match (self::driver($driver)) {
-            'sql' => new PaymentRepositorySql(self::pdo()),
-            'json' => new PaymentRepositoryFile(),
-        };
-    }
-
-    public static function createSubscriptionOfferRepository(?string $driver = null): SubscriptionOfferRepositoryInterface
-    {
-        return match (self::driver($driver)) {
-            'sql' => new SubscriptionOfferRepositorySql(self::pdo()),
-            'json' => new SubscriptionOfferRepositoryFile(),
-        };
-    }
-
-    private static function driver(?string $override = null): string
-    {
-        $driver = strtolower((string) ($override ?? getenv('PERSISTENCE_DRIVER')));
-        if ($driver === '') {
-            return 'json';
-        }
-
-        if ($driver === 'mysql') {
-            return 'sql';
-        }
-
-        if (!in_array($driver, ['json', 'sql'], true)) {
-            throw new \InvalidArgumentException("Unsupported persistence driver: {$driver}");
-        }
-
-        return $driver;
-    }
-
-    private static function pdo(): PdoConnectionFactory
-    {
-        if (self::$pdoFactory === null) {
-            self::$pdoFactory = new PdoConnectionFactory();
-        }
-
-        return self::$pdoFactory;
+        $value = strtolower(trim($driver ?? (getenv('PERSISTENCE_DRIVER') ?: 'json')));
+        return $value === 'sql' ? 'sql' : 'json';
     }
 }

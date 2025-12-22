@@ -2,12 +2,9 @@
 
 namespace App\Application\UseCase\Reservations;
 
-use App\Application\DTO\Payments\ChargeRequest;
 use App\Application\DTO\Reservations\CreateReservationRequest;
 use App\Application\DTO\Reservations\CreateReservationResponse;
 use App\Application\Exception\ValidationException;
-use App\Application\Port\Messaging\EventDispatcherInterface;
-use App\Application\UseCase\Payments\ProcessPayment;
 use App\Domain\Entity\Reservation;
 use App\Domain\Enum\ReservationStatus;
 use App\Domain\Event\ReservationCreated;
@@ -15,6 +12,7 @@ use App\Domain\Exception\ReservationNotAvailableException;
 use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\Repository\ReservationRepositoryInterface;
 use App\Domain\Repository\UserRepositoryInterface;
+use App\Application\Port\Messaging\EventDispatcherInterface;
 use App\Domain\ValueObject\DateRange;
 use App\Domain\ValueObject\Money;
 use App\Domain\ValueObject\ParkingId;
@@ -22,19 +20,14 @@ use App\Domain\ValueObject\ReservationId;
 use App\Domain\ValueObject\UserId;
 use DateInterval;
 
-/**
- * Cas d'usage : creation d'une reservation avec verification de disponibilite.
- */
 final class CreateReservation
 {
     public function __construct(
         private readonly ReservationRepositoryInterface $reservationRepository,
         private readonly ParkingRepositoryInterface $parkingRepository,
         private readonly UserRepositoryInterface $userRepository,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly ProcessPayment $processPayment
-    ) {
-    }
+        private readonly EventDispatcherInterface $eventDispatcher
+    ) {}
 
     public function execute(CreateReservationRequest $request): CreateReservationResponse
     {
@@ -53,13 +46,12 @@ final class CreateReservation
         }
 
         if (!$parking->isOpenAt($range->getStart()) || !$parking->isOpenAt($range->getEnd())) {
-            throw new ReservationNotAvailableException('Le parking est ferme sur ce creneau.');
+            throw new ReservationNotAvailableException('Le parking est fermé sur ce créneau.');
         }
 
         if ($this->reservationRepository->hasUserOverlap($userId, $range, $parkingId)) {
-            throw new ReservationNotAvailableException('Une reservation existante chevauche ce creneau pour cet utilisateur.');
+            throw new ReservationNotAvailableException('Une réservation existante chevauche ce créneau pour cet utilisateur.');
         }
-
         $step = new DateInterval('PT15M');
         $cursor = $range->getStart();
         while ($cursor <= $range->getEnd()) {
@@ -69,7 +61,7 @@ final class CreateReservation
             $stationnements = $context['stationnements'] ?? [];
 
             if ($parking->freeSpotsAt($cursor, $reservations, $abonnements, $stationnements) <= 0) {
-                throw new ReservationNotAvailableException('Parking complet sur le creneau demande.');
+                throw new ReservationNotAvailableException('Parking complet sur le créneau demandé.');
             }
 
             $cursor = $cursor->add($step);
@@ -85,23 +77,8 @@ final class CreateReservation
             $parkingId,
             $range,
             $price,
-            ReservationStatus::PENDING_PAYMENT
+            ReservationStatus::PENDING
         );
-
-        $this->reservationRepository->save($reservation);
-
-        $payment = $this->processPayment->execute(new ChargeRequest(
-            $userId->getValue(),
-            $priceCents,
-            $price->getCurrency(),
-            $reservation->id()->getValue()
-        ));
-
-        if ($payment->status()->isApproved()) {
-            $reservation->confirm();
-        } else {
-            $reservation->markPaymentFailed();
-        }
 
         $this->reservationRepository->save($reservation);
         $this->eventDispatcher->dispatch(

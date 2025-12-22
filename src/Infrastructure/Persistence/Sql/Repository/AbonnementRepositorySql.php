@@ -6,7 +6,6 @@ use App\Domain\Entity\Abonnement;
 use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\ValueObject\AbonnementId;
 use App\Domain\ValueObject\ParkingId;
-use App\Domain\ValueObject\SubscriptionOfferId;
 use App\Domain\ValueObject\UserId;
 use App\Infrastructure\Persistence\Sql\Connection\PdoConnectionFactory;
 use DateTimeImmutable;
@@ -19,16 +18,15 @@ final class AbonnementRepositorySql implements AbonnementRepositoryInterface
     public function save(Abonnement $abonnement): void
     {
         $pdo = $this->pdo();
-        $pdo->beginTransaction();
 
+        $pdo->beginTransaction();
         try {
             $stmt = $pdo->prepare(
-                'INSERT INTO subscriptions (id, user_id, parking_id, offer_id, starts_at, ends_at, status, created_at)
-                 VALUES (:id, :user_id, :parking_id, :offer_id, :starts_at, :ends_at, :status, NOW())
+                'INSERT INTO subscriptions (id, user_id, parking_id, starts_at, ends_at, status, created_at)
+                 VALUES (:id, :user_id, :parking_id, :starts_at, :ends_at, :status, :created_at)
                  ON DUPLICATE KEY UPDATE
                     user_id = VALUES(user_id),
                     parking_id = VALUES(parking_id),
-                    offer_id = VALUES(offer_id),
                     starts_at = VALUES(starts_at),
                     ends_at = VALUES(ends_at),
                     status = VALUES(status)'
@@ -38,71 +36,94 @@ final class AbonnementRepositorySql implements AbonnementRepositoryInterface
                 'id' => $abonnement->id()->getValue(),
                 'user_id' => $abonnement->userId()->getValue(),
                 'parking_id' => $abonnement->parkingId()->getValue(),
-                'offer_id' => $abonnement->offerId()->getValue(),
                 'starts_at' => $abonnement->startDate()->format('Y-m-d'),
                 'ends_at' => $abonnement->endDate()->format('Y-m-d'),
-                'status' => $this->mapStatusToSql($abonnement->status()),
+                'status' => $abonnement->status(),
+                'created_at' => (new DateTimeImmutable())->format('Y-m-d H:i:s')
             ]);
 
-            $pdo->commit();
-        } catch (\Throwable $e) {
-            if ($pdo->inTransaction()) {
-                $pdo->rollBack();
+            $stmt = $pdo->prepare('DELETE FROM subscription_slots WHERE subscription_id = :id');
+            $stmt->execute(['id' => $abonnement->id()->getValue()]);
+
+            $stmt = $pdo->prepare(
+                'INSERT INTO subscription_slots (subscription_id, day_of_week, start_time, end_time)
+                 VALUES (:subscription_id, :day_of_week, :start_time, :end_time)'
+            );
+
+            foreach ($abonnement->weeklyTimeSlots() as $slot) {
+                $stmt->execute([
+                    'subscription_id' => $abonnement->id()->getValue(),
+                    'day_of_week' => $slot['day'] ?? $slot['dayOfWeek'] ?? 0,
+                    'start_time' => $slot['start'] ?? $slot['startTime'] ?? '00:00:00',
+                    'end_time' => $slot['end'] ?? $slot['endTime'] ?? '23:59:59'
+                ]);
             }
+
+            $pdo->commit();
+        } catch (\Exception $e) {
+            $pdo->rollBack();
             throw $e;
         }
     }
 
     public function findById(AbonnementId $id): ?Abonnement
     {
-        $stmt = $this->pdo()->prepare('SELECT * FROM subscriptions WHERE id = :id');
-        $stmt->execute(['id' => $id->getValue()]);
-        $row = $stmt->fetch();
+        $pdo = $this->pdo();
 
-        if ($row === false) {
+        $stmt = $pdo->prepare(
+            'SELECT s.*, GROUP_CONCAT(CONCAT(ss.day_of_week, ":", ss.start_time, "-", ss.end_time) SEPARATOR ",") as slots
+             FROM subscriptions s
+             LEFT JOIN subscription_slots ss ON s.id = ss.subscription_id
+             WHERE s.id = :id
+             GROUP BY s.id'
+        );
+        $stmt->execute(['id' => $id->getValue()]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$row) {
             return null;
         }
 
-        return $this->hydrate($row);
+        return $this->fromRow($row);
     }
 
-    public function listByParking(ParkingId $parkingId, ?string $status = null): array
+    public function listByUser(UserId $userId): array
     {
-        $sql = 'SELECT * FROM subscriptions WHERE parking_id = :parking_id';
-        $params = ['parking_id' => $parkingId->getValue()];
+        $pdo = $this->pdo();
 
-        if ($status !== null) {
-            $sql .= ' AND status = :status';
-            $params['status'] = $this->mapStatusToSql($status);
-        }
-
-        $stmt = $this->pdo()->prepare($sql);
-        $stmt->execute($params);
+        $stmt = $pdo->prepare(
+            'SELECT s.*, GROUP_CONCAT(CONCAT(ss.day_of_week, ":", ss.start_time, "-", ss.end_time) SEPARATOR ",") as slots
+             FROM subscriptions s
+             LEFT JOIN subscription_slots ss ON s.id = ss.subscription_id
+             WHERE s.user_id = :user_id
+             GROUP BY s.id'
+        );
+        $stmt->execute(['user_id' => $userId->getValue()]);
 
         $result = [];
-        while ($row = $stmt->fetch()) {
-            $result[] = $this->hydrate($row);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $this->fromRow($row);
         }
 
         return $result;
     }
 
-    public function listByUser(UserId $userId, ?string $status = null): array
+    public function listByParking(ParkingId $parkingId): array
     {
-        $sql = 'SELECT * FROM subscriptions WHERE user_id = :user_id';
-        $params = ['user_id' => $userId->getValue()];
+        $pdo = $this->pdo();
 
-        if ($status !== null) {
-            $sql .= ' AND status = :status';
-            $params['status'] = $this->mapStatusToSql($status);
-        }
-
-        $stmt = $this->pdo()->prepare($sql);
-        $stmt->execute($params);
+        $stmt = $pdo->prepare(
+            'SELECT s.*, GROUP_CONCAT(CONCAT(ss.day_of_week, ":", ss.start_time, "-", ss.end_time) SEPARATOR ",") as slots
+             FROM subscriptions s
+             LEFT JOIN subscription_slots ss ON s.id = ss.subscription_id
+             WHERE s.parking_id = :parking_id
+             GROUP BY s.id'
+        );
+        $stmt->execute(['parking_id' => $parkingId->getValue()]);
 
         $result = [];
-        while ($row = $stmt->fetch()) {
-            $result[] = $this->hydrate($row);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $result[] = $this->fromRow($row);
         }
 
         return $result;
@@ -110,9 +131,27 @@ final class AbonnementRepositorySql implements AbonnementRepositoryInterface
 
     public function listActiveAt(ParkingId $parkingId, DateTimeImmutable $at): array
     {
+        $pdo = $this->pdo();
+
+        $stmt = $pdo->prepare(
+            'SELECT s.*, GROUP_CONCAT(CONCAT(ss.day_of_week, ":", ss.start_time, "-", ss.end_time) SEPARATOR ",") as slots
+             FROM subscriptions s
+             LEFT JOIN subscription_slots ss ON s.id = ss.subscription_id
+             WHERE s.parking_id = :parking_id
+               AND s.status = "active"
+               AND s.starts_at <= :at
+               AND s.ends_at >= :at
+             GROUP BY s.id'
+        );
+        $stmt->execute([
+            'parking_id' => $parkingId->getValue(),
+            'at' => $at->format('Y-m-d')
+        ]);
+
         $result = [];
-        foreach ($this->listByParking($parkingId, 'active') as $abonnement) {
-            if ($abonnement->covers($at)) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $abonnement = $this->fromRow($row);
+            if ($abonnement->coversTimeSlot($at)) {
                 $result[] = $abonnement;
             }
         }
@@ -120,57 +159,30 @@ final class AbonnementRepositorySql implements AbonnementRepositoryInterface
         return $result;
     }
 
-    private function hydrate(array $row): Abonnement
+    private function fromRow(array $row): Abonnement
     {
-        $slots = $this->fetchSlots((string) $row['offer_id']);
-
-        return new Abonnement(
-            AbonnementId::fromString((string) $row['id']),
-            UserId::fromString((string) $row['user_id']),
-            ParkingId::fromString((string) $row['parking_id']),
-            SubscriptionOfferId::fromString((string) $row['offer_id']),
-            $slots,
-            new DateTimeImmutable((string) $row['starts_at']),
-            new DateTimeImmutable((string) $row['ends_at']),
-            $this->mapStatusFromSql((string) $row['status'])
-        );
-    }
-
-    private function fetchSlots(string $offerId): array
-    {
-        $stmt = $this->pdo()->prepare(
-            'SELECT start_day_of_week, end_day_of_week, start_time, end_time
-             FROM subscription_offer_slots WHERE offer_id = :id'
-        );
-        $stmt->execute(['id' => $offerId]);
-
         $slots = [];
-        while ($row = $stmt->fetch()) {
-            $slots[] = [
-                'start_day' => (int) $row['start_day_of_week'],
-                'end_day' => (int) $row['end_day_of_week'],
-                'start_time' => substr((string) $row['start_time'], 0, 5),
-                'end_time' => substr((string) $row['end_time'], 0, 5),
-            ];
+        if (!empty($row['slots'])) {
+            foreach (explode(',', $row['slots']) as $slotStr) {
+                $parts = explode(':', $slotStr);
+                $timeParts = explode('-', $parts[1] ?? '00:00:00-23:59:59');
+                $slots[] = [
+                    'day' => (int) $parts[0],
+                    'start' => $timeParts[0] ?? '00:00:00',
+                    'end' => $timeParts[1] ?? '23:59:59'
+                ];
+            }
         }
 
-        return $slots;
-    }
-
-    private function mapStatusToSql(string $status): string
-    {
-        return match ($status) {
-            'suspended' => 'paused',
-            default => $status,
-        };
-    }
-
-    private function mapStatusFromSql(string $status): string
-    {
-        return match ($status) {
-            'paused' => 'suspended',
-            default => $status,
-        };
+        return new Abonnement(
+            AbonnementId::fromString($row['id']),
+            UserId::fromString($row['user_id']),
+            ParkingId::fromString($row['parking_id']),
+            $slots,
+            new DateTimeImmutable($row['starts_at']),
+            new DateTimeImmutable($row['ends_at']),
+            $row['status']
+        );
     }
 
     private function pdo(): PDO
@@ -178,3 +190,4 @@ final class AbonnementRepositorySql implements AbonnementRepositoryInterface
         return $this->connectionFactory->create();
     }
 }
+

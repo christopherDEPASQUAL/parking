@@ -3,50 +3,84 @@
 namespace App\Application\UseCase\Parkings;
 
 use App\Application\DTO\Parkings\SearchParkingsRequest;
+use App\Application\DTO\Parkings\SearchParkingsResponse;
 use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\ValueObject\GeoLocation;
 use App\Domain\ValueObject\ParkingSearchQuery;
-use App\Domain\ValueObject\UserId;
+use DateTimeImmutable;
 
 final class SearchParkings
 {
-    public function __construct(private readonly ParkingRepositoryInterface $parkingRepository) {}
+    public function __construct(
+        private readonly ParkingRepositoryInterface $parkingRepository
+    ) {}
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    public function execute(SearchParkingsRequest $request): array
+    public function execute(SearchParkingsRequest $request): SearchParkingsResponse
     {
-        $ownerId = $request->ownerId !== null ? UserId::fromString($request->ownerId) : null;
+        $at = $request->at 
+            ? new DateTimeImmutable($request->at) 
+            : new DateTimeImmutable();
 
         $query = new ParkingSearchQuery(
             new GeoLocation($request->latitude, $request->longitude),
-            $request->radiusKm,
-            $request->at,
-            $request->minimumFreeSpots,
-            $request->maxPriceCents,
-            $ownerId,
-            $request->name,
-            $request->endsAt
+            $request->radiusKm ?? 5.0,
+            $at,
+            $request->minAvailableSpots ?? 1
         );
 
         $parkings = $this->parkingRepository->searchAvailable($query);
 
-        $items = [];
+        $results = [];
         foreach ($parkings as $parking) {
-            $free = $this->parkingRepository->getAvailabilityAt($parking->getId(), $request->at);
-            $items[] = [
-                'parking_id' => $parking->getId()->getValue(),
+            $distanceKm = $this->calculateDistance(
+                $request->latitude,
+                $request->longitude,
+                $parking->getLocation()->getLatitude(),
+                $parking->getLocation()->getLongitude()
+            );
+
+            $context = $this->parkingRepository->getAvailabilityContext(
+                $parking->getId(),
+                $at
+            );
+
+            $availableSpots = $parking->freeSpotsAt(
+                $at,
+                $context['reservations'] ?? [],
+                $context['abonnements'] ?? [],
+                $context['stationnements'] ?? []
+            );
+
+            $results[] = [
+                'id' => $parking->getId()->getValue(),
                 'name' => $parking->getName(),
                 'address' => $parking->getAddress(),
-                'description' => $parking->getDescription(),
                 'latitude' => $parking->getLocation()->getLatitude(),
                 'longitude' => $parking->getLocation()->getLongitude(),
-                'free_spots' => $free,
-                'total_capacity' => $parking->getTotalCapacity(),
+                'availableSpots' => $availableSpots,
+                'totalCapacity' => $parking->getTotalCapacity(),
+                'distanceKm' => round($distanceKm, 2),
             ];
         }
 
-        return $items;
+        usort($results, fn($a, $b) => $a['distanceKm'] <=> $b['distanceKm']);
+
+        return new SearchParkingsResponse($results);
+    }
+
+    private function calculateDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
+    {
+        $earthRadius = 6371;
+
+        $dLat = deg2rad($lat2 - $lat1);
+        $dLon = deg2rad($lon2 - $lon1);
+
+        $a = sin($dLat / 2) * sin($dLat / 2) +
+             cos(deg2rad($lat1)) * cos(deg2rad($lat2)) *
+             sin($dLon / 2) * sin($dLon / 2);
+
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+
+        return $earthRadius * $c;
     }
 }

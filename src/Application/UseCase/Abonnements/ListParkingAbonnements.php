@@ -3,43 +3,44 @@
 namespace App\Application\UseCase\Abonnements;
 
 use App\Application\DTO\Abonnements\ListParkingAbonnementsRequest;
+use App\Application\DTO\Abonnements\ListParkingAbonnementsResponse;
+use App\Application\Exception\ValidationException;
 use App\Domain\Repository\AbonnementRepositoryInterface;
-use App\Domain\Repository\SubscriptionOfferRepositoryInterface;
+use App\Domain\Repository\ParkingRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
 
 final class ListParkingAbonnements
 {
     public function __construct(
         private readonly AbonnementRepositoryInterface $abonnementRepository,
-        private readonly SubscriptionOfferRepositoryInterface $offerRepository
+        private readonly ParkingRepositoryInterface $parkingRepository
     ) {}
 
-    /**
-     * @return array<int, array<string, mixed>>
-     */
-    public function execute(ListParkingAbonnementsRequest $request): array
+    public function execute(ListParkingAbonnementsRequest $request): ListParkingAbonnementsResponse
     {
         $parkingId = ParkingId::fromString($request->parkingId);
-        $abonnements = $this->abonnementRepository->listByParking($parkingId, $request->status);
 
-        $items = [];
+        $parking = $this->parkingRepository->findById($parkingId);
+        if ($parking === null) {
+            throw new ValidationException('Parking introuvable.');
+        }
+
+        $abonnements = $this->abonnementRepository->listByParking($parkingId);
+
+        $result = [];
         foreach ($abonnements as $abonnement) {
-            $offer = $this->offerRepository->findById($abonnement->offerId());
-            $items[] = [
-                'abonnement_id' => $abonnement->id()->getValue(),
-                'user_id' => $abonnement->userId()->getValue(),
-                'parking_id' => $abonnement->parkingId()->getValue(),
-                'offer_id' => $abonnement->offerId()->getValue(),
-                'offer_label' => $offer?->label(),
-                'offer_type' => $offer?->type(),
-                'offer_price_cents' => $offer?->priceCents(),
-                'weekly_time_slots' => $abonnement->weeklyTimeSlots(),
-                'start_date' => $abonnement->startDate()->format(DATE_ATOM),
-                'end_date' => $abonnement->endDate()->format(DATE_ATOM),
-                'status' => $abonnement->status(),
+            $result[] = [
+                'id' => $abonnement->id()->getValue(),
+                'userId' => $abonnement->userId()->getValue(),
+                'parkingId' => $abonnement->parkingId()->getValue(),
+                'weeklyTimeSlots' => $abonnement->weeklyTimeSlots(),
+                'startDate' => $abonnement->startDate()->format('Y-m-d'),
+                'endDate' => $abonnement->endDate()->format('Y-m-d'),
+                'status' => $abonnement->status()
             ];
         }
 
-        return $items;
+        return new ListParkingAbonnementsResponse($result);
     }
 }
+

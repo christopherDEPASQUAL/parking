@@ -2,10 +2,10 @@
 
 namespace App\Application\DTO\Abonnements;
 
-final class ListParkingAbonnementsRequest
+final class ListParkingAbonnementsResponse
 {
     public function __construct(
-        public readonly string $parkingId
+        public readonly array $abonnements
     ) {}
 }
 

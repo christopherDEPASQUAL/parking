@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace App\Application\DTO\Abonnements;
+namespace App\Application\DTO\Parkings;
 
-final class ListParkingAbonnementsRequest
+final class ListParkingStationnementsRequest
 {
     public function __construct(
         public readonly string $parkingId

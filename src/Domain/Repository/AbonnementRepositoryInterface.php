@@ -14,18 +14,10 @@ interface AbonnementRepositoryInterface
 
     public function findById(AbonnementId $id): ?Abonnement;
 
-    /**
-     * @return Abonnement[]
-     */
-    public function listByParking(ParkingId $parkingId, ?string $status = null): array;
+    public function listByUser(UserId $userId): array;
 
-    /**
-     * @return Abonnement[]
-     */
-    public function listByUser(UserId $userId, ?string $status = null): array;
+    public function listByParking(ParkingId $parkingId): array;
 
-    /**
-     * @return Abonnement[]
-     */
     public function listActiveAt(ParkingId $parkingId, DateTimeImmutable $at): array;
 }
+

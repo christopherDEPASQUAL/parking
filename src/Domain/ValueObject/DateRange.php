@@ -2,6 +2,9 @@
 
 namespace App\Domain\ValueObject;
 
+use DateTimeImmutable;
+use DateTimeInterface;
+
 /**
  * DateRange immutable object (start/end) with overlap checks.
  *
@@ -9,9 +12,6 @@ namespace App\Domain\ValueObject;
  *  - Immutable; validates invariants in constructor.
  *  - No I/O or framework dependencies.
  */
-use DateTimeImmutable;
-use DateTimeInterface;
-
 final class DateRange
 {
     private DateTimeImmutable $start;
@@ -38,6 +38,22 @@ final class DateRange
     }
 
     public function getEnd(): DateTimeImmutable
+    {
+        return $this->end;
+    }
+
+    /**
+     * Alias pour compatibilité avec le code existant (AvailabilityService).
+     */
+    public function start(): DateTimeImmutable
+    {
+        return $this->start;
+    }
+
+    /**
+     * Alias pour compatibilité avec le code existant (AvailabilityService).
+     */
+    public function end(): DateTimeImmutable
     {
         return $this->end;
     }

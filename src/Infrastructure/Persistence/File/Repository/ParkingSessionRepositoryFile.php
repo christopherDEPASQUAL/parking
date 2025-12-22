@@ -2,20 +2,21 @@
 
 namespace App\Infrastructure\Persistence\File\Repository;
 
-use App\Domain\Entity\Abonnement;
-use App\Domain\Repository\AbonnementRepositoryInterface;
-use App\Domain\ValueObject\AbonnementId;
+use App\Domain\Entity\ParkingSession;
+use App\Domain\Repository\ParkingSessionRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
+use App\Domain\ValueObject\ParkingSpotId;
+use App\Domain\ValueObject\StationnementId;
 use App\Domain\ValueObject\UserId;
 use DateTimeImmutable;
 
-final class AbonnementRepositoryFile implements AbonnementRepositoryInterface
+final class ParkingSessionRepositoryFile implements ParkingSessionRepositoryInterface
 {
     private string $filePath;
 
     public function __construct(?string $filePath = null)
     {
-        $resolved = $filePath ?? (getenv('JSON_ABONNEMENT_STORAGE') ?: 'storage/abonnements.json');
+        $resolved = $filePath ?? (getenv('JSON_STATIONNEMENT_STORAGE') ?: 'storage/stationnements.json');
         if (!preg_match('#^([A-Za-z]:\\\\|/)#', $resolved)) {
             $resolved = \dirname(__DIR__, 5) . '/' . ltrim($resolved, '/\\');
         }
@@ -30,14 +31,14 @@ final class AbonnementRepositoryFile implements AbonnementRepositoryInterface
         }
     }
 
-    public function save(Abonnement $abonnement): void
+    public function save(ParkingSession $session): void
     {
         $records = $this->readAll();
-        $records[$abonnement->id()->getValue()] = $this->toArray($abonnement);
+        $records[$session->getId()->getValue()] = $this->toArray($session);
         $this->persist($records);
     }
 
-    public function findById(AbonnementId $id): ?Abonnement
+    public function findById(StationnementId $id): ?ParkingSession
     {
         $records = $this->readAll();
         if (!isset($records[$id->getValue()])) {
@@ -45,6 +46,22 @@ final class AbonnementRepositoryFile implements AbonnementRepositoryInterface
         }
 
         return $this->fromArray($records[$id->getValue()]);
+    }
+
+    public function findActiveByUserAndParking(UserId $userId, ParkingId $parkingId): ?ParkingSession
+    {
+        $records = $this->readAll();
+
+        foreach ($records as $record) {
+            if ($record['user_id'] === $userId->getValue()
+                && $record['parking_id'] === $parkingId->getValue()
+                && empty($record['ended_at'])
+            ) {
+                return $this->fromArray($record);
+            }
+        }
+
+        return null;
     }
 
     public function listByUser(UserId $userId): array
@@ -79,45 +96,46 @@ final class AbonnementRepositoryFile implements AbonnementRepositoryInterface
     {
         $records = $this->readAll();
         $result = [];
+        $atStr = $at->format('Y-m-d H:i:s');
 
         foreach ($records as $record) {
             if ($record['parking_id'] === $parkingId->getValue()
-                && $record['status'] === 'active'
+                && $record['started_at'] <= $atStr
+                && (empty($record['ended_at']) || $record['ended_at'] >= $atStr)
             ) {
-                $abonnement = $this->fromArray($record);
-                if ($abonnement->coversTimeSlot($at)) {
-                    $result[] = $abonnement;
-                }
+                $result[] = $this->fromArray($record);
             }
         }
 
         return $result;
     }
 
-    private function toArray(Abonnement $abonnement): array
+    private function toArray(ParkingSession $session): array
     {
         return [
-            'id' => $abonnement->id()->getValue(),
-            'user_id' => $abonnement->userId()->getValue(),
-            'parking_id' => $abonnement->parkingId()->getValue(),
-            'weekly_time_slots' => $abonnement->weeklyTimeSlots(),
-            'start_date' => $abonnement->startDate()->format('Y-m-d'),
-            'end_date' => $abonnement->endDate()->format('Y-m-d'),
-            'status' => $abonnement->status()
+            'id' => $session->getId()->getValue(),
+            'parking_id' => $session->getParkingId()->getValue(),
+            'user_id' => $session->getUserId()->getValue(),
+            'spot_id' => $session->getSpotId()->getValue(),
+            'started_at' => $session->getStartedAt()->format('Y-m-d H:i:s'),
+            'ended_at' => $session->getEndedAt()?->format('Y-m-d H:i:s')
         ];
     }
 
-    private function fromArray(array $data): Abonnement
+    private function fromArray(array $data): ParkingSession
     {
-        return new Abonnement(
-            AbonnementId::fromString($data['id']),
-            UserId::fromString($data['user_id']),
+        $session = ParkingSession::start(
             ParkingId::fromString($data['parking_id']),
-            $data['weekly_time_slots'] ?? [],
-            new DateTimeImmutable($data['start_date']),
-            new DateTimeImmutable($data['end_date']),
-            $data['status'] ?? 'active'
+            UserId::fromString($data['user_id']),
+            ParkingSpotId::fromString($data['spot_id']),
+            new DateTimeImmutable($data['started_at'])
         );
+
+        if (!empty($data['ended_at'])) {
+            $session->close(new DateTimeImmutable($data['ended_at']));
+        }
+
+        return $session;
     }
 
     private function readAll(): array

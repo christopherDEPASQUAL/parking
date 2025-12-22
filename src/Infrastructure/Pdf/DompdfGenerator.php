@@ -6,13 +6,17 @@ use App\Application\Port\Services\PdfGeneratorInterface;
 
 final class DompdfGenerator implements PdfGeneratorInterface
 {
-    public function renderToFile(string $html, string $filePath): void
+    public function generate(string $html, string $filename): ?string
     {
-        $dir = \dirname($filePath);
+        $outputPath = __DIR__ . '/../../../../storage/pdf/' . $filename;
+        $dir = dirname($outputPath);
+        
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
 
-        file_put_contents($filePath, $html);
+        file_put_contents($outputPath, $html);
+        
+        return $outputPath;
     }
 }
