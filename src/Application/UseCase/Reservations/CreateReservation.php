@@ -20,9 +20,6 @@ use App\Domain\ValueObject\ReservationId;
 use App\Domain\ValueObject\UserId;
 use DateInterval;
 
-/**
- * Cas d'usage : création d'une réservation avec vérification de disponibilité.
- */
 final class CreateReservation
 {
     public function __construct(
@@ -30,8 +27,7 @@ final class CreateReservation
         private readonly ParkingRepositoryInterface $parkingRepository,
         private readonly UserRepositoryInterface $userRepository,
         private readonly EventDispatcherInterface $eventDispatcher
-    ) {
-    }
+    ) {}
 
     public function execute(CreateReservationRequest $request): CreateReservationResponse
     {
@@ -49,17 +45,13 @@ final class CreateReservation
             throw new ValidationException('Parking introuvable.');
         }
 
-        // Vérifie l'ouverture aux bornes.
         if (!$parking->isOpenAt($range->getStart()) || !$parking->isOpenAt($range->getEnd())) {
             throw new ReservationNotAvailableException('Le parking est fermé sur ce créneau.');
         }
 
-        // Empêche un utilisateur de réserver un créneau qui se chevauche déjà.
         if ($this->reservationRepository->hasUserOverlap($userId, $range, $parkingId)) {
             throw new ReservationNotAvailableException('Une réservation existante chevauche ce créneau pour cet utilisateur.');
         }
-
-        // Vérifie la capacité sur l'intervalle par pas de 15 minutes.
         $step = new DateInterval('PT15M');
         $cursor = $range->getStart();
         while ($cursor <= $range->getEnd()) {
@@ -75,7 +67,6 @@ final class CreateReservation
             $cursor = $cursor->add($step);
         }
 
-        // Calcul du prix selon la grille tarifaire du parking.
         $minutes = (int) ceil($range->durationInSeconds() / 60);
         $priceCents = $parking->computePriceForDurationMinutes($minutes);
         $price = Money::fromCents($priceCents);

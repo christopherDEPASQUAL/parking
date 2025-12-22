@@ -9,9 +9,6 @@ use App\Domain\ValueObject\GeoLocation;
 use App\Domain\ValueObject\ParkingSearchQuery;
 use DateTimeImmutable;
 
-/**
- * Cas d'usage : Rechercher des parkings avec places disponibles autour d'une coordonnée GPS.
- */
 final class SearchParkings
 {
     public function __construct(
@@ -26,7 +23,7 @@ final class SearchParkings
 
         $query = new ParkingSearchQuery(
             new GeoLocation($request->latitude, $request->longitude),
-            $request->radiusKm ?? 5.0, // 5km par défaut
+            $request->radiusKm ?? 5.0,
             $at,
             $request->minAvailableSpots ?? 1
         );
@@ -35,7 +32,6 @@ final class SearchParkings
 
         $results = [];
         foreach ($parkings as $parking) {
-            // Calculer la distance
             $distanceKm = $this->calculateDistance(
                 $request->latitude,
                 $request->longitude,
@@ -43,7 +39,6 @@ final class SearchParkings
                 $parking->getLocation()->getLongitude()
             );
 
-            // Obtenir le contexte de disponibilité
             $context = $this->parkingRepository->getAvailabilityContext(
                 $parking->getId(),
                 $at
@@ -68,18 +63,14 @@ final class SearchParkings
             ];
         }
 
-        // Trier par distance
         usort($results, fn($a, $b) => $a['distanceKm'] <=> $b['distanceKm']);
 
         return new SearchParkingsResponse($results);
     }
 
-    /**
-     * Calcule la distance en km entre deux points GPS (formule de Haversine).
-     */
     private function calculateDistance(float $lat1, float $lon1, float $lat2, float $lon2): float
     {
-        $earthRadius = 6371; // Rayon de la Terre en km
+        $earthRadius = 6371;
 
         $dLat = deg2rad($lat2 - $lat1);
         $dLon = deg2rad($lon2 - $lon1);
@@ -93,4 +84,3 @@ final class SearchParkings
         return $earthRadius * $c;
     }
 }
-

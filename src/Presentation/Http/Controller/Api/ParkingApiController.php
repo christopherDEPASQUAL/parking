@@ -40,9 +40,7 @@ final class ParkingApiController
                 $data['longitude'] ?? 0.0,
                 $data['radiusKm'] ?? null,
                 $data['at'] ?? null,
-                $data['minSpots'] ?? null,
-                $data['maxPriceCents'] ?? null,
-                $data['ownerId'] ?? null
+                $data['minAvailableSpots'] ?? null
             );
 
             $response = $this->searchParkings->execute($request);

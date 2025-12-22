@@ -2,15 +2,8 @@
 
 namespace App\Application\DTO\Parkings;
 
-/**
- * Données d'entrée pour créer un parking.
- */
 final class CreateParkingRequest
 {
-    /**
-     * @param array<int, array{upToMinutes:int, pricePerStepCents:int}> $pricingTiers
-     * @param array<int, array<int, array{start:string,end:string}>>    $openingHours day(0-6) => [{start,end}]
-     */
     public function __construct(
         public readonly string $ownerId,
         public readonly string $name,

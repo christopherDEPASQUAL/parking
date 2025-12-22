@@ -20,11 +20,6 @@ use App\Infrastructure\Persistence\Sql\Repository\ParkingSessionRepositorySql;
 use App\Infrastructure\Persistence\Sql\Repository\ReservationRepositorySql;
 use RuntimeException;
 
-/**
- * Simple SQL/JSON switch to pick repository implementations.
- *
- * Driver is resolved via argument or ENV `PERSISTENCE_DRIVER` (json by default).
- */
 final class RepositoryFactory
 {
     public static function createParkingRepository(?string $driver = null): ParkingRepositoryInterface

@@ -2,5 +2,4 @@
 
 namespace App\Presentation\Http\Controller\Web;
 
-/** Web Controller: Parking management pages (owner side). */
 final class ParkingController {}

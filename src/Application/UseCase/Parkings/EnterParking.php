@@ -14,17 +14,8 @@ use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\ParkingSpotId;
 use App\Domain\ValueObject\UserId;
-use App\Domain\ValueObject\AbonnementId;
 use DateTimeImmutable;
 
-/**
- * Cas d'usage : Entrer dans un parking.
- * 
- * Règles métier :
- * - L'utilisateur doit avoir une réservation active OU un abonnement actif
- * - Le parking doit être ouvert
- * - Il ne doit pas déjà avoir un stationnement actif dans ce parking
- */
 final class EnterParking
 {
     public function __construct(
@@ -44,30 +35,25 @@ final class EnterParking
             ? new DateTimeImmutable($request->enteredAt) 
             : new DateTimeImmutable();
 
-        // Vérifier que l'utilisateur existe
         $user = $this->userRepository->findById($userId);
         if ($user === null) {
             throw new ValidationException('Utilisateur introuvable.');
         }
 
-        // Vérifier que le parking existe
         $parking = $this->parkingRepository->findById($parkingId);
         if ($parking === null) {
             throw new ValidationException('Parking introuvable.');
         }
 
-        // Vérifier que le parking est ouvert
         if (!$parking->isOpenAt($enteredAt)) {
             throw new ValidationException('Le parking est fermé à cet instant.');
         }
 
-        // Vérifier qu'il n'y a pas déjà un stationnement actif
         $activeSession = $this->sessionRepository->findActiveByUserAndParking($userId, $parkingId);
         if ($activeSession !== null) {
             throw new ValidationException('Vous avez déjà un stationnement actif dans ce parking.');
         }
 
-        // Vérifier qu'il a une réservation active OU un abonnement actif
         $hasActiveReservation = $this->hasActiveReservation($userId, $parkingId, $enteredAt);
         $hasActiveAbonnement = $this->hasActiveAbonnement($userId, $parkingId, $enteredAt);
 
@@ -75,7 +61,6 @@ final class EnterParking
             throw new ValidationException('Vous devez avoir une réservation active ou un abonnement actif pour entrer dans ce parking.');
         }
 
-        // Créer la session de stationnement
         $session = ParkingSession::start($parkingId, $userId, $spotId, $enteredAt);
         $this->sessionRepository->save($session);
 
@@ -116,20 +101,3 @@ final class EnterParking
         return false;
     }
 }
-
-
-            }
-        }
-        
-        return false;
-    }
-}
-
-
-            }
-        }
-        
-        return false;
-    }
-}
-
