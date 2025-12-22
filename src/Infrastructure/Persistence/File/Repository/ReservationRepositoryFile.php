@@ -59,6 +59,10 @@ final class ReservationRepositoryFile implements ReservationRepositoryInterface
             if ($record['parking_id'] !== $parkingId->getValue()) {
                 continue;
             }
+            $status = ReservationStatus::from($record['status']);
+            if (!$status->isActive()) {
+                continue;
+            }
             $existing = $this->rangeFromRecord($record);
             if ($existing->overlaps($range)) {
                 return true;
@@ -75,6 +79,10 @@ final class ReservationRepositoryFile implements ReservationRepositoryInterface
                 continue;
             }
             if ($parkingId !== null && $record['parking_id'] !== $parkingId->getValue()) {
+                continue;
+            }
+            $status = ReservationStatus::from($record['status']);
+            if (!$status->isActive()) {
                 continue;
             }
             $existing = $this->rangeFromRecord($record);

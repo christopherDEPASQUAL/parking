@@ -2,5 +2,13 @@
 
 namespace App\Infrastructure\Geo;
 
-/** Implementation of GeoSearchInterface (Haversine / basic SQL). */
-final class SimpleGeoSearch {}
+use App\Application\Port\Geo\GeoSearchInterface;
+use App\Domain\ValueObject\GeoLocation;
+
+final class SimpleGeoSearch implements GeoSearchInterface
+{
+    public function searchNearby(GeoLocation $center, float $radiusKm, int $limit = 20): array
+    {
+        return [];
+    }
+}

@@ -94,7 +94,7 @@ final class Reservation
 
     public function confirm(): void
     {
-        if ($this->status !== ReservationStatus::PENDING) {
+        if ($this->status !== ReservationStatus::PENDING && $this->status !== ReservationStatus::PENDING_PAYMENT) {
             throw new \DomainException('Seules les réservations en attente peuvent être confirmées.');
         }
 
@@ -138,5 +138,23 @@ final class Reservation
     public function isCancelled(): bool
     {
         return $this->status->isCancelled();
+    }
+
+    public function isActiveAt(\DateTimeImmutable $at): bool
+    {
+        if (!$this->status->isActive()) {
+            return false;
+        }
+
+        return $this->dateRange->contains($at);
+    }
+
+    public function isEntryAllowedAt(\DateTimeImmutable $at): bool
+    {
+        if (!$this->status->isEntryAllowed()) {
+            return false;
+        }
+
+        return $this->dateRange->contains($at);
     }
 }

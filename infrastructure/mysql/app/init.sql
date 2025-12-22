@@ -35,21 +35,32 @@ CREATE TABLE opening_hours (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     parking_id CHAR(36) NOT NULL,
     day_of_week TINYINT NOT NULL CHECK (day_of_week BETWEEN 0 AND 6),
+    end_day_of_week TINYINT NOT NULL CHECK (end_day_of_week BETWEEN 0 AND 6),
     open_time TIME NOT NULL,
     close_time TIME NOT NULL,
     FOREIGN KEY (parking_id) REFERENCES parkings(id)
 );
 
-CREATE TABLE parking_tariffs (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE subscription_offers (
+    id CHAR(36) PRIMARY KEY,
     parking_id CHAR(36) NOT NULL,
-    label VARCHAR(100) NOT NULL,
-    base_price DECIMAL(10,2) NOT NULL,
-    increment_minutes INT NOT NULL,
-    increment_price DECIMAL(10,2) NOT NULL,
-    effective_from DATETIME NOT NULL,
-    effective_to DATETIME NULL,
+    label VARCHAR(150) NOT NULL,
+    type ENUM('full','weekend','evening','custom') NOT NULL,
+    price_cents INT NOT NULL,
+    status ENUM('active','inactive') NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NULL,
     FOREIGN KEY (parking_id) REFERENCES parkings(id)
+);
+
+CREATE TABLE subscription_offer_slots (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    offer_id CHAR(36) NOT NULL,
+    start_day_of_week TINYINT NOT NULL CHECK (start_day_of_week BETWEEN 0 AND 6),
+    end_day_of_week TINYINT NOT NULL CHECK (end_day_of_week BETWEEN 0 AND 6),
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    FOREIGN KEY (offer_id) REFERENCES subscription_offers(id)
 );
 
 CREATE TABLE reservations (
@@ -58,7 +69,7 @@ CREATE TABLE reservations (
     parking_id CHAR(36) NOT NULL,
     starts_at DATETIME NOT NULL,
     ends_at DATETIME NOT NULL,
-    status ENUM('pending','confirmed','cancelled','completed','payment_failed') NOT NULL,
+    status ENUM('pending_payment','pending','confirmed','cancelled','completed','payment_failed') NOT NULL,
     price DECIMAL(10,2) NULL,
     currency CHAR(3) NOT NULL DEFAULT 'EUR',
     cancelled_at DATETIME NULL,
@@ -72,22 +83,14 @@ CREATE TABLE subscriptions (
     id CHAR(36) PRIMARY KEY,
     user_id CHAR(36) NOT NULL,
     parking_id CHAR(36) NOT NULL,
-    type ENUM('full','weekend','evening','custom') NOT NULL,
+    offer_id CHAR(36) NOT NULL,
     starts_at DATE NOT NULL,
     ends_at DATE NOT NULL,
     status ENUM('active','paused','cancelled','expired') NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (parking_id) REFERENCES parkings(id)
-);
-
-CREATE TABLE subscription_slots (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    subscription_id CHAR(36) NOT NULL,
-    day_of_week TINYINT NOT NULL CHECK (day_of_week BETWEEN 0 AND 6),
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    FOREIGN KEY (subscription_id) REFERENCES subscriptions(id)
+    FOREIGN KEY (parking_id) REFERENCES parkings(id),
+    FOREIGN KEY (offer_id) REFERENCES subscription_offers(id)
 );
 
 CREATE TABLE stationings (
@@ -119,6 +122,11 @@ CREATE TABLE payments (
     amount DECIMAL(10,2) NOT NULL,
     provider_reference VARCHAR(255),
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CHECK (
+        (reservation_id IS NOT NULL AND subscription_id IS NULL AND stationing_id IS NULL)
+        OR (reservation_id IS NULL AND subscription_id IS NOT NULL AND stationing_id IS NULL)
+        OR (reservation_id IS NULL AND subscription_id IS NULL AND stationing_id IS NOT NULL)
+    ),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (reservation_id) REFERENCES reservations(id),
     FOREIGN KEY (subscription_id) REFERENCES subscriptions(id),

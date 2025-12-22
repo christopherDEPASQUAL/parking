@@ -1,5 +1,6 @@
 services:
   app:
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "public", "public/index.php"]
     build:
       context: .
       dockerfile: Dockerfile
@@ -26,6 +27,17 @@ services:
     depends_on:
       - app_db
       - test_db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${FRONTEND_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      - app
 
   app_db:
     image: mysql:8.0

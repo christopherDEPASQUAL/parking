@@ -6,55 +6,55 @@ use DateTimeImmutable;
 use InvalidArgumentException;
 
 /**
- * Représente les plages d'ouverture hebdomadaires d'un parking.
+ * Opening schedule expressed as weekly slots.
  *
- * Stocke des intervalles par jour (0 = dimanche ... 6 = samedi) en minutes depuis minuit.
- * Permet de vérifier l'ouverture à un instant donné.
+ * Slot format:
+ * - start_day (0=Sunday .. 6=Saturday)
+ * - end_day (0=Sunday .. 6=Saturday)
+ * - start_time / end_time in HH:MM
  */
 final class OpeningSchedule
 {
     private const MINUTES_PER_DAY = 1440;
+    private const MINUTES_PER_WEEK = 10080;
 
     /**
-     * @var array<int, array<int, array{start:int,end:int}>> key: dayOfWeek => list of intervals
+     * @var array<int, array{start_day:int,end_day:int,start_time:string,end_time:string,start:int,end:int}>
      */
-    private array $dailyIntervals;
+    private array $slots;
 
     /**
-     * @param array<int, array<int, array{start:string,end:string}>> $dailyIntervals day => list of intervals HH:MM
+     * @param array<int, array<string, mixed>> $slots
      */
-    public function __construct(array $dailyIntervals)
+    public function __construct(array $slots)
     {
-        $this->dailyIntervals = $this->normalize($dailyIntervals);
+        $this->slots = $this->normalize($slots);
     }
 
-    /**
-     * Planning toujours ouvert (24/7).
-     */
     public static function alwaysOpen(): self
     {
-        return new self([
-            0 => [['start' => '00:00', 'end' => '24:00']],
-            1 => [['start' => '00:00', 'end' => '24:00']],
-            2 => [['start' => '00:00', 'end' => '24:00']],
-            3 => [['start' => '00:00', 'end' => '24:00']],
-            4 => [['start' => '00:00', 'end' => '24:00']],
-            5 => [['start' => '00:00', 'end' => '24:00']],
-            6 => [['start' => '00:00', 'end' => '24:00']],
-        ]);
+        $slots = [];
+        for ($day = 0; $day <= 6; $day++) {
+            $slots[] = [
+                'start_day' => $day,
+                'end_day' => $day,
+                'start_time' => '00:00',
+                'end_time' => '24:00',
+            ];
+        }
+
+        return new self($slots);
     }
 
     public function isOpenAt(DateTimeImmutable $at): bool
     {
-        $day = (int) $at->format('w'); // 0 (dimanche) à 6 (samedi)
-        $minutes = ((int) $at->format('H')) * 60 + (int) $at->format('i');
+        $day = (int) $at->format('w');
+        $minutes = $this->toWeekMinutes($day, $at->format('H:i'));
+        $minutesNext = $minutes + self::MINUTES_PER_WEEK;
 
-        if (!isset($this->dailyIntervals[$day])) {
-            return false;
-        }
-
-        foreach ($this->dailyIntervals[$day] as $interval) {
-            if ($minutes >= $interval['start'] && $minutes < $interval['end']) {
+        foreach ($this->slots as $slot) {
+            if (($minutes >= $slot['start'] && $minutes < $slot['end'])
+                || ($minutesNext >= $slot['start'] && $minutesNext < $slot['end'])) {
                 return true;
             }
         }
@@ -63,79 +63,200 @@ final class OpeningSchedule
     }
 
     /**
-     * @return array<int, array<int, array{start:string,end:string}>>
+     * @return array<int, array{start_day:int,end_day:int,start_time:string,end_time:string}>
      */
     public function toArray(): array
     {
         $result = [];
-        foreach ($this->dailyIntervals as $day => $intervals) {
-            foreach ($intervals as $interval) {
-                $result[$day][] = [
-                    'start' => $this->minutesToString($interval['start']),
-                    'end'   => $this->minutesToString($interval['end']),
-                ];
-            }
+        foreach ($this->slots as $slot) {
+            $result[] = [
+                'start_day' => $slot['start_day'],
+                'end_day' => $slot['end_day'],
+                'start_time' => $slot['start_time'],
+                'end_time' => $slot['end_time'],
+            ];
         }
 
         return $result;
     }
 
     /**
-     * @param array<int, array<int, array{start:string,end:string}>> $input
-     * @return array<int, array<int, array{start:int,end:int}>>
+     * @param array<int, array<string, mixed>> $input
+     * @return array<int, array{start_day:int,end_day:int,start_time:string,end_time:string,start:int,end:int}>
      */
     private function normalize(array $input): array
     {
-        $normalized = [];
+        $slots = [];
 
-        foreach ($input as $day => $intervals) {
-            if (!is_int($day) || $day < 0 || $day > 6) {
-                throw new InvalidArgumentException('Day must be an integer between 0 (Sunday) and 6 (Saturday).');
-            }
-            if (!is_array($intervals) || $intervals === []) {
-                continue;
-            }
-
-            $normalized[$day] = [];
-            foreach ($intervals as $interval) {
-                if (!isset($interval['start'], $interval['end'])) {
-                    throw new InvalidArgumentException('Each interval must define start and end.');
+        if ($this->looksLikeDailyMap($input)) {
+            foreach ($input as $day => $intervals) {
+                if (!is_int($day) || $day < 0 || $day > 6) {
+                    throw new InvalidArgumentException('Day must be an integer between 0 (Sunday) and 6 (Saturday).');
+                }
+                if (!is_array($intervals) || $intervals === []) {
+                    continue;
                 }
 
-                $start = $this->timeToMinutes($interval['start']);
-                $end = $this->timeToMinutes($interval['end']);
+                foreach ($intervals as $interval) {
+                    if (!isset($interval['start'], $interval['end'])) {
+                        throw new InvalidArgumentException('Each interval must define start and end.');
+                    }
 
-                if ($start >= $end) {
-                    throw new InvalidArgumentException('Start time must be before end time.');
+                    $slots[] = [
+                        'start_day' => $day,
+                        'end_day' => $day,
+                        'start_time' => (string) $interval['start'],
+                        'end_time' => (string) $interval['end'],
+                    ];
                 }
-
-                if ($end > self::MINUTES_PER_DAY) {
-                    throw new InvalidArgumentException('End time cannot exceed 24:00.');
-                }
-
-                $this->assertNoOverlap($normalized[$day], $start, $end);
-
-                $normalized[$day][] = ['start' => $start, 'end' => $end];
             }
+        } else {
+            foreach ($input as $slot) {
+                if (!is_array($slot)) {
+                    continue;
+                }
 
-            // Tri par heure de début pour cohérence
-            usort($normalized[$day], static fn(array $a, array $b) => $a['start'] <=> $b['start']);
+                if (isset($slot['start_day'], $slot['end_day'], $slot['start_time'], $slot['end_time'])) {
+                    $slots[] = [
+                        'start_day' => (int) $slot['start_day'],
+                        'end_day' => (int) $slot['end_day'],
+                        'start_time' => (string) $slot['start_time'],
+                        'end_time' => (string) $slot['end_time'],
+                    ];
+                    continue;
+                }
+
+                if (isset($slot['day'], $slot['start'], $slot['end'])) {
+                    $day = (int) $slot['day'];
+                    $slots[] = [
+                        'start_day' => $day,
+                        'end_day' => $day,
+                        'start_time' => (string) $slot['start'],
+                        'end_time' => (string) $slot['end'],
+                    ];
+                }
+            }
         }
+
+        $normalized = [];
+        $ranges = [];
+
+        foreach ($slots as $slot) {
+            $startDay = (int) $slot['start_day'];
+            $endDay = (int) $slot['end_day'];
+
+            if ($startDay < 0 || $startDay > 6 || $endDay < 0 || $endDay > 6) {
+                throw new InvalidArgumentException('Days must be between 0 (Sunday) and 6 (Saturday).');
+            }
+
+            $startMinutes = $this->timeToMinutes($slot['start_time']);
+            $endMinutes = $this->timeToMinutes($slot['end_time']);
+
+            if ($startMinutes === $endMinutes) {
+                throw new InvalidArgumentException('Start time must be different from end time.');
+            }
+
+            if ($endMinutes > self::MINUTES_PER_DAY) {
+                throw new InvalidArgumentException('End time cannot exceed 24:00.');
+            }
+
+            if ($endDay === $startDay && $endMinutes < $startMinutes) {
+                $endDay = $startDay === 6 ? 0 : $startDay + 1;
+            }
+
+            $startWeek = $startDay * self::MINUTES_PER_DAY + $startMinutes;
+            $endWeek = $endDay * self::MINUTES_PER_DAY + $endMinutes;
+
+            if ($endWeek < $startWeek) {
+                $endWeek += self::MINUTES_PER_WEEK;
+            }
+
+            if ($startWeek === $endWeek) {
+                throw new InvalidArgumentException('Opening slot cannot have zero duration.');
+            }
+
+            $this->assertNoOverlap($ranges, $startWeek, $endWeek);
+            $ranges[] = [$startWeek, $endWeek];
+
+            $normalized[] = [
+                'start_day' => $startDay,
+                'end_day' => $endDay,
+                'start_time' => $this->minutesToString($startMinutes),
+                'end_time' => $this->minutesToString($endMinutes),
+                'start' => $startWeek,
+                'end' => $endWeek,
+            ];
+        }
+
+        usort($normalized, static fn(array $a, array $b) => $a['start'] <=> $b['start']);
 
         return $normalized;
     }
 
     /**
-     * @param array<int, array{start:int,end:int}> $existing
+     * @param array<int, array{0:int,1:int}> $ranges
      */
-    private function assertNoOverlap(array $existing, int $start, int $end): void
+    private function assertNoOverlap(array $ranges, int $start, int $end): void
     {
-        foreach ($existing as $interval) {
-            $overlap = !($end <= $interval['start'] || $start >= $interval['end']);
-            if ($overlap) {
-                throw new InvalidArgumentException('Opening intervals must not overlap.');
+        $newRanges = $this->expandRange($start, $end);
+
+        foreach ($ranges as $range) {
+            foreach ($this->expandRange($range[0], $range[1]) as $existing) {
+                foreach ($newRanges as $candidate) {
+                    $overlap = !($candidate[1] <= $existing[0] || $candidate[0] >= $existing[1]);
+                    if ($overlap) {
+                        throw new InvalidArgumentException('Opening slots must not overlap.');
+                    }
+                }
             }
         }
+    }
+
+    /**
+     * @return array<int, array{0:int,1:int}>
+     */
+    private function expandRange(int $start, int $end): array
+    {
+        if ($end <= self::MINUTES_PER_WEEK) {
+            return [[$start, $end]];
+        }
+
+        return [
+            [$start, self::MINUTES_PER_WEEK],
+            [0, $end - self::MINUTES_PER_WEEK],
+        ];
+    }
+
+    private function looksLikeDailyMap(array $input): bool
+    {
+        if ($input === []) {
+            return false;
+        }
+
+        foreach ($input as $key => $value) {
+            if (!is_int($key)) {
+                return false;
+            }
+            if ($key < 0 || $key > 6) {
+                return false;
+            }
+            if (!is_array($value)) {
+                return false;
+            }
+
+            foreach ($value as $interval) {
+                if (!is_array($interval) || !isset($interval['start'], $interval['end'])) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private function toWeekMinutes(int $dayOfWeek, string $time): int
+    {
+        return ($dayOfWeek * self::MINUTES_PER_DAY) + $this->timeToMinutes($time);
     }
 
     private function timeToMinutes(string $time): int
@@ -146,7 +267,12 @@ final class OpeningSchedule
 
         $hours = (int) $m[1];
         $minutes = (int) $m[2];
-        return $hours * 60 + $minutes;
+
+        if ($hours === 24 && $minutes !== 0) {
+            throw new InvalidArgumentException('24:00 must be used with 00 minutes.');
+        }
+
+        return ($hours * 60) + $minutes;
     }
 
     private function minutesToString(int $minutes): string

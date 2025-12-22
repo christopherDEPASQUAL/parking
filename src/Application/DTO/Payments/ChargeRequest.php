@@ -1,12 +1,16 @@
 <?php declare(strict_types=1);
 
-namespace App\Payments;
+namespace App\Application\DTO\Payments;
 
-/**
- * DTO: Instruction to charge (reservationId, amount, customerRef, metadata).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
- */
-final class ChargeRequest {}
+final class ChargeRequest
+{
+    public function __construct(
+        public readonly string $userId,
+        public readonly int $amountCents,
+        public readonly string $currency = 'EUR',
+        public readonly ?string $reservationId = null,
+        public readonly ?string $abonnementId = null,
+        public readonly ?string $stationnementId = null,
+        public readonly array $metadata = []
+    ) {}
+}

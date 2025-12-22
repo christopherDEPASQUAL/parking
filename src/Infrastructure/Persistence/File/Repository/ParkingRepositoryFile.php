@@ -3,33 +3,45 @@
 namespace App\Infrastructure\Persistence\File\Repository;
 
 use App\Domain\Entity\Parking;
+use App\Domain\Repository\AbonnementRepositoryInterface;
 use App\Domain\Repository\ParkingRepositoryInterface;
+use App\Domain\Repository\PaymentRepositoryInterface;
+use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\Repository\StationnementRepositoryInterface;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\ParkingSearchQuery;
 use App\Domain\ValueObject\UserId;
 use App\Infrastructure\Persistence\Sql\Mapper\ParkingMapper;
 use DateTimeImmutable;
 
-/**
- * Simple JSON-based implementation of the ParkingRepository port.
- *
- * Notes:
- *  - This adapter is meant for local/demo usage; it keeps a flat JSON file in storage.
- *  - It relies on the shared ParkingMapper to keep conversion logic centralised.
- */
 final class ParkingRepositoryFile implements ParkingRepositoryInterface
 {
     private ParkingMapper $mapper;
     private string $filePath;
+    private ReservationRepositoryInterface $reservationRepository;
+    private AbonnementRepositoryInterface $abonnementRepository;
+    private StationnementRepositoryInterface $stationnementRepository;
+    private PaymentRepositoryInterface $paymentRepository;
 
-    public function __construct(?string $filePath = null, ?ParkingMapper $mapper = null)
-    {
+    public function __construct(
+        ?string $filePath = null,
+        ?ParkingMapper $mapper = null,
+        ?ReservationRepositoryInterface $reservationRepository = null,
+        ?AbonnementRepositoryInterface $abonnementRepository = null,
+        ?StationnementRepositoryInterface $stationnementRepository = null,
+        ?PaymentRepositoryInterface $paymentRepository = null
+    ) {
         $resolved = $filePath ?? (getenv('JSON_PARKING_STORAGE') ?: 'storage/parkings.json');
-        if (!preg_match('#^([A-Za-z]:\\\\|/)#', $resolved)) {
-            $resolved = \dirname(__DIR__, 5) . '/' . ltrim($resolved, '/\\');
+        if (!preg_match('#^([A-Za-z]:\\|/)#', $resolved)) {
+            $resolved = 
+                \dirname(__DIR__, 5) . '/' . ltrim($resolved, '/\\');
         }
         $this->filePath = $resolved;
         $this->mapper = $mapper ?? new ParkingMapper();
+        $this->reservationRepository = $reservationRepository ?? new ReservationRepositoryFile();
+        $this->abonnementRepository = $abonnementRepository ?? new AbonnementRepositoryFile();
+        $this->stationnementRepository = $stationnementRepository ?? new StationnementRepositoryFile();
+        $this->paymentRepository = $paymentRepository ?? new PaymentRepositoryFile();
     }
 
     public function save(Parking $parking): void
@@ -70,26 +82,29 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
 
     public function searchAvailable(ParkingSearchQuery $query): array
     {
+        $nameFilter = $query->name();
+        $rangeEnd = $query->endsAt();
+        $rangeStart = $query->at();
         $result = [];
         foreach ($this->load() as $raw) {
             $parking = $this->mapper->fromArray($raw);
 
-            // Filtre : propriÇ¸taire
             if ($query->ownerId() !== null && !$parking->getUserId()->equals($query->ownerId())) {
                 continue;
             }
 
-            // Filtre : gÇ¸oloc + rayon
             if (!$parking->getLocation()->isWithinRadius($query->center(), $query->radiusKm())) {
                 continue;
             }
 
-            // Filtre : ouverture
-            if (!$parking->isOpenAt($query->at())) {
+            if (!$parking->isOpenAt($rangeStart) || ($rangeEnd !== null && !$parking->isOpenAt($rangeEnd))) {
                 continue;
             }
 
-            // Filtre : prix max (approximatif sur 60 minutes)
+            if ($nameFilter !== null && stripos($parking->getName(), $nameFilter) === false) {
+                continue;
+            }
+
             if ($query->maxPriceCents() !== null) {
                 $priceForHour = $parking->computePriceForDurationMinutes(60);
                 if ($priceForHour > $query->maxPriceCents()) {
@@ -97,8 +112,24 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
                 }
             }
 
-            // Filtre : disponibilitÇ¸ minimale (on n'a pas de contexte rÇ¸servations ici)
-            if ($parking->getTotalCapacity() < $query->minimumFreeSpots()) {
+            $context = $this->getAvailabilityContext($parking->getId(), $rangeStart);
+            $free = $parking->freeSpotsAt(
+                $rangeStart,
+                $context['reservations'],
+                $context['abonnements'],
+                $context['stationnements']
+            );
+            if ($rangeEnd !== null && $rangeEnd > $rangeStart) {
+                $contextEnd = $this->getAvailabilityContext($parking->getId(), $rangeEnd);
+                $freeEnd = $parking->freeSpotsAt(
+                    $rangeEnd,
+                    $contextEnd['reservations'],
+                    $contextEnd['abonnements'],
+                    $contextEnd['stationnements']
+                );
+                $free = min($free, $freeEnd);
+            }
+            if ($free < $query->minimumFreeSpots()) {
                 continue;
             }
 
@@ -115,29 +146,25 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
             return 0;
         }
 
-        // Sans contexte rÇ¸servation/stationnement, on considère toute la capacité disponible.
-        return $parking->getTotalCapacity();
+        $context = $this->getAvailabilityContext($parkingId, $at);
+
+        return $parking->freeSpotsAt($at, $context['reservations'], $context['abonnements'], $context['stationnements']);
     }
 
     public function getAvailabilityContext(ParkingId $parkingId, DateTimeImmutable $at): array
     {
-        // Pas de stockage des rÇ¸servations/abonnements/stationnements dans cet adaptateur.
         return [
-            'reservations' => [],
-            'abonnements' => [],
-            'stationnements' => [],
+            'reservations' => $this->reservationRepository->listActiveAt($parkingId, $at),
+            'abonnements' => $this->abonnementRepository->listActiveAt($parkingId, $at),
+            'stationnements' => $this->stationnementRepository->listActiveAt($parkingId, $at),
         ];
     }
 
     public function getMonthlyRevenueCents(ParkingId $parkingId, int $year, int $month): int
     {
-        // Pas de flux financier dans le stockage fichier.
-        return 0;
+        return $this->paymentRepository->sumApprovedByParkingAndMonth($parkingId, $year, $month);
     }
 
-    /**
-     * @return array<string, array<string, mixed>>
-     */
     private function load(): array
     {
         if (!is_file($this->filePath)) {

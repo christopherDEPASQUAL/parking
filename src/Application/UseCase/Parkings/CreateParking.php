@@ -14,7 +14,7 @@ use App\Domain\ValueObject\PricingPlan;
 use App\Domain\ValueObject\UserId;
 
 /**
- * Cas d'usage : création d'un parking (côté application).
+ * Cas d'usage : creation d'un parking (cote application).
  */
 final class CreateParking
 {
@@ -25,7 +25,8 @@ final class CreateParking
         $pricingPlan = new PricingPlan(
             $request->pricingTiers,
             $request->defaultPricePerStepCents,
-            $request->overstayPenaltyCents ?? 2000 // pénalité 20 € si non fournie
+            $request->overstayPenaltyCents ?? 2000,
+            $request->subscriptionPrices
         );
 
         $opening = $request->openingHours === []
