@@ -4,9 +4,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { createParking, getParking, updateParking } from "../../api/parkings";
-import { Button, Card, Input, Select, Textarea } from "../../shared/ui";
+import { Button, Card, Input, Select, Textarea, useToast } from "../../shared/ui";
 import styles from "./OwnerParkingFormPage.module.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const schema = z.object({
   name: z.string().min(1),
@@ -29,6 +29,8 @@ type FormValues = z.infer<typeof schema>;
 
 export function OwnerParkingFormPage({ mode }: { mode: "create" | "edit" }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { notify } = useToast();
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: { opening_hours: [{ start_day: 1, end_day: 1, start_time: "08:00", end_time: "18:00" }] },
@@ -57,9 +59,37 @@ export function OwnerParkingFormPage({ mode }: { mode: "create" | "edit" }) {
 
   const createMutation = useMutation({
     mutationFn: (payload: FormValues) => createParking(payload),
+    onSuccess: (data: any) => {
+      notify({
+        title: "Parking créé",
+        description: "Vous pouvez maintenant gérer les tarifs et les offres.",
+        variant: "success",
+      });
+      const parkingId = data?.parking_id ?? data?.id;
+      if (parkingId) {
+        navigate(`/owner/parkings/${parkingId}/edit`);
+      }
+    },
+    onError: (error: any) => {
+      notify({
+        title: "Création échouée",
+        description: error?.message || "Veuillez vérifier le formulaire et réessayer.",
+        variant: "error",
+      });
+    },
   });
   const updateMutation = useMutation({
     mutationFn: (payload: FormValues) => (id ? updateParking(id, payload) : Promise.reject()),
+    onSuccess: () => {
+      notify({ title: "Parking mis à jour", description: "Modifications enregistrées.", variant: "success" });
+    },
+    onError: (error: any) => {
+      notify({
+        title: "Mise à jour échouée",
+        description: error?.message || "Veuillez vérifier le formulaire et réessayer.",
+        variant: "error",
+      });
+    },
   });
 
   const onSubmit = (data: FormValues) => {
@@ -71,10 +101,10 @@ export function OwnerParkingFormPage({ mode }: { mode: "create" | "edit" }) {
   };
 
   return (
-    <Card title={mode === "create" ? "Create parking" : "Edit parking"}>
+    <Card title={mode === "create" ? "Créer un parking" : "Modifier le parking"}>
       <form className={styles.form} onSubmit={form.handleSubmit(onSubmit)}>
-        <Input label="Name" error={form.formState.errors.name?.message} {...form.register("name")} />
-        <Input label="Address" error={form.formState.errors.address?.message} {...form.register("address")} />
+        <Input label="Nom" error={form.formState.errors.name?.message} {...form.register("name")} />
+        <Input label="Adresse" error={form.formState.errors.address?.message} {...form.register("address")} />
         <Textarea label="Description" {...form.register("description")} />
         <Input
           label="Latitude"
@@ -91,7 +121,7 @@ export function OwnerParkingFormPage({ mode }: { mode: "create" | "edit" }) {
           {...form.register("longitude", { valueAsNumber: true })}
         />
         <Input
-          label="Capacity"
+          label="Capacité"
           type="number"
           step="1"
           error={form.formState.errors.capacity?.message}
@@ -99,45 +129,45 @@ export function OwnerParkingFormPage({ mode }: { mode: "create" | "edit" }) {
         />
         <div className={styles.slots}>
           <div className={styles.slotsHeader}>
-            <h4>Opening hours</h4>
+            <h4>Horaires d’ouverture</h4>
             <Button
               type="button"
               variant="secondary"
               onClick={() => append({ start_day: 1, end_day: 1, start_time: "08:00", end_time: "18:00" })}
             >
-              Add slot
+              Ajouter un créneau
             </Button>
           </div>
           {fields.map((field, index) => (
             <div key={field.id} className={styles.slotRow}>
-              <Select label="Start day" {...form.register(`opening_hours.${index}.start_day`, { valueAsNumber: true })}>
-                <option value={0}>Sun</option>
-                <option value={1}>Mon</option>
-                <option value={2}>Tue</option>
-                <option value={3}>Wed</option>
-                <option value={4}>Thu</option>
-                <option value={5}>Fri</option>
-                <option value={6}>Sat</option>
+              <Select label="Jour début" {...form.register(`opening_hours.${index}.start_day`, { valueAsNumber: true })}>
+                <option value={0}>Dim</option>
+                <option value={1}>Lun</option>
+                <option value={2}>Mar</option>
+                <option value={3}>Mer</option>
+                <option value={4}>Jeu</option>
+                <option value={5}>Ven</option>
+                <option value={6}>Sam</option>
               </Select>
-              <Select label="End day" {...form.register(`opening_hours.${index}.end_day`, { valueAsNumber: true })}>
-                <option value={0}>Sun</option>
-                <option value={1}>Mon</option>
-                <option value={2}>Tue</option>
-                <option value={3}>Wed</option>
-                <option value={4}>Thu</option>
-                <option value={5}>Fri</option>
-                <option value={6}>Sat</option>
+              <Select label="Jour fin" {...form.register(`opening_hours.${index}.end_day`, { valueAsNumber: true })}>
+                <option value={0}>Dim</option>
+                <option value={1}>Lun</option>
+                <option value={2}>Mar</option>
+                <option value={3}>Mer</option>
+                <option value={4}>Jeu</option>
+                <option value={5}>Ven</option>
+                <option value={6}>Sam</option>
               </Select>
-              <Input label="Start time" {...form.register(`opening_hours.${index}.start_time`)} placeholder="08:00" />
-              <Input label="End time" {...form.register(`opening_hours.${index}.end_time`)} placeholder="18:00" />
+              <Input label="Heure début" {...form.register(`opening_hours.${index}.start_time`)} placeholder="08:00" />
+              <Input label="Heure fin" {...form.register(`opening_hours.${index}.end_time`)} placeholder="18:00" />
               <Button type="button" variant="ghost" onClick={() => remove(index)}>
-                Remove
+                Supprimer
               </Button>
             </div>
           ))}
         </div>
         <Button type="submit" loading={createMutation.isPending || updateMutation.isPending}>
-          {mode === "create" ? "Create parking" : "Save changes"}
+          {mode === "create" ? "Créer le parking" : "Enregistrer"}
         </Button>
       </form>
     </Card>

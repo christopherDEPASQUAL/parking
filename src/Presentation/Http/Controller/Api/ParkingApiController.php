@@ -124,15 +124,24 @@ final class ParkingApiController
             }
             $atValue = $_GET['at'] ?? $_GET['starts_at'] ?? null;
             $at = $atValue ? new \DateTimeImmutable($atValue) : new \DateTimeImmutable();
+            $endsAtValue = $_GET['ends_at'] ?? null;
+            $endsAt = $endsAtValue ? new \DateTimeImmutable($endsAtValue) : null;
 
             $request = new GetParkingAvailabilityRequest($parkingId, $at);
             $response = $this->getParkingAvailability->execute($request);
+            $freeSpots = $response->freeSpots;
+            if ($endsAt !== null && $endsAt > $at) {
+                $responseEnd = $this->getParkingAvailability->execute(
+                    new GetParkingAvailabilityRequest($parkingId, $endsAt)
+                );
+                $freeSpots = min($freeSpots, $responseEnd->freeSpots);
+            }
 
             $this->jsonResponse([
                 'success' => true,
                 'parking_id' => $response->parkingId,
                 'at' => $response->at->format(DATE_ATOM),
-                'free_spots' => $response->freeSpots,
+                'free_spots' => $freeSpots,
                 'capacity' => $response->totalCapacity,
             ]);
         } catch (\Throwable $e) {

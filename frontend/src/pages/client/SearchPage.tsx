@@ -6,11 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { searchParkings } from "../../api/parkings";
 import { Button, Card, DateTimeInput, Input, EmptyState, Skeleton } from "../../shared/ui";
-import { formatDateTime } from "../../shared/utils/format";
+import { formatDateTime, toLocalDateTimeInputValue } from "../../shared/utils/format";
 import styles from "./SearchPage.module.css";
 
 const schema = z
   .object({
+    name: z.string().optional(),
     lat: z.number(),
     lng: z.number(),
     radius: z.number().min(1),
@@ -18,7 +19,7 @@ const schema = z
     ends_at: z.string().min(1),
   })
   .refine((data) => new Date(data.starts_at) < new Date(data.ends_at), {
-    message: "End time must be after start time",
+    message: "L’heure de fin doit être après l’heure de début",
     path: ["ends_at"],
   });
 
@@ -34,11 +35,12 @@ export function SearchPage() {
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
+      name: "",
       lat: 48.8566,
       lng: 2.3522,
       radius: 5,
-      starts_at: new Date().toISOString().slice(0, 16),
-      ends_at: new Date(Date.now() + 60 * 60 * 1000).toISOString().slice(0, 16),
+      starts_at: toLocalDateTimeInputValue(new Date()),
+      ends_at: toLocalDateTimeInputValue(new Date(Date.now() + 60 * 60 * 1000)),
     },
   });
 
@@ -55,8 +57,14 @@ export function SearchPage() {
   return (
     <div className="container">
       <div className={styles.layout}>
-        <Card title="Search parkings" subtitle="Find a spot near you">
+        <Card title="Rechercher un parking" subtitle="Trouvez une place près de vous">
           <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <Input
+              label="Nom du parking"
+              error={errors.name?.message}
+              placeholder="ex: Centre-ville"
+              {...register("name")}
+            />
             <Input
               label="Latitude"
               type="number"
@@ -72,17 +80,25 @@ export function SearchPage() {
               {...register("lng", { valueAsNumber: true })}
             />
             <Input
-              label="Radius (km)"
+              label="Rayon (km)"
               type="number"
               step="1"
               error={errors.radius?.message}
               {...register("radius", { valueAsNumber: true })}
             />
-            <DateTimeInput label="Start" error={errors.starts_at?.message} {...register("starts_at")} />
-            <DateTimeInput label="End" error={errors.ends_at?.message} {...register("ends_at")} />
-            <Button type="submit">Search</Button>
+            <DateTimeInput label="Début" error={errors.starts_at?.message} {...register("starts_at")} />
+            <DateTimeInput label="Fin" error={errors.ends_at?.message} {...register("ends_at")} />
+            <Button type="submit">Rechercher</Button>
           </form>
         </Card>
+        <div className={styles.mapCard} aria-hidden="true">
+          <img
+            className={styles.mapImage}
+            src="/parkingLocalisation.png"
+            alt=""
+            loading="lazy"
+          />
+        </div>
         <div className={styles.results}>
           {query.isLoading ? (
             <div className={styles.cards}>
@@ -97,16 +113,16 @@ export function SearchPage() {
           ) : null}
           {query.isError ? (
             <EmptyState
-              title="Search failed"
-              description="We could not load results. Try again."
-              actionLabel="Retry"
+              title="Recherche échouée"
+              description="Impossible de charger les résultats. Réessayez."
+              actionLabel="Réessayer"
               onAction={() => query.refetch()}
             />
           ) : null}
           {!query.isLoading && query.data?.items?.length === 0 ? (
             <EmptyState
-              title="No results"
-              description="Adjust your radius or time range to find more parkings."
+              title="Aucun résultat"
+              description="Ajustez le rayon ou l’intervalle pour trouver plus de parkings."
             />
           ) : null}
           {query.data?.items?.length ? (
@@ -119,12 +135,12 @@ export function SearchPage() {
                       <p>{parking.address}</p>
                     </div>
                     <Button variant="secondary" onClick={() => navigate(`/parkings/${parking.id}`)}>
-                      View
+                      Voir
                     </Button>
                   </div>
                   <div className={styles.meta}>
-                    <span>Next availability: {formatDateTime(params?.starts_at)}</span>
-                    <span>Capacity: {parking.capacity ?? "-"}</span>
+                    <span>Prochaine disponibilité: {formatDateTime(params?.starts_at)}</span>
+                    <span>Capacité: {parking.capacity ?? "-"}</span>
                   </div>
                 </Card>
               ))}

@@ -23,20 +23,20 @@ export function InvoicePage() {
   if (query.isError) {
     return (
       <div className="container">
-        <EmptyState title="Invoice unavailable" description="We could not load this invoice." />
+        <EmptyState title="Facture indisponible" description="Impossible de charger cette facture." />
       </div>
     );
   }
 
   return (
     <div className="container">
-      <Card title="Invoice">
+      <Card title="Facture">
         <div className={styles.actions}>
-          <Button onClick={() => window.print()}>Print</Button>
+          <Button onClick={() => window.print()}>Imprimer</Button>
         </div>
         <div className={styles.preview}>
           {typeof query.data === "string" ? (
-            <iframe title="Invoice" className={styles.iframe} srcDoc={query.data} />
+            <iframe title="Facture" className={styles.iframe} srcDoc={query.data} />
           ) : (
             <pre>{JSON.stringify(query.data, null, 2)}</pre>
           )}

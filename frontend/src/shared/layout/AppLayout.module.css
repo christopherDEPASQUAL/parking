@@ -29,8 +29,16 @@
 }
 
 .brand {
-  font-weight: 700;
-  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  text-decoration: none;
+}
+
+.logo {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .nav {
@@ -41,10 +49,15 @@
 .nav a {
   padding: 6px 10px;
   border-radius: var(--radius-pill);
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .nav a.active {
   background: var(--color-accent-2);
+}
+
+.nav a:hover {
+  background: var(--color-accent-1);
 }
 
 .actions {

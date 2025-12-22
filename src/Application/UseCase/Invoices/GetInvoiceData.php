@@ -64,6 +64,8 @@ final class GetInvoiceData
             ];
 
             $context = [
+                'reservation_id' => $reservation->id()->getValue(),
+                'parking_id' => $reservation->parkingId()->getValue(),
                 'starts_at' => $reservation->dateRange()->getStart()->format(DATE_ATOM),
                 'ends_at' => $reservation->dateRange()->getEnd()->format(DATE_ATOM),
                 'duration_minutes' => $minutes,
@@ -87,6 +89,8 @@ final class GetInvoiceData
             ];
 
             $context = [
+                'abonnement_id' => $abonnement->id()->getValue(),
+                'parking_id' => $abonnement->parkingId()->getValue(),
                 'starts_at' => $abonnement->startDate()->format('Y-m-d'),
                 'ends_at' => $abonnement->endDate()->format('Y-m-d'),
                 'offer_id' => $abonnement->offerId()->getValue(),
@@ -105,6 +109,12 @@ final class GetInvoiceData
             $user = $this->userRepository->findById($session->getUserId());
 
             [$items, $context] = $this->buildStationnementLines($session, $payment->amount()->getAmountInCents());
+            $context = array_merge([
+                'stationnement_id' => $session->getId()->getValue(),
+                'parking_id' => $session->getParkingId()->getValue(),
+                'reservation_id' => $session->getReservationId()?->getValue(),
+                'abonnement_id' => $session->getAbonnementId()?->getValue(),
+            ], $context);
         }
 
         if ($parking === null || $user === null) {

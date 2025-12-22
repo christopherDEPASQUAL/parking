@@ -17,9 +17,11 @@ final class ParkingSearchQuery
     private GeoLocation $center;
     private float $radiusKm;
     private DateTimeImmutable $at;
+    private ?DateTimeImmutable $endsAt;
     private int $minimumFreeSpots;
     private ?int $maxPriceCents;
     private ?UserId $ownerId;
+    private ?string $name;
 
     public function __construct(
         GeoLocation $center,
@@ -27,7 +29,9 @@ final class ParkingSearchQuery
         DateTimeImmutable $at,
         int $minimumFreeSpots = 1,
         ?int $maxPriceCents = null,
-        ?UserId $ownerId = null
+        ?UserId $ownerId = null,
+        ?string $name = null,
+        ?DateTimeImmutable $endsAt = null
     ) {
         if ($radiusKm <= 0) {
             throw new InvalidArgumentException('Search radius must be positive.');
@@ -47,6 +51,8 @@ final class ParkingSearchQuery
         $this->minimumFreeSpots = $minimumFreeSpots;
         $this->maxPriceCents = $maxPriceCents;
         $this->ownerId = $ownerId;
+        $this->name = $name !== null && $name !== '' ? $name : null;
+        $this->endsAt = $endsAt;
     }
 
     public function center(): GeoLocation
@@ -64,6 +70,11 @@ final class ParkingSearchQuery
         return $this->at;
     }
 
+    public function endsAt(): ?DateTimeImmutable
+    {
+        return $this->endsAt;
+    }
+
     public function minimumFreeSpots(): int
     {
         return $this->minimumFreeSpots;
@@ -77,5 +88,10 @@ final class ParkingSearchQuery
     public function ownerId(): ?UserId
     {
         return $this->ownerId;
+    }
+
+    public function name(): ?string
+    {
+        return $this->name;
     }
 }

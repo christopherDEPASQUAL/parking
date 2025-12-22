@@ -16,6 +16,24 @@
   gap: var(--space-3);
 }
 
+.mapCard {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-accent-1), var(--color-accent-2));
+  border: 1px solid var(--color-border);
+  min-height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mapImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -47,6 +65,9 @@
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+  .mapCard {
+    min-height: 160px;
   }
   .cards {
     grid-template-columns: 1fr;

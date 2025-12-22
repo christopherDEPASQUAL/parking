@@ -2,12 +2,12 @@ import { Card, Table } from "../../shared/ui";
 
 export function AdminParkingsPage() {
   return (
-    <Card title="Parkings" subtitle="Read-only parkings list">
-      <p>Wire the admin parkings endpoint to display live data.</p>
-      <Table columns={["Parking", "Address", "Owner"]}>
+    <Card title="Parkings" subtitle="Liste en lecture seule">
+      <p>Connectez l’endpoint admin pour afficher les données en temps réel.</p>
+      <Table columns={["Parking", "Adresse", "Propriétaire"]}>
         <tr>
-          <td>Sample Parking</td>
-          <td>1 Main Street</td>
+          <td>Parking exemple</td>
+          <td>1 rue principale</td>
           <td>owner@email.com</td>
         </tr>
       </Table>

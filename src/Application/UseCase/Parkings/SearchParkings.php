@@ -25,7 +25,9 @@ final class SearchParkings
             $request->at,
             $request->minimumFreeSpots,
             $request->maxPriceCents,
-            $ownerId
+            $ownerId,
+            $request->name,
+            $request->endsAt
         );
 
         $parkings = $this->parkingRepository->searchAvailable($query);

@@ -17,9 +17,9 @@ export class ErrorBoundary extends React.Component<{ children: React.ReactNode }
     if (this.state.hasError) {
       return (
         <div className={styles.wrapper}>
-          <h2>Something went wrong</h2>
-          <p>Please refresh the page or try again later.</p>
-          <Button onClick={() => window.location.reload()}>Reload</Button>
+          <h2>Une erreur est survenue</h2>
+          <p>Veuillez rafraîchir la page ou réessayer plus tard.</p>
+          <Button onClick={() => window.location.reload()}>Recharger</Button>
         </div>
       );
     }

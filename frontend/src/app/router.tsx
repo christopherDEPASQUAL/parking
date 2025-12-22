@@ -19,6 +19,7 @@ import { OwnerOffersPage } from "../pages/owner/OwnerOffersPage";
 import { OwnerReservationsPage } from "../pages/owner/OwnerReservationsPage";
 import { OwnerStationingsPage } from "../pages/owner/OwnerStationingsPage";
 import { OwnerRevenuePage } from "../pages/owner/OwnerRevenuePage";
+import { OwnerOverstayersPage } from "../pages/owner/OwnerOverstayersPage";
 import { AdminUsersPage } from "../pages/admin/AdminUsersPage";
 import { AdminParkingsPage } from "../pages/admin/AdminParkingsPage";
 
@@ -54,6 +55,7 @@ export const router = createBrowserRouter([
                   { path: "/owner/parkings/:id/reservations", element: <OwnerReservationsPage /> },
                   { path: "/owner/parkings/:id/stationings", element: <OwnerStationingsPage /> },
                   { path: "/owner/parkings/:id/revenue", element: <OwnerRevenuePage /> },
+                  { path: "/owner/parkings/:id/overstayers", element: <OwnerOverstayersPage /> },
                 ],
               },
             ],

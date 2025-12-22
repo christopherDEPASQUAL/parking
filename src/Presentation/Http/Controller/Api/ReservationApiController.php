@@ -89,10 +89,10 @@ final class ReservationApiController
             $request = new ListParkingReservationsRequest(
                 $_GET['parking_id'] ?? ($_GET['id'] ?? throw new \InvalidArgumentException('parking_id is required')),
                 $_GET['status'] ?? null,
-                isset($_GET['page']) ? (int) $_GET['page'] : 1,
-                isset($_GET['per_page']) ? (int) $_GET['per_page'] : 20,
                 isset($_GET['from']) ? new \DateTimeImmutable($_GET['from']) : null,
-                isset($_GET['to']) ? new \DateTimeImmutable($_GET['to']) : null
+                isset($_GET['to']) ? new \DateTimeImmutable($_GET['to']) : null,
+                isset($_GET['page']) ? (int) $_GET['page'] : 1,
+                isset($_GET['per_page']) ? (int) $_GET['per_page'] : 20
             );
 
             $response = $this->listParkingReservations->execute($request);

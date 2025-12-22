@@ -12,27 +12,40 @@ export function OwnerStationingsPage() {
     enabled: !!id,
   });
   const items = query.data?.items ?? [];
+  const statusLabel = (value?: string | null) => {
+    if (!value) {
+      return "-";
+    }
+    const normalized = value.toLowerCase();
+    const labels: Record<string, string> = {
+      active: "en cours",
+      completed: "terminé",
+      pending: "en attente",
+      cancelled: "annulé",
+    };
+    return labels[normalized] ?? value;
+  };
 
   return (
-    <Card title="Stationings" subtitle="Active and historical stationings">
+    <Card title="Stationnements" subtitle="Stationnements actifs et historiques">
       {query.isLoading ? <Skeleton height={24} /> : null}
       {query.isError ? (
-        <EmptyState title="Failed to load" description="Please retry." />
+        <EmptyState title="Chargement échoué" description="Veuillez réessayer." />
       ) : null}
       {items.length ? (
-        <Table columns={["Session", "User", "Entered", "Exited", "Status"]}>
+        <Table columns={["Session", "Utilisateur", "Entrée", "Sortie", "Statut"]}>
           {items.map((session) => (
             <tr key={session.id}>
               <td>{session.id.slice(0, 8)}</td>
               <td>{session.user_id ?? "-"}</td>
               <td>{formatDateTime(session.entered_at)}</td>
-              <td>{session.exited_at ? formatDateTime(session.exited_at) : "Active"}</td>
-              <td>{session.status ?? "-"}</td>
+              <td>{session.exited_at ? formatDateTime(session.exited_at) : "En cours"}</td>
+              <td>{statusLabel(session.status)}</td>
             </tr>
           ))}
         </Table>
       ) : (
-        <EmptyState title="No stationings" description="No stationings yet." />
+        <EmptyState title="Aucun stationnement" description="Aucun stationnement pour le moment." />
       )}
     </Card>
   );

@@ -30,8 +30,8 @@ export function LoginPage() {
       navigate("/search");
     } catch (error) {
       notify({
-        title: "Login failed",
-        description: error instanceof Error ? error.message : "Please try again",
+        title: "Connexion échouée",
+        description: error instanceof Error ? error.message : "Veuillez réessayer",
         variant: "error",
       });
     }
@@ -39,24 +39,24 @@ export function LoginPage() {
 
   return (
     <div className={styles.wrapper}>
-      <Card title="Welcome back" subtitle="Login to continue">
+      <Card title="Bon retour" subtitle="Connectez-vous pour continuer">
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
           <Input
             label="Email"
             type="email"
-            placeholder="name@email.com"
+            placeholder="nom@email.com"
             error={errors.email?.message}
             {...register("email")}
           />
           <Input
-            label="Password"
+            label="Mot de passe"
             type="password"
-            placeholder="Your password"
+            placeholder="Votre mot de passe"
             error={errors.password?.message}
             {...register("password")}
           />
           <Button type="submit" loading={isSubmitting}>
-            Login
+            Se connecter
           </Button>
         </form>
       </Card>
