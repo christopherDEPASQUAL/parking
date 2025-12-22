@@ -28,14 +28,14 @@ final class AbonnementTest extends TestCase
         $this->userId = UserId::fromString('22222222-2222-4222-8222-222222222222');
         $this->parkingId = ParkingId::fromString('33333333-3333-4333-8333-333333333333');
 
-        // UUID valide obligatoire
-        $this->offerId = SubscriptionOfferId::fromString('44444444-4444-4444-8444-444444444444');
+        // UUID valide obligatoire pour SubscriptionOfferId
+        $this->offerId = SubscriptionOfferId::fromString(
+            '44444444-4444-4444-8444-444444444444'
+        );
 
-        // Format attendu par l'entité Abonnement :
-        // start_day, end_day, start_time, end_time
         $this->weeklyTimeSlots = [
-            ['start_day' => 1, 'end_day' => 1, 'start_time' => '08:00', 'end_time' => '18:00'],
-            ['start_day' => 2, 'end_day' => 2, 'start_time' => '08:00', 'end_time' => '18:00'],
+            ['day' => 1, 'start' => '08:00', 'end' => '18:00'],
+            ['day' => 2, 'start' => '08:00', 'end' => '18:00'],
         ];
 
         $this->startDate = new \DateTimeImmutable('2025-01-01');
@@ -107,10 +107,7 @@ final class AbonnementTest extends TestCase
             $this->userId,
             $this->parkingId,
             $this->offerId,
-            [
-                // end_time manquant -> invalide
-                ['start_day' => 1, 'end_day' => 1, 'start_time' => '08:00'],
-            ],
+            [['day' => 1, 'start' => '08:00']],
             $this->startDate,
             $this->endDate
         );
@@ -120,14 +117,18 @@ final class AbonnementTest extends TestCase
     {
         $abonnement = $this->createAbonnement();
 
-        self::assertTrue($abonnement->isActiveAt(new \DateTimeImmutable('2025-02-01')));
+        self::assertTrue($abonnement->isActiveAt(
+            new \DateTimeImmutable('2025-02-01')
+        ));
     }
 
     public function testIsActiveAtReturnsFalseBeforeStartDate(): void
     {
         $abonnement = $this->createAbonnement();
 
-        self::assertFalse($abonnement->isActiveAt(new \DateTimeImmutable('2024-12-31')));
+        self::assertFalse($abonnement->isActiveAt(
+            new \DateTimeImmutable('2024-12-31')
+        ));
     }
 
     public function testIsActiveAtReturnsFalseForSuspendedAbonnement(): void
@@ -135,23 +136,29 @@ final class AbonnementTest extends TestCase
         $abonnement = $this->createAbonnement();
         $abonnement->suspend();
 
-        self::assertFalse($abonnement->isActiveAt(new \DateTimeImmutable('2025-02-01')));
+        self::assertFalse($abonnement->isActiveAt(
+            new \DateTimeImmutable('2025-02-01')
+        ));
     }
 
     public function testCoversTimeSlotReturnsTrueForMatchingSlot(): void
     {
         $abonnement = $this->createAbonnement();
 
-        // 2025-01-06 = lundi (start_day = 1)
-        self::assertTrue($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-06 10:00')));
+        // 2025-01-06 = lundi (day = 1)
+        self::assertTrue($abonnement->coversTimeSlot(
+            new \DateTimeImmutable('2025-01-06 10:00')
+        ));
     }
 
     public function testCoversTimeSlotReturnsFalseForNonMatchingDay(): void
     {
         $abonnement = $this->createAbonnement();
 
-        // 2025-01-08 = mercredi (day = 3), pas couvert (on n'a que 1 et 2)
-        self::assertFalse($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-08 10:00')));
+        // 2025-01-08 = mercredi (day = 3)
+        self::assertFalse($abonnement->coversTimeSlot(
+            new \DateTimeImmutable('2025-01-08 10:00')
+        ));
     }
 
     public function testRenewSuccess(): void

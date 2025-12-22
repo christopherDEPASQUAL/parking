@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/Domain/ValueObject/ParkingSpotId.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1766410172017,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1766410172017,
+            "name": "Commit-0",
+            "content": "<?php\r\ndeclare(strict_types=1);\r\n\r\nnamespace App\\Domain\\ValueObject;\r\n\r\nuse InvalidArgumentException;\r\n\r\nfinal class ParkingSpotId\r\n{\r\n    private string $value;\r\n\r\n    private function __construct(string $value)\r\n    {\r\n        if (!self::isValidUuid($value)) {\r\n            throw new InvalidArgumentException('Invalid ParkingSpotId format');\r\n        }\r\n\r\n        $this->value = $value;\r\n    }\r\n\r\n    public static function fromString(string $value): self\r\n    {\r\n        return new self($value);\r\n    }\r\n\r\n    public function getValue(): string\r\n    {\r\n        return $this->value;\r\n    }\r\n\r\n    private static function isValidUuid(string $uuid): bool\r\n    {\r\n        return preg_match(\r\n            '/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$/',\r\n            $uuid\r\n        ) === 1;\r\n    }\r\n}\r\n"
+        }
+    ]
+}

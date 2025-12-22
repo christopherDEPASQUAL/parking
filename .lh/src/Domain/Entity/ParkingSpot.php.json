@@ -1,0 +1,34 @@
+{
+    "sourceFile": "src/Domain/Entity/ParkingSpot.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 4,
+            "patches": [
+                {
+                    "date": 1766407606274,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1766408073759,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,16 +6,13 @@\n use App\\Domain\\ValueObject\\ParkingSpotId;\r\n \r\n final class ParkingSpot\r\n {\r\n-    private ParkingSpotId $id;\r\n-\r\n-    public function __construct(ParkingSpotId $id)\r\n+    public function __construct(private ParkingSpotId $id)\r\n     {\r\n-        $this->id = $id;\r\n     }\r\n \r\n-    public function id(): ParkingSpotId\r\n+    public function getId(): ParkingSpotId\r\n     {\r\n         return $this->id;\r\n     }\r\n }\r\n"
+                },
+                {
+                    "date": 1766408159055,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -6,10 +6,13 @@\n use App\\Domain\\ValueObject\\ParkingSpotId;\r\n \r\n final class ParkingSpot\r\n {\r\n-    public function __construct(private ParkingSpotId $id)\r\n+    private ParkingSpotId $id;\r\n+\r\n+    public function __construct(ParkingSpotId $id)\r\n     {\r\n+        $this->id = $id;\r\n     }\r\n \r\n     public function getId(): ParkingSpotId\r\n     {\r\n"
+                },
+                {
+                    "date": 1766408579885,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,4 +18,20 @@\n     {\r\n         return $this->id;\r\n     }\r\n }\r\n+\r\n+            throw new \\InvalidArgumentException('Total capacity must be greater than zero.');\r\n+        }\r\n+\r\n+        $this->id = $id;\r\n+        $this->name = $name;\r\n+        $this->address = $address;\r\n+        $this->totalCapacity = $totalCapacity;\r\n+        $this->pricingPlan = $pricingPlan;\r\n+        $this->location = $location;\r\n+        $this->openingSchedule = $openingSchedule;\r\n+        $this->UserId = $UserId;\r\n+        $this->description = $description;\r\n+        $this->createdAt = $createdAt ?? new DateTimeImmutable();\r\n+        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();\r\n+    }\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1766408591134,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -18,20 +18,4 @@\n     {\r\n         return $this->id;\r\n     }\r\n }\r\n-\r\n-            throw new \\InvalidArgumentException('Total capacity must be greater than zero.');\r\n-        }\r\n-\r\n-        $this->id = $id;\r\n-        $this->name = $name;\r\n-        $this->address = $address;\r\n-        $this->totalCapacity = $totalCapacity;\r\n-        $this->pricingPlan = $pricingPlan;\r\n-        $this->location = $location;\r\n-        $this->openingSchedule = $openingSchedule;\r\n-        $this->UserId = $UserId;\r\n-        $this->description = $description;\r\n-        $this->createdAt = $createdAt ?? new DateTimeImmutable();\r\n-        $this->updatedAt = $updatedAt ?? new DateTimeImmutable();\r\n-    }\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1766407606274,
+            "name": "Commit-0",
+            "content": "<?php\r\ndeclare(strict_types=1);\r\n\r\nnamespace App\\Domain\\Entity;\r\n\r\nuse App\\Domain\\ValueObject\\ParkingSpotId;\r\n\r\nfinal class ParkingSpot\r\n{\r\n    private ParkingSpotId $id;\r\n\r\n    public function __construct(ParkingSpotId $id)\r\n    {\r\n        $this->id = $id;\r\n    }\r\n\r\n    public function id(): ParkingSpotId\r\n    {\r\n        return $this->id;\r\n    }\r\n}\r\n"
+        }
+    ]
+}
