@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/Domain/Exception/SpotAlreadyExistsException.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1766411331357,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1766411331357,
+            "name": "Commit-0",
+            "content": "<?php\r\ndeclare(strict_types=1);\r\n\r\nnamespace App\\Domain\\Exception;\r\n\r\nfinal class SpotAlreadyExistsException extends DomainException\r\n{\r\n    public function __construct()\r\n    {\r\n        parent::__construct('Cette place de parking existe déjà.');\r\n    }\r\n}\r\n"
+        }
+    ]
+}

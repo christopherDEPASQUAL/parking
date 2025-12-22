@@ -6,14 +6,14 @@ namespace App\Domain\Entity;
 use DateTimeImmutable;
 use App\Domain\Exception\ParkingFullException;
 use App\Domain\Exception\SpotAlreadyExistsException;
-use App\Domain\ValueObject\AbonnementId;
 use App\Domain\ValueObject\GeoLocation;
 use App\Domain\ValueObject\OpeningSchedule;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\PricingPlan;
-use App\Domain\ValueObject\ReservationId;
-use App\Domain\ValueObject\StationnementId;
 use App\Domain\ValueObject\UserId;
+use App\Domain\ValueObject\ReservationId;
+use App\Domain\ValueObject\AbonnementId;
+use App\Domain\ValueObject\StationnementId;
 
 final class Parking
 {
@@ -25,7 +25,7 @@ final class Parking
     private PricingPlan $pricingPlan;
     private GeoLocation $location;
     private OpeningSchedule $openingSchedule;
-    private UserId $userId; // owner
+    private UserId $UserId; // (Owner)
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
 
@@ -49,7 +49,7 @@ final class Parking
         PricingPlan $pricingPlan,
         GeoLocation $location,
         OpeningSchedule $openingSchedule,
-        UserId $userId,
+        UserId $UserId,
         ?string $description = null,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null
@@ -66,7 +66,7 @@ final class Parking
         $this->pricingPlan = $pricingPlan;
         $this->location = $location;
         $this->openingSchedule = $openingSchedule;
-        $this->userId = $userId;
+        $this->UserId = $UserId;
         $this->createdAt = $createdAt ?? new DateTimeImmutable();
         $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
@@ -79,16 +79,18 @@ final class Parking
     public function getPricingPlan(): PricingPlan { return $this->pricingPlan; }
     public function getLocation(): GeoLocation { return $this->location; }
     public function getOpeningSchedule(): OpeningSchedule { return $this->openingSchedule; }
-    public function getUserId(): UserId { return $this->userId; }
+    public function getUserId(): UserId { return $this->UserId; }
     public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
     public function getUpdatedAt(): DateTimeImmutable { return $this->updatedAt; }
 
+    /** Change le plan tarifaire. */
     public function changePricingPlan(PricingPlan $newPlan): void
     {
         $this->pricingPlan = $newPlan;
         $this->touch();
     }
 
+    /** Change les horaires d’ouverture. */
     public function changeOpeningSchedule(OpeningSchedule $schedule): void
     {
         $this->openingSchedule = $schedule;

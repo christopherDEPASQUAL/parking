@@ -6,15 +6,18 @@ namespace App\Domain\Entity;
 use DateTimeImmutable;
 use App\Domain\Exception\ParkingFullException;
 use App\Domain\Exception\SpotAlreadyExistsException;
-use App\Domain\ValueObject\AbonnementId;
 use App\Domain\ValueObject\GeoLocation;
 use App\Domain\ValueObject\OpeningSchedule;
 use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\PricingPlan;
-use App\Domain\ValueObject\ReservationId;
-use App\Domain\ValueObject\StationnementId;
 use App\Domain\ValueObject\UserId;
+use App\Domain\ValueObject\ReservationId;
+use App\Domain\ValueObject\AbonnementId;
+use App\Domain\ValueObject\StationnementId;
 
+/**
+ * Aggregate root Parking : disponibilité, spots, règles d’accès.
+ */
 final class Parking
 {
     private ParkingId $id;
@@ -25,7 +28,7 @@ final class Parking
     private PricingPlan $pricingPlan;
     private GeoLocation $location;
     private OpeningSchedule $openingSchedule;
-    private UserId $userId; // owner
+    private UserId $UserId; // (Owner)
     private DateTimeImmutable $createdAt;
     private DateTimeImmutable $updatedAt;
 
@@ -49,7 +52,7 @@ final class Parking
         PricingPlan $pricingPlan,
         GeoLocation $location,
         OpeningSchedule $openingSchedule,
-        UserId $userId,
+        UserId $UserId,
         ?string $description = null,
         ?DateTimeImmutable $createdAt = null,
         ?DateTimeImmutable $updatedAt = null
@@ -66,7 +69,7 @@ final class Parking
         $this->pricingPlan = $pricingPlan;
         $this->location = $location;
         $this->openingSchedule = $openingSchedule;
-        $this->userId = $userId;
+        $this->UserId = $UserId;
         $this->createdAt = $createdAt ?? new DateTimeImmutable();
         $this->updatedAt = $updatedAt ?? $this->createdAt;
     }
@@ -79,34 +82,36 @@ final class Parking
     public function getPricingPlan(): PricingPlan { return $this->pricingPlan; }
     public function getLocation(): GeoLocation { return $this->location; }
     public function getOpeningSchedule(): OpeningSchedule { return $this->openingSchedule; }
-    public function getUserId(): UserId { return $this->userId; }
+    public function getUserId(): UserId { return $this->UserId; }
     public function getCreatedAt(): DateTimeImmutable { return $this->createdAt; }
     public function getUpdatedAt(): DateTimeImmutable { return $this->updatedAt; }
 
+    /** Change le plan tarifaire. */
     public function changePricingPlan(PricingPlan $newPlan): void
     {
         $this->pricingPlan = $newPlan;
         $this->touch();
     }
 
+    /** Change les horaires d’ouverture. */
     public function changeOpeningSchedule(OpeningSchedule $schedule): void
     {
         $this->openingSchedule = $schedule;
         $this->touch();
     }
 
-    /* ===================== SPOTS (pour ParkingTest) ===================== */
-
+    /** ✅ AJOUT: parking complet si nb de spots == capacité */
     public function isFull(): bool
     {
-        return count($this->parkingSpots) >= $this->totalCapacity;
+        return \count($this->parkingSpots) >= $this->totalCapacity;
     }
 
+    /** ✅ AJOUT: ajoute un spot en vérifiant doublon + capacité */
     public function addSpot(ParkingSpot $spot): void
     {
-        $id = $spot->getId()->getValue();
+        $spotId = $spot->getId()->getValue();
 
-        if (isset($this->parkingSpots[$id])) {
+        if (isset($this->parkingSpots[$spotId])) {
             throw new SpotAlreadyExistsException();
         }
 
@@ -114,27 +119,29 @@ final class Parking
             throw new ParkingFullException();
         }
 
-        $this->parkingSpots[$id] = $spot;
+        $this->parkingSpots[$spotId] = $spot;
         $this->touch();
     }
 
+    /** ✅ AJOUT: places libres physiques restantes */
     public function getPhysicalFreeSpotsCount(): int
     {
-        return $this->totalCapacity - count($this->parkingSpots);
+        return $this->totalCapacity - \count($this->parkingSpots);
     }
 
-    /* ===================== ATTACH IDS ===================== */
-
+    /** Marque une réservation liée à ce parking. */
     public function attachReservation(ReservationId $reservationId): void
     {
         $this->reservationIds[$reservationId->getValue()] = $reservationId;
     }
 
+    /** Marque un abonnement lié à ce parking. */
     public function attachAbonnement(AbonnementId $abonnementId): void
     {
         $this->abonnementIds[$abonnementId->getValue()] = $abonnementId;
     }
 
+    /** Marque un stationnement actif lié à ce parking. */
     public function attachStationnement(StationnementId $stationnementId): void
     {
         $this->stationnementIds[$stationnementId->getValue()] = $stationnementId;
@@ -146,6 +153,13 @@ final class Parking
         return max(0, $this->totalCapacity - $used);
     }
 
+    /**
+     * Nombre de places libres à un instant t.
+     *
+     * @param iterable<int, object> $reservations   objets avec isActiveAt(DateTimeImmutable $at): bool
+     * @param iterable<int, object> $abonnements    objets avec covers(DateTimeImmutable $at): bool
+     * @param iterable<int, object> $stationnements objets avec isActiveAt(DateTimeImmutable $at): bool
+     */
     public function freeSpotsAt(
         DateTimeImmutable $at,
         iterable $reservations,
@@ -175,16 +189,19 @@ final class Parking
         return max(0, $this->totalCapacity - $used);
     }
 
+    /** Vérifie si le parking est ouvert à un instant donné. */
     public function isOpenAt(DateTimeImmutable $at): bool
     {
         return $this->openingSchedule->isOpenAt($at);
     }
 
+    /** Calcul du prix pour une durée (en minutes) en utilisant le plan tarifaire. */
     public function computePriceForDurationMinutes(int $minutes): int
     {
         return $this->pricingPlan->computePriceCents($minutes);
     }
 
+    /** Met à jour la capacité totale. */
     public function updateCapacity(int $newCapacity): void
     {
         if ($newCapacity <= 0) {
@@ -193,6 +210,11 @@ final class Parking
 
         if ($newCapacity === $this->totalCapacity) {
             return;
+        }
+
+        // ⚠️ règle simple: on empêche de réduire sous le nb de spots déjà existants
+        if ($newCapacity < \count($this->parkingSpots)) {
+            throw new \InvalidArgumentException('La nouvelle capacite ne peut pas etre inferieure au nombre de places existantes.');
         }
 
         $this->totalCapacity = $newCapacity;
