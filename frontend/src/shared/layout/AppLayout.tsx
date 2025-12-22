@@ -13,26 +13,35 @@ export function AppLayout({ children }: AppLayoutProps) {
 
   return (
     <div className={styles.wrapper}>
-      <a className={styles.skipLink} href="#main-content">Skip to content</a>
+      <a className={styles.skipLink} href="#main-content">Aller au contenu</a>
       <header className={styles.header}>
-        <div className={styles.brand}>Parking</div>
-        <nav className={styles.nav} aria-label="Primary">
-          <NavLink to="/search">Search</NavLink>
-          <NavLink to="/reservations">Reservations</NavLink>
-          <NavLink to="/stationings">Stationings</NavLink>
-          {user?.role === "proprietor" ? <NavLink to="/owner/dashboard">Owner</NavLink> : null}
-          {user?.role === "admin" ? <NavLink to="/admin/users">Admin</NavLink> : null}
+        <NavLink to="/" className={styles.brand} aria-label="Accueil">
+          <img className={styles.logo} src="/ParkingLogo.png" alt="Parking" />
+        </NavLink>
+        <nav className={styles.nav} aria-label="Navigation principale">
+          {user ? (
+            <>
+              <NavLink to="/search">Recherche</NavLink>
+              <NavLink to="/reservations">Réservations</NavLink>
+              <NavLink to="/stationings">Stationnements</NavLink>
+              {user.role === "proprietor" ? <NavLink to="/owner/dashboard">Propriétaire</NavLink> : null}
+              {user.role === "admin" ? <NavLink to="/admin/users">Admin</NavLink> : null}
+            </>
+          ) : null}
         </nav>
         <div className={styles.actions}>
           {user ? (
             <>
               <span className={styles.userTag}>{user.email}</span>
               <Button variant="ghost" onClick={logout}>
-                Logout
+                Déconnexion
               </Button>
             </>
           ) : (
-            <NavLink to="/login">Login</NavLink>
+            <>
+              <NavLink to="/login">Connexion</NavLink>
+              <NavLink to="/register">Inscription</NavLink>
+            </>
           )}
         </div>
       </header>

@@ -12,27 +12,42 @@ export function OwnerReservationsPage() {
     enabled: !!id,
   });
   const items = query.data?.items ?? [];
+  const statusLabel = (value?: string | null) => {
+    if (!value) {
+      return "-";
+    }
+    const normalized = value.toLowerCase();
+    const labels: Record<string, string> = {
+      pending_payment: "paiement en attente",
+      pending: "en attente",
+      confirmed: "confirmée",
+      cancelled: "annulée",
+      completed: "terminée",
+      payment_failed: "paiement échoué",
+    };
+    return labels[normalized] ?? value;
+  };
 
   return (
-    <Card title="Reservations" subtitle="All reservations for this parking">
+    <Card title="Réservations" subtitle="Toutes les réservations de ce parking">
       {query.isLoading ? <Skeleton height={24} /> : null}
       {query.isError ? (
-        <EmptyState title="Failed to load" description="Please retry." />
+        <EmptyState title="Chargement échoué" description="Veuillez réessayer." />
       ) : null}
       {items.length ? (
-        <Table columns={["Reservation", "User", "Start", "End", "Status"]}>
+        <Table columns={["Réservation", "Utilisateur", "Début", "Fin", "Statut"]}>
           {items.map((reservation) => (
             <tr key={reservation.id}>
               <td>{reservation.id.slice(0, 8)}</td>
               <td>{reservation.user_id ?? "-"}</td>
               <td>{formatDateTime(reservation.starts_at)}</td>
               <td>{formatDateTime(reservation.ends_at)}</td>
-              <td>{reservation.status}</td>
+              <td>{statusLabel(reservation.status)}</td>
             </tr>
           ))}
         </Table>
       ) : (
-        <EmptyState title="No reservations" description="No reservations yet." />
+        <EmptyState title="Aucune réservation" description="Aucune réservation pour le moment." />
       )}
     </Card>
   );

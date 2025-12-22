@@ -82,6 +82,9 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
 
     public function searchAvailable(ParkingSearchQuery $query): array
     {
+        $nameFilter = $query->name();
+        $rangeEnd = $query->endsAt();
+        $rangeStart = $query->at();
         $result = [];
         foreach ($this->load() as $raw) {
             $parking = $this->mapper->fromArray($raw);
@@ -94,7 +97,11 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
                 continue;
             }
 
-            if (!$parking->isOpenAt($query->at())) {
+            if (!$parking->isOpenAt($rangeStart) || ($rangeEnd !== null && !$parking->isOpenAt($rangeEnd))) {
+                continue;
+            }
+
+            if ($nameFilter !== null && stripos($parking->getName(), $nameFilter) === false) {
                 continue;
             }
 
@@ -105,13 +112,23 @@ final class ParkingRepositoryFile implements ParkingRepositoryInterface
                 }
             }
 
-            $context = $this->getAvailabilityContext($parking->getId(), $query->at());
+            $context = $this->getAvailabilityContext($parking->getId(), $rangeStart);
             $free = $parking->freeSpotsAt(
-                $query->at(),
+                $rangeStart,
                 $context['reservations'],
                 $context['abonnements'],
                 $context['stationnements']
             );
+            if ($rangeEnd !== null && $rangeEnd > $rangeStart) {
+                $contextEnd = $this->getAvailabilityContext($parking->getId(), $rangeEnd);
+                $freeEnd = $parking->freeSpotsAt(
+                    $rangeEnd,
+                    $contextEnd['reservations'],
+                    $contextEnd['abonnements'],
+                    $contextEnd['stationnements']
+                );
+                $free = min($free, $freeEnd);
+            }
             if ($free < $query->minimumFreeSpots()) {
                 continue;
             }

@@ -16,6 +16,15 @@ const statusVariant: Record<ReservationStatus, "neutral" | "success" | "warning"
   payment_failed: "error",
 };
 
+const statusLabel: Record<ReservationStatus, string> = {
+  pending_payment: "paiement en attente",
+  pending: "en attente",
+  confirmed: "confirmée",
+  cancelled: "annulée",
+  completed: "terminée",
+  payment_failed: "paiement échoué",
+};
+
 export function ReservationDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -43,7 +52,7 @@ export function ReservationDetailsPage() {
   if (query.isError || !query.data) {
     return (
       <div className="container">
-        <EmptyState title="Reservation not found" description="We could not load this reservation." />
+        <EmptyState title="Réservation introuvable" description="Impossible de charger cette réservation." />
       </div>
     );
   }
@@ -52,36 +61,36 @@ export function ReservationDetailsPage() {
 
   return (
     <div className="container">
-      <Card title={`Reservation ${reservation.id.slice(0, 8)}`}>
+      <Card title={`Réservation ${reservation.id.slice(0, 8)}`}>
         <div className={styles.row}>
-          <Badge label={reservation.status} variant={statusVariant[reservation.status]} />
+          <Badge label={statusLabel[reservation.status]} variant={statusVariant[reservation.status]} />
           <strong>{formatCurrency(reservation.price_cents ?? 0)}</strong>
         </div>
         <div className={styles.grid}>
           <div>
-            <span>Start</span>
+            <span>Début</span>
             <strong>{formatDateTime(reservation.starts_at)}</strong>
           </div>
           <div>
-            <span>End</span>
+            <span>Fin</span>
             <strong>{formatDateTime(reservation.ends_at)}</strong>
           </div>
         </div>
         <div className={styles.actions}>
           <Button variant="ghost" onClick={() => navigate(`/invoices/reservations/${reservation.id}`)}>
-            View invoice
+            Voir la facture
           </Button>
           {reservation.status !== "cancelled" ? (
             <Button variant="destructive" onClick={() => setConfirmOpen(true)}>
-              Cancel reservation
+              Annuler la réservation
             </Button>
           ) : null}
         </div>
       </Card>
       <ConfirmDialog
         isOpen={confirmOpen}
-        title="Cancel reservation"
-        description="This action cannot be undone. Do you want to continue?"
+        title="Annuler la réservation"
+        description="Cette action est irréversible. Voulez-vous continuer ?"
         onConfirm={() => {
           setConfirmOpen(false);
           cancelMutation.mutate();

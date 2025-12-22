@@ -5,10 +5,10 @@ export function OwnerLayout() {
   return (
     <div className={styles.wrapper}>
       <aside className={styles.sidebar}>
-        <h3>Owner</h3>
+        <h3>Propriétaire</h3>
         <nav>
-          <NavLink to="/owner/dashboard">Dashboard</NavLink>
-          <NavLink to="/owner/parkings/new">New parking</NavLink>
+          <NavLink to="/owner/dashboard">Tableau de bord</NavLink>
+          <NavLink to="/owner/parkings/new">Nouveau parking</NavLink>
         </nav>
       </aside>
       <section className={styles.content}>

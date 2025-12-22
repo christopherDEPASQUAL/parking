@@ -13,16 +13,16 @@ export function OwnerDashboardPage() {
 
   return (
     <div className={styles.wrapper}>
-      <Card title="My parkings" subtitle="Manage your assets">
+      <Card title="Mes parkings" subtitle="Gérez vos parkings">
         {query.isLoading ? <Skeleton height={24} /> : null}
         {query.isError ? (
-          <EmptyState title="Failed to load" description="Please retry." />
+          <EmptyState title="Chargement échoué" description="Veuillez réessayer." />
         ) : null}
         {!query.isLoading && !query.data?.items?.length ? (
           <EmptyState
-            title="No parkings"
-            description="Create your first parking to get started."
-            actionLabel="Create parking"
+            title="Aucun parking"
+            description="Créez votre premier parking pour commencer."
+            actionLabel="Créer un parking"
             onAction={() => navigate("/owner/parkings/new")}
           />
         ) : null}
@@ -30,13 +30,33 @@ export function OwnerDashboardPage() {
           <div className={styles.list}>
             {query.data.items.map((parking) => (
               <div key={parking.id} className={styles.item}>
-                <div>
+                <div className={styles.details}>
                   <strong>{parking.name}</strong>
                   <span>{parking.address}</span>
                 </div>
-                <Button variant="secondary" onClick={() => navigate(`/owner/parkings/${parking.id}/edit`)}>
-                  Manage
-                </Button>
+                <div className={styles.actions}>
+                  <Button size="sm" variant="secondary" onClick={() => navigate(`/owner/parkings/${parking.id}/edit`)}>
+                    Modifier
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/pricing`)}>
+                    Tarifs
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/offers`)}>
+                    Offres
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/reservations`)}>
+                    Réservations
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/stationings`)}>
+                    Stationnements
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/revenue`)}>
+                    CA mensuel
+                  </Button>
+                  <Button size="sm" variant="ghost" onClick={() => navigate(`/owner/parkings/${parking.id}/overstayers`)}>
+                    Hors créneaux
+                  </Button>
+                </div>
               </div>
             ))}
           </div>

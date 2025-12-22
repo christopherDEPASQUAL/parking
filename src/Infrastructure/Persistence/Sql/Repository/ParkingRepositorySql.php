@@ -133,6 +133,9 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
     public function searchAvailable(ParkingSearchQuery $query): array
     {
         $pdo = $this->pdo();
+        $nameFilter = $query->name();
+        $rangeStart = $query->at();
+        $rangeEnd = $query->endsAt();
 
         $params = [];
         $sql = 'SELECT * FROM parkings';
@@ -152,7 +155,11 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
                 continue;
             }
 
-            if (!$parking->isOpenAt($query->at())) {
+            if (!$parking->isOpenAt($rangeStart) || ($rangeEnd !== null && !$parking->isOpenAt($rangeEnd))) {
+                continue;
+            }
+
+            if ($nameFilter !== null && stripos($parking->getName(), $nameFilter) === false) {
                 continue;
             }
 
@@ -163,13 +170,23 @@ final class ParkingRepositorySql implements ParkingRepositoryInterface
                 }
             }
 
-            $context = $this->getAvailabilityContext($parking->getId(), $query->at());
+            $context = $this->getAvailabilityContext($parking->getId(), $rangeStart);
             $free = $parking->freeSpotsAt(
-                $query->at(),
+                $rangeStart,
                 $context['reservations'],
                 $context['abonnements'],
                 $context['stationnements']
             );
+            if ($rangeEnd !== null && $rangeEnd > $rangeStart) {
+                $contextEnd = $this->getAvailabilityContext($parking->getId(), $rangeEnd);
+                $freeEnd = $parking->freeSpotsAt(
+                    $rangeEnd,
+                    $contextEnd['reservations'],
+                    $contextEnd['abonnements'],
+                    $contextEnd['stationnements']
+                );
+                $free = min($free, $freeEnd);
+            }
             if ($free < $query->minimumFreeSpots()) {
                 continue;
             }

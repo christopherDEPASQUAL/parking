@@ -33,8 +33,8 @@ export function RegisterPage() {
       navigate("/search");
     } catch (error) {
       notify({
-        title: "Registration failed",
-        description: error instanceof Error ? error.message : "Please try again",
+        title: "Inscription échouée",
+        description: error instanceof Error ? error.message : "Veuillez réessayer",
         variant: "error",
       });
     }
@@ -42,18 +42,18 @@ export function RegisterPage() {
 
   return (
     <div className={styles.wrapper}>
-      <Card title="Create account" subtitle="Start parking with confidence">
+      <Card title="Créer un compte" subtitle="Démarrez votre stationnement en toute confiance">
         <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <Input label="First name" error={errors.first_name?.message} {...register("first_name")} />
-          <Input label="Last name" error={errors.last_name?.message} {...register("last_name")} />
+          <Input label="Prénom" error={errors.first_name?.message} {...register("first_name")} />
+          <Input label="Nom" error={errors.last_name?.message} {...register("last_name")} />
           <Input label="Email" type="email" error={errors.email?.message} {...register("email")} />
-          <Input label="Password" type="password" error={errors.password?.message} {...register("password")} />
-          <Select label="Role" error={errors.role?.message} {...register("role")}>
+          <Input label="Mot de passe" type="password" error={errors.password?.message} {...register("password")} />
+          <Select label="Rôle" error={errors.role?.message} {...register("role")}>
             <option value="client">Client</option>
-            <option value="proprietor">Proprietor</option>
+            <option value="proprietor">Propriétaire</option>
           </Select>
           <Button type="submit" loading={isSubmitting}>
-            Create account
+            Créer un compte
           </Button>
         </form>
       </Card>

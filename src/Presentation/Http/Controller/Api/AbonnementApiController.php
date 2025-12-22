@@ -21,6 +21,9 @@ final class AbonnementApiController
     {
         try {
             $data = $this->readJson();
+            if (!isset($data['user_id']) && isset($_SERVER['AUTH_USER_ID'])) {
+                $data['user_id'] = $_SERVER['AUTH_USER_ID'];
+            }
             $request = CreateAbonnementRequest::fromArray($data);
             $result = $this->createAbonnement->execute($request);
             $this->jsonResponse(['success' => true] + $result, 201);

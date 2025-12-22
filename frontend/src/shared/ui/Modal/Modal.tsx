@@ -35,13 +35,13 @@ export function Modal({ isOpen, title, children, onClose }: ModalProps) {
       <div className={styles.modal}>
         <div className={styles.header}>
           {title ? <h3>{title}</h3> : <span />}
-          <Button variant="ghost" onClick={onClose} aria-label="Close">
-            Close
+          <Button variant="ghost" onClick={onClose} aria-label="Fermer">
+            Fermer
           </Button>
         </div>
         <div className={styles.body}>{children}</div>
       </div>
-      <button type="button" className={styles.backdrop} onClick={onClose} aria-label="Close" />
+      <button type="button" className={styles.backdrop} onClick={onClose} aria-label="Fermer" />
     </div>,
     document.body
   );
@@ -63,8 +63,8 @@ export function ConfirmDialog({
   description,
   onConfirm,
   onCancel,
-  confirmLabel = "Confirm",
-  cancelLabel = "Cancel",
+  confirmLabel = "Confirmer",
+  cancelLabel = "Annuler",
 }: ConfirmDialogProps) {
   return (
     <Modal isOpen={isOpen} title={title} onClose={onCancel}>

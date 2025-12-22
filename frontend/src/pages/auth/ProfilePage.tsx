@@ -11,14 +11,14 @@ export function ProfilePage() {
 
   return (
     <div className={styles.wrapper}>
-      <Card title="My profile">
+      <Card title="Mon profil">
         <div className={styles.grid}>
           <div>
             <span className={styles.label}>Email</span>
             <strong>{user.email}</strong>
           </div>
           <div>
-            <span className={styles.label}>Role</span>
+            <span className={styles.label}>Rôle</span>
             <strong>{user.role}</strong>
           </div>
         </div>

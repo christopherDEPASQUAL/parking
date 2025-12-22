@@ -1,4 +1,4 @@
-export const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
+export const dayLabels = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"] as const;
 
 export function formatDay(day: number) {
   return dayLabels[day] ?? String(day);

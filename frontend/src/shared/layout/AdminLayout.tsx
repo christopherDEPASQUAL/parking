@@ -7,7 +7,7 @@ export function AdminLayout() {
       <aside className={styles.sidebar}>
         <h3>Admin</h3>
         <nav>
-          <NavLink to="/admin/users">Users</NavLink>
+          <NavLink to="/admin/users">Utilisateurs</NavLink>
           <NavLink to="/admin/parkings">Parkings</NavLink>
         </nav>
       </aside>
