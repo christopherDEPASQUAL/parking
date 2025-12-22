@@ -4,13 +4,13 @@ namespace App\Application\UseCase\Auth;
 
 use App\Domain\Repository\UserRepositoryInterface;
 use App\Domain\ValueObject\UserId;
-use App\Infrastructure\Security\JwtEncoder;
+use App\Application\Port\Services\JwtEncoderInterface;
 
 final class RefreshToken
 {
     public function __construct(
         private readonly UserRepositoryInterface $userRepository,
-        private readonly JwtEncoder $jwtEncoder
+        private readonly JwtEncoderInterface $jwtEncoder
     ) {}
 
     public function execute(string $refreshToken): array

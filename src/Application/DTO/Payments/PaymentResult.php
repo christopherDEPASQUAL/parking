@@ -1,12 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace App\Payments;
+namespace App\Application\DTO\Payments;
 
-/**
- * DTO: Outcome normalized (ok, status, refusalReason, transactionId).
- *
- * Role:
- *  - Boundary type between Presentation and Application layers.
- *  - No framework dependencies.
- */
-final class PaymentResult {}
+final class PaymentResult
+{
+    public function __construct(
+        public readonly string $status,
+        public readonly ?string $transactionId = null,
+        public readonly ?string $refusalReason = null
+    ) {}
+
+    public function isApproved(): bool
+    {
+        return $this->status === 'approved';
+    }
+}

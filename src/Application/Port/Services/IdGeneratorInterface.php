@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Application\Port\Services;
 
 /**
  * Port: generate unique ids (uuid/ulid).
@@ -8,4 +8,7 @@ namespace App\Services;
  * Implementations:
  *  - Infrastructure layer.
  */
-interface IdGeneratorInterface {}
+interface IdGeneratorInterface
+{
+    public function generate(): string;
+}

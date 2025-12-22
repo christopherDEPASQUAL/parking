@@ -36,8 +36,8 @@ final class ListParkingReservations
                 'reservationId' => (string) $reservation->id(),
                 'userId' => (string) $reservation->userId(),
                 'status' => $reservation->status()->value,
-                'startsAt' => $reservation->dateRange()->getStart(),
-                'endsAt' => $reservation->dateRange()->getEnd(),
+                'startsAt' => $reservation->dateRange()->getStart()->format(DATE_ATOM),
+                'endsAt' => $reservation->dateRange()->getEnd()->format(DATE_ATOM),
                 'priceCents' => $reservation->price()->getAmountInCents(),
                 'currency' => $reservation->price()->getCurrency(),
             ];

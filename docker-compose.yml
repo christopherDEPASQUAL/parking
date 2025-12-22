@@ -1,5 +1,6 @@
 services:
   app:
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "public", "public/index.php"]
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,10 +10,13 @@ services:
       APP_DB_DSN: mysql:host=app_db;port=3306;dbname=${APP_DB_NAME};charset=utf8mb4
       APP_DB_USER: ${APP_DB_USER}
       APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+      JSON_PARKING_STORAGE: ${JSON_PARKING_STORAGE}
+      JSON_RESERVATION_STORAGE: ${JSON_RESERVATION_STORAGE}
       TEST_DB_DSN: mysql:host=test_db;port=3306;dbname=${TEST_DB_NAME};charset=utf8mb4
       TEST_DB_USER: ${TEST_DB_USER}
       TEST_DB_PASSWORD: ${TEST_DB_PASSWORD}
       JSON_USER_STORAGE: /app/${JSON_USER_STORAGE}
+      PERSISTENCE_DRIVER: ${PERSISTENCE_DRIVER}
     volumes:
       - .:/app
       - ./storage:/app/storage
@@ -23,6 +27,17 @@ services:
     depends_on:
       - app_db
       - test_db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${FRONTEND_API_BASE_URL:-http://localhost:8000}
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"
+    depends_on:
+      - app
 
   app_db:
     image: mysql:8.0

@@ -11,8 +11,12 @@ use App\Domain\ValueObject\UserId;
 
 final class JsonUserRepository implements UserRepositoryInterface
 {
-    public function __construct(private readonly string $filePath)
+    private string $filePath;
+
+    public function __construct(string $filePath)
     {
+        $this->filePath = $filePath;
+
         if (!file_exists($this->filePath)) {
             $directory = dirname($this->filePath);
             if (!is_dir($directory)) {
@@ -26,18 +30,17 @@ final class JsonUserRepository implements UserRepositoryInterface
     public function findById(UserId $id): ?User
     {
         $records = $this->readAll();
-
-        if (!isset($records[(string) $id])) {
+        if (!isset($records[$id->getValue()])) {
             return null;
         }
 
-        return $this->hydrate($records[(string) $id]);
+        return $this->hydrate($records[$id->getValue()]);
     }
 
     public function findByEmail(Email $email): ?User
     {
         foreach ($this->readAll() as $record) {
-            if ($record['email'] === (string) $email) {
+            if (($record['email'] ?? null) === $email->getValue()) {
                 return $this->hydrate($record);
             }
         }
@@ -48,9 +51,9 @@ final class JsonUserRepository implements UserRepositoryInterface
     public function save(User $user): void
     {
         $records = $this->readAll();
-        $records[(string) $user->getId()] = [
-            'id' => (string) $user->getId(),
-            'email' => (string) $user->getEmail(),
+        $records[$user->getId()->getValue()] = [
+            'id' => $user->getId()->getValue(),
+            'email' => $user->getEmail()->getValue(),
             'password_hash' => (string) $user->getPasswordHash(),
             'first_name' => $user->getFirstName(),
             'last_name' => $user->getLastName(),
@@ -59,7 +62,7 @@ final class JsonUserRepository implements UserRepositoryInterface
             'updated_at' => $user->getUpdatedAt()?->format(DATE_ATOM),
         ];
 
-        file_put_contents($this->filePath, json_encode($records, JSON_PRETTY_PRINT));
+        $this->persist($records);
     }
 
     public function existsByEmail(Email $email): bool
@@ -70,41 +73,41 @@ final class JsonUserRepository implements UserRepositoryInterface
     public function delete(UserId $id): void
     {
         $records = $this->readAll();
-        $idString = (string) $id;
-
-        if (isset($records[$idString])) {
-            unset($records[$idString]);
-            file_put_contents($this->filePath, json_encode($records, JSON_PRETTY_PRINT));
-        }
+        unset($records[$id->getValue()]);
+        $this->persist($records);
     }
 
+    /**
+     * @return User[]
+     */
     public function findAll(): array
     {
-        $records = $this->readAll();
-        $users = [];
-
-        foreach ($records as $record) {
-            $users[] = $this->hydrate($record);
+        $result = [];
+        foreach ($this->readAll() as $record) {
+            $result[] = $this->hydrate($record);
         }
 
-        return $users;
+        return $result;
     }
 
+    /**
+     * @return User[]
+     */
     public function findByRole(UserRole $role): array
     {
-        $records = $this->readAll();
-        $users = [];
-
-        foreach ($records as $record) {
-            $user = $this->hydrate($record);
-            if ($user->getRole() === $role) {
-                $users[] = $user;
+        $result = [];
+        foreach ($this->readAll() as $record) {
+            if (($record['role'] ?? null) === $role->value) {
+                $result[] = $this->hydrate($record);
             }
         }
 
-        return $users;
+        return $result;
     }
 
+    /**
+     * @return array<string, array<string, mixed>>
+     */
     private function readAll(): array
     {
         $contents = file_get_contents($this->filePath);
@@ -113,22 +116,26 @@ final class JsonUserRepository implements UserRepositoryInterface
         }
 
         $decoded = json_decode($contents, true);
-
         return is_array($decoded) ? $decoded : [];
+    }
+
+    private function persist(array $data): void
+    {
+        file_put_contents($this->filePath, json_encode($data, JSON_PRETTY_PRINT));
     }
 
     private function hydrate(array $record): User
     {
         return User::fromPersistence(
-            UserId::fromString($record['id']),
-            Email::fromString($record['email']),
-            PasswordHash::fromHash($record['password_hash']),
-            UserRole::from($record['role']),
-            $record['first_name'],
-            $record['last_name'],
-            new \DateTimeImmutable($record['created_at']),
+            UserId::fromString((string) $record['id']),
+            Email::fromString((string) $record['email']),
+            PasswordHash::fromHash((string) $record['password_hash']),
+            UserRole::from((string) $record['role']),
+            (string) $record['first_name'],
+            (string) $record['last_name'],
+            new \DateTimeImmutable((string) $record['created_at']),
             isset($record['updated_at']) && $record['updated_at'] !== null
-                ? new \DateTimeImmutable($record['updated_at'])
+                ? new \DateTimeImmutable((string) $record['updated_at'])
                 : null
         );
     }

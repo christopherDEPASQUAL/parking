@@ -7,7 +7,6 @@ use App\Application\UseCase\Auth\LoginUser;
 use App\Application\UseCase\Auth\RefreshToken;
 use App\Application\UseCase\Auth\LogoutUser;
 use App\Application\DTO\Auth\RegisterUserRequest;
-use App\Application\DTO\Auth\RegisterUserResponse;
 use App\Application\DTO\Auth\LoginUserRequest;
 use App\Application\DTO\Auth\LoginUserResponse;
 
@@ -25,10 +24,10 @@ final class AuthApiController
         header('Content-Type: application/json');
 
         try {
-            $data = json_decode(file_get_contents('php://input'), true);
+            $data = $this->readJson();
             $request = RegisterUserRequest::fromArray($data);
 
-            $user = $this->registerUser->execute(
+            $this->registerUser->execute(
                 $request->email,
                 $request->password,
                 $request->firstName,
@@ -36,11 +35,20 @@ final class AuthApiController
                 $request->role
             );
 
-            $response = new RegisterUserResponse($user);
+            $result = $this->loginUser->execute(
+                $request->email,
+                $request->password
+            );
+
+            $response = new LoginUserResponse(
+                $result['access_token'],
+                $result['refresh_token'],
+                $result['user']
+            );
 
             http_response_code(201);
             echo json_encode($response->toArray());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             http_response_code(400);
             echo json_encode([
                 'success' => false,
@@ -54,7 +62,7 @@ final class AuthApiController
         header('Content-Type: application/json');
 
         try {
-            $data = json_decode(file_get_contents('php://input'), true);
+            $data = $this->readJson();
             $request = LoginUserRequest::fromArray($data);
 
             $result = $this->loginUser->execute(
@@ -70,7 +78,7 @@ final class AuthApiController
 
             http_response_code(200);
             echo json_encode($response->toArray());
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -84,7 +92,7 @@ final class AuthApiController
         header('Content-Type: application/json');
 
         try {
-            $data = json_decode(file_get_contents('php://input'), true);
+            $data = $this->readJson();
 
             $result = $this->refreshToken->execute($data['refresh_token']);
 
@@ -93,7 +101,7 @@ final class AuthApiController
                 'success' => true,
                 'access_token' => $result['access_token']
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             http_response_code(401);
             echo json_encode([
                 'success' => false,
@@ -107,21 +115,46 @@ final class AuthApiController
         header('Content-Type: application/json');
 
         try {
-            $data = json_decode(file_get_contents('php://input'), true);
+            $data = $this->readJson();
+            $token = $data['token'] ?? null;
+            if ($token === null && isset($_SERVER['HTTP_AUTHORIZATION'])) {
+                if (preg_match('/^Bearer\\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+                    $token = trim($matches[1]);
+                }
+            }
 
-            $this->logoutUser->execute($data['token']);
+            if ($token === null) {
+                throw new \InvalidArgumentException('Token is required.');
+            }
+
+            $this->logoutUser->execute($token);
 
             http_response_code(200);
             echo json_encode([
                 'success' => true,
                 'message' => 'Logged out successfully'
             ]);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             http_response_code(400);
             echo json_encode([
                 'success' => false,
                 'message' => $e->getMessage()
             ]);
         }
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function readJson(): array
+    {
+        $raw = file_get_contents('php://input');
+        $decoded = $raw ? json_decode($raw, true) : null;
+
+        if (!is_array($decoded)) {
+            throw new \InvalidArgumentException('Invalid JSON payload.');
+        }
+
+        return $decoded;
     }
 }

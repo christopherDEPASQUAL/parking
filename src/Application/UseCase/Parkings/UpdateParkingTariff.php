@@ -9,7 +9,7 @@ use App\Domain\ValueObject\ParkingId;
 use App\Domain\ValueObject\PricingPlan;
 
 /**
- * Cas d'usage : mettre à jour la grille tarifaire d'un parking.
+ * Cas d'usage : mettre a jour la grille tarifaire d'un parking.
  */
 final class UpdateParkingTariff
 {
@@ -27,7 +27,8 @@ final class UpdateParkingTariff
         $pricingPlan = new PricingPlan(
             $request->pricingTiers,
             $request->defaultPricePerStepCents,
-            $request->overstayPenaltyCents ?? 2000
+            $request->overstayPenaltyCents ?? 2000,
+            $request->subscriptionPrices
         );
 
         $parking->changePricingPlan($pricingPlan);
