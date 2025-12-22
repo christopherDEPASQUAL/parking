@@ -7,6 +7,7 @@ use App\Domain\Entity\Abonnement;
 use App\Domain\Exception\InvalidAbonnementException;
 use App\Domain\ValueObject\AbonnementId;
 use App\Domain\ValueObject\ParkingId;
+use App\Domain\ValueObject\SubscriptionOfferId;
 use App\Domain\ValueObject\UserId;
 use PHPUnit\Framework\TestCase;
 
@@ -15,6 +16,8 @@ final class AbonnementTest extends TestCase
     private AbonnementId $abonnementId;
     private UserId $userId;
     private ParkingId $parkingId;
+    private SubscriptionOfferId $offerId;
+
     private array $weeklyTimeSlots;
     private \DateTimeImmutable $startDate;
     private \DateTimeImmutable $endDate;
@@ -24,10 +27,17 @@ final class AbonnementTest extends TestCase
         $this->abonnementId = AbonnementId::fromString('11111111-1111-4111-8111-111111111111');
         $this->userId = UserId::fromString('22222222-2222-4222-8222-222222222222');
         $this->parkingId = ParkingId::fromString('33333333-3333-4333-8333-333333333333');
+
+        // UUID valide obligatoire
+        $this->offerId = SubscriptionOfferId::fromString('44444444-4444-4444-8444-444444444444');
+
+        // Format attendu par l'entité Abonnement :
+        // start_day, end_day, start_time, end_time
         $this->weeklyTimeSlots = [
-            ['day' => 1, 'start' => '08:00', 'end' => '18:00'],
-            ['day' => 2, 'start' => '08:00', 'end' => '18:00'],
+            ['start_day' => 1, 'end_day' => 1, 'start_time' => '08:00', 'end_time' => '18:00'],
+            ['start_day' => 2, 'end_day' => 2, 'start_time' => '08:00', 'end_time' => '18:00'],
         ];
+
         $this->startDate = new \DateTimeImmutable('2025-01-01');
         $this->endDate = new \DateTimeImmutable('2025-03-01');
     }
@@ -51,6 +61,7 @@ final class AbonnementTest extends TestCase
             $this->abonnementId,
             $this->userId,
             $this->parkingId,
+            $this->offerId,
             $this->weeklyTimeSlots,
             $this->startDate,
             $this->startDate
@@ -65,6 +76,7 @@ final class AbonnementTest extends TestCase
             $this->abonnementId,
             $this->userId,
             $this->parkingId,
+            $this->offerId,
             $this->weeklyTimeSlots,
             new \DateTimeImmutable('2025-01-01'),
             new \DateTimeImmutable('2026-02-01')
@@ -79,6 +91,7 @@ final class AbonnementTest extends TestCase
             $this->abonnementId,
             $this->userId,
             $this->parkingId,
+            $this->offerId,
             [],
             $this->startDate,
             $this->endDate
@@ -93,7 +106,11 @@ final class AbonnementTest extends TestCase
             $this->abonnementId,
             $this->userId,
             $this->parkingId,
-            [['day' => 1, 'start' => '08:00']],
+            $this->offerId,
+            [
+                // end_time manquant -> invalide
+                ['start_day' => 1, 'end_day' => 1, 'start_time' => '08:00'],
+            ],
             $this->startDate,
             $this->endDate
         );
@@ -125,6 +142,7 @@ final class AbonnementTest extends TestCase
     {
         $abonnement = $this->createAbonnement();
 
+        // 2025-01-06 = lundi (start_day = 1)
         self::assertTrue($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-06 10:00')));
     }
 
@@ -132,6 +150,7 @@ final class AbonnementTest extends TestCase
     {
         $abonnement = $this->createAbonnement();
 
+        // 2025-01-08 = mercredi (day = 3), pas couvert (on n'a que 1 et 2)
         self::assertFalse($abonnement->coversTimeSlot(new \DateTimeImmutable('2025-01-08 10:00')));
     }
 
@@ -207,6 +226,7 @@ final class AbonnementTest extends TestCase
             $this->abonnementId,
             $this->userId,
             $this->parkingId,
+            $this->offerId,
             $this->weeklyTimeSlots,
             $this->startDate,
             $this->endDate,
