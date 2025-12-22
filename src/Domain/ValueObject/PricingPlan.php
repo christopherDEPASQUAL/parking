@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 declare(strict_types=1);
 
@@ -138,12 +138,16 @@ final class PricingPlan
 
     public function toArray(): array
     {
+        $subscriptionPrices = $this->subscriptionPrices === []
+            ? (object) []
+            : $this->subscriptionPrices;
+
         return [
             'stepMinutes' => $this->stepMinutes,
             'tiers' => $this->tiers,
             'defaultPricePerStepCents' => $this->defaultPricePerStepCents,
             'overstayPenaltyCents' => $this->overstayPenaltyCents,
-            'subscriptionPrices' => $this->subscriptionPrices,
+            'subscriptionPrices' => $subscriptionPrices,
         ];
     }
 

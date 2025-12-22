@@ -54,6 +54,7 @@ use App\Infrastructure\Security\JwtEncoder;
 use App\Infrastructure\Security\PasswordHasher;
 use App\Presentation\Http\Controller\Api\AbonnementApiController;
 use App\Presentation\Http\Controller\Api\AuthApiController;
+use App\Presentation\Http\Controller\Api\HealthController;
 use App\Presentation\Http\Controller\Api\PaymentApiController;
 use App\Presentation\Http\Controller\Api\ParkingApiController;
 use App\Presentation\Http\Controller\Api\ReservationApiController;
@@ -122,6 +123,7 @@ final class Container
             ListUserStationnements::class => $this->createListUserStationnements(),
             AuthJWTMiddleware::class => $this->createAuthJwtMiddleware(),
             AuthApiController::class => $this->createAuthApiController(),
+            HealthController::class => $this->createHealthController(),
             ParkingApiController::class => $this->createParkingApiController(),
             ReservationApiController::class => $this->createReservationApiController(),
             AbonnementApiController::class => $this->createAbonnementApiController(),
@@ -441,6 +443,11 @@ final class Container
         );
     }
 
+    private function createHealthController(): HealthController
+    {
+        return new HealthController();
+    }
+
     private function createParkingApiController(): ParkingApiController
     {
         return new ParkingApiController(
@@ -452,7 +459,8 @@ final class Container
             $this->get(UpdateParkingTariff::class),
             $this->get(UpdateParkingOpeningHours::class),
             $this->get(GetParkingMonthlyRevenue::class),
-            $this->get(ListOverstayedDrivers::class)
+            $this->get(ListOverstayedDrivers::class),
+            $this->get(ParkingRepositoryInterface::class)
         );
     }
 
@@ -461,7 +469,8 @@ final class Container
         return new ReservationApiController(
             $this->get(CreateReservation::class),
             $this->get(CancelReservation::class),
-            $this->get(ListParkingReservations::class)
+            $this->get(ListParkingReservations::class),
+            $this->get(ReservationRepositoryInterface::class)
         );
     }
 
@@ -480,7 +489,8 @@ final class Container
             $this->get(EnterParking::class),
             $this->get(ExitParking::class),
             $this->get(ListParkingStationnements::class),
-            $this->get(ListUserStationnements::class)
+            $this->get(ListUserStationnements::class),
+            $this->get(StationnementRepositoryInterface::class)
         );
     }
 

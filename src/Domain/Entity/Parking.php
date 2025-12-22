@@ -95,7 +95,8 @@ final class Parking
         $this->touch();
     }
 
-    /** Ajoute une place si capacité non dépassée et id unique. */\n\n    public function attachReservation(ReservationId $reservationId): void
+    /** Ajoute une place si capacité non dépassée et id unique. */
+    public function attachReservation(ReservationId $reservationId): void
     {
         $this->reservationIds[$reservationId->getValue()] = $reservationId;
     }
@@ -110,7 +111,8 @@ final class Parking
     public function attachStationnement(StationnementId $stationnementId): void
     {
         $this->stationnementIds[$stationnementId->getValue()] = $stationnementId;
-    }\n\n    public function computeAvailability(int $activeReservations, int $activeAbonnements, int $activeStationnements): int
+    }
+    public function computeAvailability(int $activeReservations, int $activeAbonnements, int $activeStationnements): int
     {
         $used = $activeReservations + $activeAbonnements + $activeStationnements;
         return max(0, $this->totalCapacity - $used);

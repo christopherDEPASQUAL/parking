@@ -7,12 +7,13 @@ Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) e
 
 ## Lancer l'infrastructure
 1. Construire/zapper les images : `docker compose build`
-2. Demarrer les services (PHP, MySQL app/test, PhpMyAdmin) : `docker compose up -d`
+2. Demarrer les services (PHP, MySQL app/test, PhpMyAdmin, Frontend) : `docker compose up -d`
 3. PhpMyAdmin est disponible sur http://localhost:8080 (hote `app_db`, user `parking`, mot de passe `secret`).
-4. Deux bases MySQL sont initialisees automatiquement :
+4. Frontend (React) disponible sur http://localhost:5173 (configurable via `FRONTEND_PORT`).
+5. Deux bases MySQL sont initialisees automatiquement :
    - `parking` (application) depuis `infrastructure/mysql/app/init.sql`
    - `parking_test` (tests) depuis `infrastructure/mysql/test/init.sql`
-5. Le stockage alternatif JSON (pour demontrer l'interchangeabilite des depots) ecrit dans `storage/*.json` (users, parkings, reservations, abonnements, subscription_offers, stationnements, paiements).
+6. Le stockage alternatif JSON (pour demontrer l'interchangeabilite des depots) ecrit dans `storage/*.json` (users, parkings, reservations, abonnements, subscription_offers, stationnements, paiements).
 
 ## Modes de persistance (SQL / JSON)
 
@@ -33,6 +34,8 @@ Environnement Docker avec PHP 8.3, Composer 2, PHPUnit 12, MySQL (app + tests) e
 - Couverture HTML : `docker compose run --rm -e XDEBUG_MODE=coverage app ./vendor/bin/phpunit --coverage-html coverage` puis ouvrir `coverage/index.html`
 - Ouvrir un shell dans le conteneur : `docker compose run --rm app bash`
 - (Optionnel) serveur PHP interne : `docker compose run --rm --service-ports app php -S 0.0.0.0:8000 -t public`
+- (Optionnel) reconstruire le frontend avec une URL API differente :
+  `FRONTEND_API_BASE_URL=http://localhost:8000 docker compose build frontend`
 
 ## Migrations utiles (si base deja creee)
 - Normaliser les creneaux d'offres + completer `opening_hours.end_day_of_week` : `php bin/migrate-subscription-days.php`.

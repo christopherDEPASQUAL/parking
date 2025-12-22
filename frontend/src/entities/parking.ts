@@ -17,7 +17,7 @@ export const pricingPlanSchema = z.object({
   defaultPricePerStepCents: z.number().int().nonnegative(),
   overstayPenaltyCents: z.number().int().nonnegative().optional(),
   stepMinutes: z.number().int().optional(),
-  subscriptionPrices: z.record(z.number().int()).optional(),
+  subscriptionPrices: z.record(z.string(), z.number().int()).optional(),
 });
 
 export const parkingSchema = z.object({

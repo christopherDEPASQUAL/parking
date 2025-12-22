@@ -1,0 +1,33 @@
+.mobileCards {
+  display: none;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.linkButton {
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tableWrapper {
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .mobileCards {
+    display: flex;
+  }
+  .tableWrapper {
+    display: none;
+  }
+}
