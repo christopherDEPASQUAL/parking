@@ -6,7 +6,7 @@ body {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
   color: var(--color-text);
-  background: var(--color-bg);
+  background: linear-gradient(180deg, #FAFAFA 0%, #FEEAC9 100%);
 }
 
 a {

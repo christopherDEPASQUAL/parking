@@ -21,10 +21,7 @@ final class UserApiController
             }
 
             $user = $this->getUserProfile->execute($userId);
-            $this->jsonResponse([
-                'success' => true,
-                'user' => $this->serializeUser($user),
-            ]);
+            $this->jsonResponse($this->serializeUser($user));
         } catch (\Throwable $e) {
             $this->errorResponse($e->getMessage(), 400);
         }

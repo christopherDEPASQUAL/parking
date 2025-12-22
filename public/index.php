@@ -16,6 +16,7 @@ use App\Infrastructure\DependencyInjection\Container;
 use App\Infrastructure\Http\Router;
 use App\Presentation\Http\Middleware\AuthJWTMiddleware;
 use App\Presentation\Http\Controller\Api\AuthApiController;
+use App\Presentation\Http\Controller\Api\HealthController;
 use App\Presentation\Http\Controller\Api\PaymentApiController;
 use App\Presentation\Http\Controller\Api\ParkingApiController;
 use App\Presentation\Http\Controller\Api\ReservationApiController;
@@ -30,7 +31,7 @@ use App\Presentation\Http\Controller\Web\StationnementController;
 use App\Presentation\Http\Controller\Web\InvoiceController;
 
 header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -43,6 +44,43 @@ try {
     $router = new Router($container);
 
     $authMiddleware = [AuthJWTMiddleware::class];
+
+    $router->addRoute('GET', '/', HealthController::class, 'ping');
+
+    $router->addRoute('POST', '/auth/register', AuthApiController::class, 'register');
+    $router->addRoute('POST', '/auth/login', AuthApiController::class, 'login');
+    $router->addRoute('POST', '/auth/refresh', AuthApiController::class, 'refresh');
+    $router->addRoute('POST', '/auth/logout', AuthApiController::class, 'logout', $authMiddleware);
+    $router->addRoute('GET', '/auth/me', UserApiController::class, 'me', $authMiddleware);
+
+    $router->addRoute('GET', '/parkings/search', ParkingApiController::class, 'search', $authMiddleware);
+    $router->addRoute('GET', '/parkings/{id}', ParkingApiController::class, 'detailsById', $authMiddleware);
+    $router->addRoute('GET', '/parkings/{id}/availability', ParkingApiController::class, 'availability', $authMiddleware);
+    $router->addRoute('GET', '/parkings/{id}/subscription-offers', SubscriptionOfferApiController::class, 'listByParking', $authMiddleware);
+
+    $router->addRoute('POST', '/reservations', ReservationApiController::class, 'createFromAuth', $authMiddleware);
+    $router->addRoute('GET', '/reservations/me', ReservationApiController::class, 'listMine', $authMiddleware);
+    $router->addRoute('GET', '/reservations/{id}', ReservationApiController::class, 'details', $authMiddleware);
+    $router->addRoute('POST', '/reservations/{id}/cancel', ReservationApiController::class, 'cancelFromAuth', $authMiddleware);
+
+    $router->addRoute('POST', '/stationings/enter', StationnementApiController::class, 'enterFromAuth', $authMiddleware);
+    $router->addRoute('POST', '/stationings/exit', StationnementApiController::class, 'exitFromAuth', $authMiddleware);
+    $router->addRoute('GET', '/stationings/me', StationnementApiController::class, 'listMine', $authMiddleware);
+
+    $router->addRoute('GET', '/invoices/reservations/{reservation_id}', InvoiceController::class, 'show', $authMiddleware);
+
+    $router->addRoute('GET', '/owner/parkings', ParkingApiController::class, 'listOwner', $authMiddleware);
+    $router->addRoute('POST', '/owner/parkings', ParkingApiController::class, 'create', $authMiddleware);
+    $router->addRoute('PATCH', '/owner/parkings/{id}', ParkingApiController::class, 'updateDetails', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/opening-hours', ParkingApiController::class, 'getOpeningHours', $authMiddleware);
+    $router->addRoute('PATCH', '/owner/parkings/{id}/opening-hours', ParkingApiController::class, 'updateOpeningHours', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/pricing-plan', ParkingApiController::class, 'getPricingPlan', $authMiddleware);
+    $router->addRoute('PATCH', '/owner/parkings/{id}/pricing-plan', ParkingApiController::class, 'updatePricingPlan', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/reservations', ReservationApiController::class, 'listByParking', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/stationings', StationnementApiController::class, 'listByParking', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/revenue', ParkingApiController::class, 'monthlyRevenue', $authMiddleware);
+    $router->addRoute('GET', '/owner/parkings/{id}/overstayers', ParkingApiController::class, 'overstayedDrivers', $authMiddleware);
+    $router->addRoute('POST', '/owner/parkings/{id}/subscription-offers', SubscriptionOfferApiController::class, 'create', $authMiddleware);
 
     $router->addRoute('POST', '/api/auth/register', AuthApiController::class, 'register');
     $router->addRoute('POST', '/api/auth/login', AuthApiController::class, 'login');
@@ -94,7 +132,7 @@ try {
 
     $router->dispatch($method, $uri);
 
-} catch (\Exception $e) {
+} catch (\Throwable $e) {
     http_response_code(500);
     header('Content-Type: application/json');
     echo json_encode([

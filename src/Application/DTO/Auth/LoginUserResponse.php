@@ -16,6 +16,7 @@ final readonly class LoginUserResponse
     {
         return [
             'success' => true,
+            'token' => $this->accessToken,
             'access_token' => $this->accessToken,
             'refresh_token' => $this->refreshToken,
             'user' => [

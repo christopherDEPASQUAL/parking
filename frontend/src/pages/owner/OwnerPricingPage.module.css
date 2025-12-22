@@ -1,0 +1,24 @@
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+.preview {
+  background: #111827;
+  color: #f9fafb;
+  padding: var(--space-2);
+  border-radius: var(--radius-card);
+  overflow: auto;
+}
+
+.preview pre {
+  white-space: pre-wrap;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}

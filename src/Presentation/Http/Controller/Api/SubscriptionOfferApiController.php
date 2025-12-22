@@ -18,6 +18,9 @@ final class SubscriptionOfferApiController
     {
         try {
             $data = $this->readJson();
+            if (!isset($data['parking_id']) && isset($_GET['id'])) {
+                $data['parking_id'] = $_GET['id'];
+            }
             $request = CreateSubscriptionOfferRequest::fromArray($data);
             $result = $this->createSubscriptionOffer->execute($request);
             $this->jsonResponse(['success' => true] + $result, 201);
@@ -29,7 +32,11 @@ final class SubscriptionOfferApiController
     public function listByParking(): void
     {
         try {
-            $request = ListParkingSubscriptionOffersRequest::fromArray($_GET);
+            $payload = $_GET;
+            if (!isset($payload['parking_id']) && isset($payload['id'])) {
+                $payload['parking_id'] = $payload['id'];
+            }
+            $request = ListParkingSubscriptionOffersRequest::fromArray($payload);
             $items = $this->listParkingSubscriptionOffers->execute($request);
             $this->jsonResponse(['success' => true, 'items' => $items]);
         } catch (\Throwable $e) {

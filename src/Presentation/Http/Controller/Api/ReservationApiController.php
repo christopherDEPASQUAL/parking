@@ -8,22 +8,30 @@ use App\Application\DTO\Reservations\ListParkingReservationsRequest;
 use App\Application\UseCase\Reservations\CancelReservation;
 use App\Application\UseCase\Reservations\CreateReservation;
 use App\Application\UseCase\Reservations\ListParkingReservations;
+use App\Domain\Repository\ReservationRepositoryInterface;
+use App\Domain\ValueObject\ReservationId;
+use App\Domain\ValueObject\UserId;
 
 final class ReservationApiController
 {
     public function __construct(
         private readonly CreateReservation $createReservation,
         private readonly CancelReservation $cancelReservation,
-        private readonly ListParkingReservations $listParkingReservations
+        private readonly ListParkingReservations $listParkingReservations,
+        private readonly ReservationRepositoryInterface $reservationRepository
     ) {}
 
     public function create(): void
     {
         try {
             $data = $this->readJson();
+            $userId = $data['user_id'] ?? ($_SERVER['AUTH_USER_ID'] ?? null);
+            if ($userId === null) {
+                throw new \InvalidArgumentException('user_id is required');
+            }
             $request = new CreateReservationRequest(
                 $data['parking_id'] ?? throw new \InvalidArgumentException('parking_id is required'),
-                $data['user_id'] ?? throw new \InvalidArgumentException('user_id is required'),
+                $userId,
                 new \DateTimeImmutable($data['starts_at'] ?? throw new \InvalidArgumentException('starts_at is required')),
                 new \DateTimeImmutable($data['ends_at'] ?? throw new \InvalidArgumentException('ends_at is required'))
             );
@@ -48,9 +56,17 @@ final class ReservationApiController
     {
         try {
             $data = $this->readJson();
+            $reservationId = $data['reservation_id'] ?? ($_GET['id'] ?? null);
+            if ($reservationId === null) {
+                throw new \InvalidArgumentException('reservation_id is required');
+            }
+            $actorUserId = $data['actor_user_id'] ?? ($_SERVER['AUTH_USER_ID'] ?? null);
+            if ($actorUserId === null) {
+                throw new \InvalidArgumentException('actor_user_id is required');
+            }
             $request = new CancelReservationRequest(
-                $data['reservation_id'] ?? throw new \InvalidArgumentException('reservation_id is required'),
-                $data['actor_user_id'] ?? throw new \InvalidArgumentException('actor_user_id is required'),
+                $reservationId,
+                $actorUserId,
                 $data['reason'] ?? null
             );
 
@@ -71,7 +87,7 @@ final class ReservationApiController
     {
         try {
             $request = new ListParkingReservationsRequest(
-                $_GET['parking_id'] ?? throw new \InvalidArgumentException('parking_id is required'),
+                $_GET['parking_id'] ?? ($_GET['id'] ?? throw new \InvalidArgumentException('parking_id is required')),
                 $_GET['status'] ?? null,
                 isset($_GET['page']) ? (int) $_GET['page'] : 1,
                 isset($_GET['per_page']) ? (int) $_GET['per_page'] : 20,
@@ -82,7 +98,7 @@ final class ReservationApiController
             $response = $this->listParkingReservations->execute($request);
             $this->jsonResponse([
                 'success' => true,
-                'items' => $response->items,
+                'items' => $this->mapReservationItems($response->items, $_GET['parking_id'] ?? ($_GET['id'] ?? null)),
                 'page' => $response->page,
                 'per_page' => $response->perPage,
                 'total' => $response->total,
@@ -90,6 +106,114 @@ final class ReservationApiController
         } catch (\Throwable $e) {
             $this->errorResponse($e->getMessage(), 400);
         }
+    }
+
+    public function listMine(): void
+    {
+        try {
+            $userId = $_SERVER['AUTH_USER_ID'] ?? null;
+            if ($userId === null) {
+                throw new \InvalidArgumentException('Missing authenticated user.');
+            }
+
+            $items = $this->reservationRepository->listByUser(UserId::fromString($userId));
+            $this->jsonResponse(['success' => true, 'items' => $this->mapReservationItems($items)]);
+        } catch (\Throwable $e) {
+            $this->errorResponse($e->getMessage(), 400);
+        }
+    }
+
+    public function details(): void
+    {
+        try {
+            $reservationId = $_GET['id'] ?? null;
+            if ($reservationId === null) {
+                throw new \InvalidArgumentException('reservation_id is required');
+            }
+
+            $reservation = $this->reservationRepository->findById(ReservationId::fromString($reservationId));
+            if ($reservation === null) {
+                throw new \InvalidArgumentException('Reservation not found.');
+            }
+
+            $authUserId = $_SERVER['AUTH_USER_ID'] ?? null;
+            $role = $_SERVER['AUTH_USER_ROLE'] ?? null;
+            if ($authUserId !== null && $reservation->userId()->getValue() !== $authUserId && $role !== 'admin') {
+                throw new \InvalidArgumentException('Not authorized to view this reservation.');
+            }
+
+            $this->jsonResponse($this->serializeReservation($reservation));
+        } catch (\Throwable $e) {
+            $this->errorResponse($e->getMessage(), 404);
+        }
+    }
+
+    public function cancelFromAuth(): void
+    {
+        $this->cancel();
+    }
+
+    public function createFromAuth(): void
+    {
+        $this->create();
+    }
+
+    /**
+     * @param array<int, mixed> $items
+     * @param string|null $parkingId
+     * @return array<int, array<string, mixed>>
+     */
+    private function mapReservationItems(array $items, ?string $parkingId = null): array
+    {
+        $normalized = [];
+        foreach ($items as $reservation) {
+            if ($reservation instanceof \App\Domain\Entity\Reservation) {
+                $normalized[] = $this->serializeReservation($reservation);
+                continue;
+            }
+
+            if (is_array($reservation)) {
+                $payload = [
+                    'id' => $reservation['reservationId'] ?? $reservation['id'] ?? null,
+                    'user_id' => $reservation['userId'] ?? $reservation['user_id'] ?? null,
+                    'parking_id' => $reservation['parkingId'] ?? $reservation['parking_id'] ?? $parkingId,
+                    'starts_at' => $reservation['startsAt'] ?? $reservation['starts_at'] ?? null,
+                    'ends_at' => $reservation['endsAt'] ?? $reservation['ends_at'] ?? null,
+                    'status' => isset($reservation['status']) ? strtolower((string) $reservation['status']) : null,
+                ];
+
+                if (isset($reservation['priceCents']) || isset($reservation['price_cents'])) {
+                    $payload['price_cents'] = $reservation['priceCents'] ?? $reservation['price_cents'];
+                }
+                if (isset($reservation['currency'])) {
+                    $payload['currency'] = $reservation['currency'];
+                }
+
+                $normalized[] = $payload;
+            }
+        }
+
+        return $normalized;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function serializeReservation(\App\Domain\Entity\Reservation $reservation): array
+    {
+        return [
+            'id' => $reservation->id()->getValue(),
+            'user_id' => $reservation->userId()->getValue(),
+            'parking_id' => $reservation->parkingId()->getValue(),
+            'starts_at' => $reservation->dateRange()->getStart()->format(DATE_ATOM),
+            'ends_at' => $reservation->dateRange()->getEnd()->format(DATE_ATOM),
+            'status' => strtolower($reservation->status()->value),
+            'price_cents' => $reservation->price()->getAmountInCents(),
+            'currency' => $reservation->price()->getCurrency(),
+            'created_at' => $reservation->createdAt()->format(DATE_ATOM),
+            'cancelled_at' => $reservation->cancelledAt()?->format(DATE_ATOM),
+            'cancellation_reason' => $reservation->cancellationReason(),
+        ];
     }
 
     private function readJson(): array

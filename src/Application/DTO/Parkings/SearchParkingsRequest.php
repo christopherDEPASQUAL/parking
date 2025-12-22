@@ -16,11 +16,16 @@ final class SearchParkingsRequest
 
     public static function fromArray(array $data): self
     {
+        $latitude = $data['latitude'] ?? $data['lat'] ?? null;
+        $longitude = $data['longitude'] ?? $data['lng'] ?? null;
+        $radius = $data['radius_km'] ?? $data['radius'] ?? null;
+        $at = $data['at'] ?? $data['starts_at'] ?? null;
+
         return new self(
-            (float) ($data['latitude'] ?? throw new \InvalidArgumentException('latitude is required')),
-            (float) ($data['longitude'] ?? throw new \InvalidArgumentException('longitude is required')),
-            (float) ($data['radius_km'] ?? throw new \InvalidArgumentException('radius_km is required')),
-            new \DateTimeImmutable($data['at'] ?? 'now'),
+            (float) ($latitude ?? throw new \InvalidArgumentException('latitude is required')),
+            (float) ($longitude ?? throw new \InvalidArgumentException('longitude is required')),
+            (float) ($radius ?? throw new \InvalidArgumentException('radius_km is required')),
+            new \DateTimeImmutable($at ?? 'now'),
             (int) ($data['minimum_free_spots'] ?? 1),
             isset($data['max_price_cents']) ? (int) $data['max_price_cents'] : null,
             $data['owner_id'] ?? null
